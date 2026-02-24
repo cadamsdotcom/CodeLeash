@@ -1,0 +1,132 @@
+repos:
+  - repo: https://github.com/psf/black
+    rev: 25.1.0
+    hooks:
+      - id: black
+        language_version: python3
+
+  - repo: https://github.com/pycqa/isort
+    rev: 6.0.1
+    hooks:
+      - id: isort
+        args: ['--profile', 'black']
+
+  - repo: https://github.com/astral-sh/ruff-pre-commit
+    rev: v0.12.7
+    hooks:
+      - id: ruff
+        args: [--fix]
+
+  - repo: https://github.com/pre-commit/mirrors-prettier
+    rev: v3.1.0
+    hooks:
+      - id: prettier
+        files: \.(js|ts|jsx|tsx|json|css|md)$
+
+  - repo: https://github.com/Riverside-Healthcare/djLint
+    rev: v1.36.4
+    hooks:
+      - id: djlint
+        files: '\.html$'
+
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v5.0.0
+    hooks:
+      - id: trailing-whitespace
+        args: [--markdown-linebreak-ext=md]
+
+  - repo: local
+    hooks:
+      - id: check-brand-colors
+        name: Check for non-permitted Tailwind color classes
+        entry: uv run python scripts/check_brand_colors.py
+        language: system
+        files: \.(ts|tsx)$
+        pass_filenames: true
+      - id: check-initial-data
+        name: Check TypeScript initial-data.ts types are up-to-date
+        entry: uv run python scripts/generate_types.py --check
+        language: system
+        pass_filenames: false
+        always_run: true
+      - id: import-linter
+        name: Check layer architecture dependencies
+        entry: uv run lint-imports
+        language: system
+        pass_filenames: false
+        always_run: true
+      - id: eslint
+        name: eslint
+        entry: npx eslint --fix --cache
+        language: system
+        files: \.(js|ts|jsx|tsx)$
+        pass_filenames: true
+      - id: type-check
+        name: TypeScript type-check
+        entry: npm run type-check
+        language: system
+        files: \.(ts|tsx)$
+        pass_filenames: false
+        always_run: true
+      - id: knip
+        name: Check for unused TypeScript exports/imports
+        entry: npx knip
+        language: system
+        files: \.(ts|tsx|js|jsx)$
+        pass_filenames: false
+      - id: check-dynamic-imports
+        name: Check for dynamic imports (imports not at top of file)
+        entry: uv run python scripts/check_dynamic_imports.py
+        language: system
+        files: \.py$
+        pass_filenames: true
+      - id: check-unused-routes
+        name: Check for unused API routes
+        entry: uv run python scripts/check_unused_routes.py
+        language: system
+        files: \.py$
+        pass_filenames: false
+      - id: check-unused-code
+        name: Check for unused functions and methods
+        entry: uv run python scripts/check_unused_code.py
+        language: system
+        files: \.py$
+        pass_filenames: false
+      - id: pyrefly
+        name: Pyrefly type checker
+        entry: uv run pyrefly check
+        language: system
+        files: \.py$
+        exclude: ^\.vulture_whitelist\.py$
+        pass_filenames: true
+      - id: check-dashboard-metrics
+        name: Check Grafana dashboard has all metrics
+        entry: uv run python scripts/check_dashboard_metrics.py
+        language: system
+        files: (app/core/metrics\.py|tools/main-dashboard\.json)$
+        pass_filenames: false
+      - id: check-code-quality
+        name: Check code quality (fixed waits, conditionals, repository client access)
+        entry: uv run python scripts/check_code_quality.py
+        language: system
+        files: (tests/e2e|app)/.*\.py$
+        pass_filenames: false
+      - id: check-soft-deletes
+        name: Check for hard deletes on soft-deleteable tables
+        entry: uv run python scripts/check_soft_deletes.py
+        language: system
+        files: app/repositories/.*\.py$
+        pass_filenames: false
+      - id: check-obsolete-terms
+        name: Check for obsolete terms in filenames and content
+        entry: uv run python scripts/check_obsolete_terms.py
+        language: system
+        pass_filenames: false
+        always_run: true
+
+  - repo: https://github.com/jendrikseipp/vulture
+    rev: v2.13
+    hooks:
+      - id: vulture
+        args: [--min-confidence=80, .vulture_whitelist.py]
+        pass_filenames: true

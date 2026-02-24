@@ -1,0 +1,8 @@
+# SQLFluff configuration for CodeLeash
+
+[sqlfluff]
+dialect = postgres
+max_line_length = 120
+
+# Disable problematic rules for Supabase migrations
+exclude_rules = RF01,RF02,RF04,RF05

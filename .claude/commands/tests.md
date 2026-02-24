@@ -1,0 +1,1 @@
+Let's confirm that pre-commit and all component, python, and e2e tests pass. Prefer running them all in parallel. The e2e tests will give you paths to see the full pytest and server output. If tests fail, don't rerun them without examining the logs and don't rerun them without changing the code, unless you absolutely need to check something.

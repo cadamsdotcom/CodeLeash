@@ -1,0 +1,127 @@
+name: Deploy
+run-name: ${{ github.event.workflow_run.head_commit.message }}
+
+on:
+  workflow_run:
+    workflows: [CI]
+    types: [completed]
+    branches: [main]
+  workflow_dispatch: # Allow manual triggering
+
+env:
+  REGISTRY: ghcr.io
+
+jobs:
+  # ============================================================================
+  # CHECK CI STATUS
+  # ============================================================================
+
+  check-ci:
+    name: Check CI Status
+    runs-on: ubuntu-latest
+    if: github.event_name == 'workflow_dispatch' || github.event.workflow_run.conclusion == 'success'
+    outputs:
+      should_deploy: ${{ steps.check.outputs.should_deploy }}
+
+    steps:
+      - name: Check CI status
+        id: check
+        run: |
+          if [ "${{ github.event_name }}" == "workflow_dispatch" ]; then
+            echo "Manual deployment triggered"
+            echo "should_deploy=true" >> $GITHUB_OUTPUT
+          elif [ "${{ github.event.workflow_run.conclusion }}" == "success" ]; then
+            echo "CI passed, proceeding with deployment"
+            echo "should_deploy=true" >> $GITHUB_OUTPUT
+          else
+            echo "CI failed or was cancelled, skipping deployment"
+            echo "should_deploy=false" >> $GITHUB_OUTPUT
+          fi
+
+  # ============================================================================
+  # DATABASE MIGRATIONS
+  # ============================================================================
+
+  migrate:
+    name: Run Database Migrations
+    needs: [check-ci]
+    if: needs.check-ci.outputs.should_deploy == 'true'
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Install Supabase CLI
+        uses: supabase/setup-cli@v1
+        with:
+          version: latest
+
+      - name: Link to production Supabase project
+        run: |
+          echo "Linking to production Supabase project..."
+          supabase link --project-ref ${{ secrets.SUPABASE_PROJECT_REF }} --password ${{ secrets.SUPABASE_DB_PASSWORD }} --yes
+          echo "Successfully linked to production project"
+        env:
+          SUPABASE_ACCESS_TOKEN: ${{ secrets.SUPABASE_ACCESS_TOKEN }}
+
+      - name: Push database migrations
+        run: |
+          echo "Pushing database migrations to production..."
+          supabase db push --password ${{ secrets.SUPABASE_DB_PASSWORD }}
+          echo "Database migrations pushed successfully"
+        env:
+          SUPABASE_ACCESS_TOKEN: ${{ secrets.SUPABASE_ACCESS_TOKEN }}
+
+      - name: Sync storage buckets
+        run: |
+          echo "Syncing storage buckets to production..."
+          supabase seed buckets --linked
+          echo "Storage buckets synced successfully"
+        env:
+          SUPABASE_ACCESS_TOKEN: ${{ secrets.SUPABASE_ACCESS_TOKEN }}
+
+      - name: Verify migration status
+        run: |
+          echo "Verifying migration status..."
+          supabase migration list --linked --password ${{ secrets.SUPABASE_DB_PASSWORD }}
+          echo "Migration verification complete"
+        env:
+          SUPABASE_ACCESS_TOKEN: ${{ secrets.SUPABASE_ACCESS_TOKEN }}
+
+  # ============================================================================
+  # DEPLOY TO FLY.IO
+  # ============================================================================
+
+  deploy-fly:
+    name: Deploy to Fly.io
+    needs: [migrate]
+    runs-on: ubuntu-latest
+    concurrency: deploy-fly
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Fly CLI
+        uses: superfly/flyctl-actions/setup-flyctl@master
+
+      - name: Deploy to Fly.io
+        run: |
+          flyctl deploy --remote-only \
+            --build-arg GIT_COMMIT_SHA=${{ github.sha }} \
+            --build-arg SENTRY_AUTH_TOKEN=${{ secrets.SENTRY_AUTH_TOKEN }} \
+            --build-arg SENTRY_ORG=${{ secrets.SENTRY_ORG }} \
+            --build-arg SENTRY_PROJECT=${{ secrets.SENTRY_PROJECT }}
+        env:
+          FLY_API_TOKEN: ${{ secrets.FLY_API_TOKEN }}
+
+      - name: Notify deployment status
+        if: always()
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const status = '${{ job.status }}' === 'success' ? '✅' : '❌';
+            const message = `Deployment to Fly.io ${status} for commit ${context.sha.substring(0, 7)}`;
+            console.log(message);

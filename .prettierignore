@@ -1,0 +1,5 @@
+dist/
+node_modules/
+src/types/initial-data.ts
+*.min.js
+*.min.css

@@ -1,0 +1,114 @@
+{
+  "env": {
+    "CLAUDE_CODE_DISABLE_FEEDBACK_SURVEY": "1",
+    "CLAUDE_CODE_DISABLE_NONESSENTIAL_TRAFFIC": "1"
+  },
+  "permissions": {
+    "allow": ["Bash(uv run python -m scripts.tdd_log:*)"],
+    "deny": [
+      "Bash(pre-commit *)",
+      "Bash(uv run pre-commit*)",
+      "Bash(npx vitest*)",
+      "Bash(uv run pytest*)"
+    ]
+  },
+  "hooks": {
+    "PreCompact": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bash -c 'input=$(cat); TP=$(echo \"$input\" | jq -r \".transcript_path // \\\"\\\"\"); if [ -n \"$TP\" ]; then HASH=$(echo -n \"$TP\" | md5sum | cut -c1-8); LOG=\"tdd-${HASH}.log\"; else LOG=\"tdd.log\"; fi; mkdir -p .claude/learnings && PREFIX=$(date +%Y-%m-%dT%H-%M) && jq -n --arg msg \"COMPACTION INCOMING -- Reflect on this session. Create .claude/learnings/${PREFIX}-{slug}.md (kebab-case topic slug). Include: 1) Surprises about the codebase 2) Key learnings for future sessions 3) Hook/workflow recommendations 4) Skill recommendations. Also review your TDD log at $LOG for inappropriate overrides or skip-red usage (eg. for behavioral changes), or BLOCKED edits. Keep it concise.\" \"{systemMessage:\\$msg}\"'"
+          }
+        ]
+      }
+    ],
+    "SessionStart": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "uv run python -m scripts.tdd_session_start"
+          }
+        ]
+      }
+    ],
+    "PreToolUse": [
+      {
+        "matcher": "Bash",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bash -c 'cmd=$(cat | jq -r \".tool_input.command // \\\"\\\"\"); if [[ \"$cmd\" =~ ^(npm run test|npm test).*(\\||;|>) ]]; then echo \"BLOCKED: Test commands must not be piped, chained, or redirected. Run the full command without | grep, | tail, > file, etc. to see complete test output.\" >&2; exit 2; fi'"
+          },
+          {
+            "type": "command",
+            "command": "bash -c 'cmd=$(cat | jq -r \".tool_input.command // \\\"\\\"\"); if [[ \"$cmd\" =~ ^python ]]; then echo \"BLOCKED: python must be run via uv.\" >&2; exit 2; fi'"
+          },
+          {
+            "type": "command",
+            "command": "bash -c 'cmd=$(cat | jq -r \".tool_input.command // \\\"\\\"\"); if [[ \"$cmd\" =~ python3?\\ -m\\ py_compile ]]; then echo \"BLOCKED: python syntax is already automatically checked on every edit.\" >&2; exit 2; fi'"
+          },
+          {
+            "type": "command",
+            "command": "bash -c 'cmd=$(cat | jq -r \".tool_input.command // \\\"\\\"\"); if [[ \"$cmd\" =~ ^timeout ]]; then echo \"BLOCKED: shell timeout usage prevents commands matching against allowlist entries, forcing the user to unnecessarily grant permissions.\" >&2; exit 2; fi'"
+          },
+          {
+            "type": "command",
+            "command": "bash -c 'cmd=$(cat | jq -r .tool_input.command); if [[ $cmd =~ ^supabase\\ .*--linked ]] || [[ $cmd =~ ^supabase\\ (db\\ push|db\\ remote|functions\\ deploy|functions\\ delete|secrets\\ set|secrets\\ unset|storage\\ rm|projects\\ delete|branches\\ delete|link\\ |unlink) ]]; then echo \"BLOCKED: Supabase commands that modify production are not allowed. Deployment is the user responsibility.\" >&2; exit 2; fi'"
+          }
+        ]
+      },
+      {
+        "matcher": "Edit|Write",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "uv run python -m scripts.tdd_pre_edit"
+          }
+        ]
+      },
+      {
+        "matcher": "ExitPlanMode",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "uv run python -m scripts.plan_exit_hook"
+          }
+        ]
+      }
+    ],
+    "PostToolUse": [
+      {
+        "matcher": "Bash",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "uv run python -m scripts.tdd_post_bash"
+          }
+        ]
+      }
+    ],
+    "Stop": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bash -c 'input=$(cat); if [ \"$(echo \"$input\" | jq -r \".stop_hook_active // false\")\" = \"true\" ]; then exit 0; fi; TP=$(echo \"$input\" | jq -r \".transcript_path // \\\"\\\"\"); if [ -n \"$TP\" ]; then HASH=$(echo -n \"$TP\" | md5sum | cut -c1-8); LOG=\"tdd-${HASH}.log\"; else LOG=\"tdd.log\"; fi; jq -n --arg reason \"SESSION ENDING -- If you learned anything noteworthy, create .claude/learnings/$(date +%Y-%m-%dT%H-%M)-{slug}.md (kebab-case topic). Include surprises, key learnings, hook/workflow recommendations, skill recommendations. Also review your TDD log at $LOG for inappropriate overrides or skip-red usage (eg. for behavioral changes), or BLOCKED edits. Skip if nothing noteworthy.\" \"{decision:\\\"block\\\",reason:\\$reason}\"'"
+          }
+        ]
+      }
+    ],
+    "PostToolUseFailure": [
+      {
+        "matcher": "Bash",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "uv run python -m scripts.tdd_post_bash --failed"
+          }
+        ]
+      }
+    ]
+  }
+}

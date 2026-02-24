@@ -1,0 +1,44 @@
+services:
+  web:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      args:
+        GIT_COMMIT_SHA: ${GIT_COMMIT_SHA:-unset}
+    ports:
+      - '8000:8000'
+      - '9091:9091'
+    environment:
+      - ENVIRONMENT=${ENVIRONMENT:-production}
+      - SUPABASE_URL=${SUPABASE_URL}
+      - SUPABASE_ANON_KEY=${SUPABASE_ANON_KEY}
+      - SUPABASE_SERVICE_KEY=${SUPABASE_SERVICE_KEY}
+      - JWT_SECRET_KEY=${JWT_SECRET_KEY}
+      - BASE_URL=${BASE_URL:-http://localhost:8000}
+    networks:
+      - codeleash
+    restart: unless-stopped
+
+  worker:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      args:
+        GIT_COMMIT_SHA: ${GIT_COMMIT_SHA:-unset}
+    ports:
+      - '9092:9092'
+    environment:
+      - ENVIRONMENT=${ENVIRONMENT:-production}
+      - SUPABASE_URL=${SUPABASE_URL}
+      - SUPABASE_ANON_KEY=${SUPABASE_ANON_KEY}
+      - SUPABASE_SERVICE_KEY=${SUPABASE_SERVICE_KEY}
+      - JWT_SECRET_KEY=${JWT_SECRET_KEY}
+      - BASE_URL=${BASE_URL:-http://localhost:8000}
+    command: uv run python worker.py
+    networks:
+      - codeleash
+    restart: unless-stopped
+
+networks:
+  codeleash:
+    driver: bridge

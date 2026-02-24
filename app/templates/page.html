@@ -1,0 +1,23 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="CodeLeash development scaffold" />
+    <meta name="keywords" content="codeleash, fastapi, react" />
+    <title>{{ title }}</title>
+    <!-- CSS -->
+    {{ vite_asset("src/main.ts", request) }}
+  </head>
+  <body class="{{ body_css_class }}">
+    <!-- React Root -->
+    <div
+      id="root"
+      data-initial="{{ initial_data_json | escape }}"
+      class="{{ root_css_class }}"
+    ></div>
+    {{ vite_hmr_client(request) }} {{ vite_asset(component_path, request) }}
+    <!-- Application Scripts -->
+    {{ vite_asset("src/app.ts", request) }}
+  </body>
+</html>

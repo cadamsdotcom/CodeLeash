@@ -1,0 +1,197 @@
+[project]
+name = "codeleash"
+version = "0.1.0"
+description = "CodeLeash development scaffold"
+readme = "README.md"
+requires-python = ">=3.12"
+dependencies = [
+    # FastAPI and core dependencies
+    "fastapi==0.116.1",
+    "uvicorn[standard]>=0.35.0",
+    # Supabase
+    "supabase>=2.18.1",
+    "supabase-auth>=0.5.0",
+    # Template rendering
+    "jinja2>=3.1.3",
+    # Environment management
+    "python-dotenv>=1.0.0",
+    # Authentication
+    "pyjwt>=2.8.0",
+    # Validation
+    "pydantic==2.11.7",
+    "pydantic-settings>=2.10.0",
+    "email-validator>=2.1.0",
+    # OpenTelemetry tracing
+    "opentelemetry-api>=1.36.0",
+    "opentelemetry-sdk>=1.36.0",
+    "opentelemetry-instrumentation-fastapi>=0.57b0",
+    "opentelemetry-instrumentation-httpx>=0.57b0",
+    "opentelemetry-exporter-otlp>=1.36.0",
+    "opentelemetry-instrumentation-logging>=0.57b0",
+    # Metrics collection
+    "prometheus-client>=0.21.0",
+    # Error tracking
+    "sentry-sdk[fastapi]>=2.39.0",
+    # Worker hot reload
+    "watchdog>=6.0.0",
+]
+
+[project.optional-dependencies]
+dev = [
+    # Testing
+    "pytest>=8.4.1",
+    "pytest-asyncio>=1.1.0",
+    "pytest-playwright>=0.7.1",
+    "pytest-xdist>=3.0.0",
+    "pytest-cov>=4.1.0",
+    "sourcemap>=0.2.1",
+
+    # Code formatting and linting
+    "black>=25.1.0",
+    "isort>=6.0.1",
+    "ruff>=0.12.7",
+
+    # Other dev tools
+    "pyyaml>=6.0.2",
+    "djlint>=1.36.4",
+    "prek>=0.3.1",
+    "pyrefly>=0.27.0",
+    "sqlfluff>=3.4.2",
+    "pydantic-to-typescript>=2.0.0",
+    "import-linter>=2.3",
+    "flameprof>=0.4",
+
+    # Code verification tools
+    "coverage>=7.10.7",
+]
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.pytest.ini_options]
+addopts = "-q --no-header"
+
+[tool.hatch.build.targets.wheel]
+packages = ["app"]
+
+[tool.pyrefly]
+search_path = ["."]
+python_version = "3.12"
+project-excludes = [
+    "**/.venv/**",
+    "**/venv/**",
+    "**/__pycache__/**",
+    "**/.git/**",
+    "**/.pytest_cache/**",
+    "**/node_modules/**",
+    "**/dist/**",
+    ".vulture_whitelist.py",
+]
+
+[tool.ruff]
+target-version = "py312"
+
+[tool.ruff.lint]
+select = [
+    "E",     # pycodestyle errors
+    "F",     # pyflakes
+    "UP",    # pyupgrade - removes obsolete code patterns
+    "B",     # flake8-bugbear - finds common bugs
+    "SIM",   # flake8-simplify - suggests simpler code
+    "TCH",   # flake8-type-checking - finds unused type checking imports
+    "TID",   # flake8-tidy-imports - import-related rules
+    "T",     # flake8-print - ban print statements
+    "RUF",   # Ruff-specific rules
+    "ANN",  # flake8-annotations - return type annotations
+]
+ignore = [
+    "E501",  # Ignore line length violations
+    "B008",  # Allow function calls in argument defaults (needed for FastAPI Depends)
+    "B904",  # Allow raise without from (deliberate exception transformations)
+    "RUF012", # Allow mutable class attributes (Pydantic model defaults)
+    "B024",  # Allow abstract classes without abstract methods
+    "B027",  # Allow empty methods in abstract classes without @abstractmethod
+    "SIM105", # Allow try-except-pass patterns
+]
+
+[tool.ruff.lint.per-file-ignores]
+"{scripts,tests}/*" = ["T201"]  # Allow print statements in scripts and tests
+"tools/*" = ["T201"]  # Allow print statements in tools
+
+[tool.importlinter]
+root_packages = ["app", "tests"]
+include_external_packages = true
+exclude_type_checking_imports = true
+
+[[tool.importlinter.contracts]]
+name = "Routes should not directly import Supabase"
+type = "forbidden"
+source_modules = ["app.routes"]
+forbidden_modules = ["app.core.supabase", "supabase"]
+allow_indirect_imports = true
+
+[[tool.importlinter.contracts]]
+name = "Services should not directly import Supabase"
+type = "forbidden"
+source_modules = ["app.services"]
+forbidden_modules = ["app.core.supabase", "supabase"]
+allow_indirect_imports = true
+
+[[tool.importlinter.contracts]]
+name = "Routes should not directly import Repositories"
+type = "forbidden"
+source_modules = ["app.routes"]
+forbidden_modules = ["app.repositories"]
+allow_indirect_imports = true
+
+[[tool.importlinter.contracts]]
+name = "Services should not directly import Repositories"
+type = "forbidden"
+source_modules = ["app.services"]
+forbidden_modules = ["app.repositories"]
+allow_indirect_imports = true
+
+[[tool.importlinter.contracts]]
+name = "Routes cannot access repository dependency functions"
+type = "forbidden"
+source_modules = ["app.routes"]
+forbidden_modules = ["app.core.repository_dependencies"]
+allow_indirect_imports = false
+
+[[tool.importlinter.contracts]]
+name = "Services cannot access repository dependency functions"
+type = "forbidden"
+source_modules = ["app.services"]
+forbidden_modules = ["app.core.repository_dependencies"]
+allow_indirect_imports = false
+
+[[tool.importlinter.contracts]]
+name = "Routes should not directly import Services - must use service_dependencies"
+type = "forbidden"
+source_modules = ["app.routes"]
+forbidden_modules = ["app.services"]
+allow_indirect_imports = true
+
+# Complete container isolation - ONLY app.core can access container
+[[tool.importlinter.contracts]]
+name = "Direct container access is banned - use FastAPI dependency injection instead"
+type = "forbidden"
+source_modules = [
+    "app.routes",
+    "app.services",
+    "app.repositories",
+    "app.models"
+]
+forbidden_modules = ["app.core.container"]
+allow_indirect_imports = true
+
+[[tool.importlinter.contracts]]
+name = "E2E tests must use polling utilities instead of time.sleep - use tests.e2e.polling.wait_for_db_record() or wait_for_db_records_count() for database polling (polls every 100ms). Direct time.sleep() calls lead to flaky tests and unnecessary delays."
+type = "forbidden"
+source_modules = ["tests.e2e"]
+forbidden_modules = ["time"]
+allow_indirect_imports = false
+ignore_imports = [
+    "tests.e2e.polling -> time",
+]

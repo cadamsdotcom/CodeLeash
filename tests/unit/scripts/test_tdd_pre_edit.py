@@ -1,0 +1,184 @@
+"""Tests for tdd_pre_edit: edit blocking, classification, and state transitions."""
+
+import io
+import json
+from pathlib import Path
+
+import pytest
+
+from scripts.tdd_pre_edit import (
+    classify_file,
+    main,
+    read_green_allowlist,
+    read_state,
+    warn_large_allowlist,
+)
+
+
+def _write_log(log_path: Path, content: str) -> None:
+    """Write content to a TDD log file."""
+    log_path.write_text(content)
+
+
+def test_edit_test_during_green_is_blocked(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    """Test edits are blocked during non-skip-red green_intent.
+
+    This prevents modifying tests (changing the definition of 'red')
+    and then editing prod code without re-verifying the test fails.
+    """
+    log_path = tmp_path / "tdd-test.log"
+
+    # Set up green_intent state (non-skip-red)
+    _write_log(
+        log_path,
+        "## Green — 2026-01-01T00:00:00+00:00\n"
+        "Change: implement feature\n"
+        "File: src/foo.py\n\n",
+    )
+
+    input_data = {
+        "tool_input": {
+            "file_path": "src/components/Foo.test.tsx",
+            "old_string": "expect(x).toBe(1)",
+            "new_string": "expect(x).toBe(2)",
+        },
+        "transcript_path": "",
+    }
+
+    monkeypatch.setattr("scripts.tdd_pre_edit.get_log_path", lambda _: log_path)
+    monkeypatch.setattr("sys.stdin", io.StringIO(json.dumps(input_data)))
+
+    with pytest.raises(SystemExit) as exc_info:
+        main()
+
+    assert exc_info.value.code == 2
+
+
+def test_edit_test_during_skip_red_green_is_allowed(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    """Test edits are allowed during skip-red green_intent.
+
+    skip-red with adding-coverage means tests are expected to pass immediately,
+    so blocking test edits would prevent the intended workflow.
+    """
+    log_path = tmp_path / "tdd-test.log"
+
+    # Set up skip-red green_intent state
+    _write_log(
+        log_path,
+        "## Green (skip-red) — 2026-01-01T00:00:00+00:00\n"
+        "Change: add test coverage\n"
+        "File: tests/test_foo.py\n"
+        "Reason: adding-coverage\n\n",
+    )
+
+    input_data = {
+        "tool_input": {
+            "file_path": "tests/test_foo.py",
+            "old_string": "old",
+            "new_string": "new",
+        },
+        "transcript_path": "",
+    }
+
+    monkeypatch.setattr("scripts.tdd_pre_edit.get_log_path", lambda _: log_path)
+    monkeypatch.setattr("sys.stdin", io.StringIO(json.dumps(input_data)))
+
+    with pytest.raises(SystemExit) as exc_info:
+        main()
+
+    assert exc_info.value.code == 0
+
+
+def test_classify_test_utils_as_test() -> None:
+    """Files in src/test-utils/ should be classified as test files."""
+    assert classify_file("src/test-utils/helpers.ts") == "test"
+
+
+def test_large_green_allowlist_emits_warning(tmp_path: Path, capsys: object) -> None:
+    """A Green allowlist with >5 files should emit a stderr warning."""
+    log_path = tmp_path / "tdd-test.log"
+
+    # Create a green_intent with 7 files
+    files = [f"src/file{i}.py" for i in range(7)]
+    file_lines = "\n".join(f"File: {f}" for f in files)
+    _write_log(
+        log_path,
+        f"## Green — 2026-01-01T00:00:00+00:00\n"
+        f"Change: big change\n"
+        f"{file_lines}\n\n",
+    )
+
+    warn_large_allowlist(read_green_allowlist(log_path))
+
+    captured = capsys.readouterr()  # type: ignore[union-attr]
+    assert "7 files" in captured.err
+    assert "Large Green allowlist" in captured.err
+
+
+def test_small_green_allowlist_no_warning(tmp_path: Path, capsys: object) -> None:
+    """A Green allowlist with <=5 files should NOT emit a warning."""
+    log_path = tmp_path / "tdd-test.log"
+
+    # Create a green_intent with 3 files
+    _write_log(
+        log_path,
+        "## Green — 2026-01-01T00:00:00+00:00\n"
+        "Change: small change\n"
+        "File: src/a.py\n"
+        "File: src/b.py\n"
+        "File: src/c.py\n\n",
+    )
+
+    warn_large_allowlist(read_green_allowlist(log_path))
+
+    captured = capsys.readouterr()  # type: ignore[union-attr]
+    assert captured.err == ""
+
+
+def test_failure_after_green_intent_stays_green(tmp_path: Path) -> None:
+    """A test failure during the Green phase should keep state as green_intent."""
+    log_path = tmp_path / "tdd-test.log"
+
+    _write_log(
+        log_path,
+        "## Green — 2026-01-01T00:00:00+00:00\n"
+        "Change: implement feature\n"
+        "File: src/foo.py\n\n"
+        "[test] npm run test:python — FAILED(1)\n",
+    )
+
+    assert read_state(log_path) == "green_intent"
+
+
+def test_failure_after_red_intent_becomes_red(tmp_path: Path) -> None:
+    """A test failure during the Red phase should transition to red."""
+    log_path = tmp_path / "tdd-test.log"
+
+    _write_log(
+        log_path,
+        "## Red — 2026-01-01T00:00:00+00:00\n"
+        "Test: tests/test_foo.py\n"
+        "Expects: should fail\n\n"
+        "[test] npm run test:python — FAILED(1)\n",
+    )
+
+    assert read_state(log_path) == "red"
+
+
+def test_success_after_green_intent_resets_to_initial(tmp_path: Path) -> None:
+    """A test success after Green intent should reset to initial."""
+    log_path = tmp_path / "tdd-test.log"
+
+    _write_log(
+        log_path,
+        "## Green — 2026-01-01T00:00:00+00:00\n"
+        "Change: implement feature\n"
+        "File: src/foo.py\n\n"
+        "[test] npm run test:python — SUCCEEDED\n",
+    )
+
+    assert read_state(log_path) == "initial"

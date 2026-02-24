@@ -15,7 +15,7 @@
     "@testing-library/*",
     "@vitest/*"
   ],
-  "ignoreBinaries": ["patch", "pkill", "tsc", "uv"],
+  "ignoreBinaries": ["make", "patch", "pkill", "tsc", "uv"],
   "vitest": false,
   "rules": {
     "files": "warn",

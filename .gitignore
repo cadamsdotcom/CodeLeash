@@ -32,3 +32,7 @@ supabase/config.toml
 # TDD guard logs (session artifacts)
 tdd.log
 tdd-*.log
+
+# Documentation build output
+docs/build/
+_site/

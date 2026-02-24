@@ -1,0 +1,43 @@
+name: Deploy GitHub Pages
+on:
+  push:
+    branches: [main]
+    paths: [site/**, docs/**, .github/workflows/pages.yml]
+  workflow_dispatch:
+
+permissions:
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: true
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install Pandoc
+        run: sudo apt-get install -y pandoc
+      - name: Build docs
+        run: make -C docs html
+      - name: Assemble site
+        run: |
+          mkdir -p _site/docs
+          cp site/index.html _site/
+          cp docs/build/* _site/docs/
+          cp CNAME _site/ 2>/dev/null || true
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: _site
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deploy.outputs.page_url }}
+    steps:
+      - id: deploy
+        uses: actions/deploy-pages@v4

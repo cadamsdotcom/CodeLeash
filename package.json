@@ -23,7 +23,10 @@
     "test:e2e:ui": "uv run pytest tests/e2e/ -v",
     "test:e2e:debug": "uv run pytest tests/e2e/ -v -s",
     "pre-commit": "uv run prek run --all-files -q",
-    "types": "uv run python scripts/generate_types.py"
+    "types": "uv run python scripts/generate_types.py",
+    "docs": "make -C docs html",
+    "docs:clean": "make -C docs clean",
+    "site": "npm run docs && mkdir -p _site/docs && cp site/index.html _site/ && cp docs/build/* _site/docs/"
   },
   "dependencies": {
     "react": "^19.1.0",

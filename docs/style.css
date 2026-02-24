@@ -1,0 +1,206 @@
+/* CodeLeash Documentation — readability improvements over Pandoc defaults */
+
+:root {
+  --brand-black: rgb(15 15 15);
+  --brand-blue: rgb(59 130 246);
+  --brand-green: rgb(34 197 94);
+  --brand-red: rgb(239 68 68);
+  --grey-dark: rgb(55 55 55);
+  --grey-mid: rgb(160 160 160);
+  --grey-light: rgb(224 224 224);
+  --grey-bg: rgb(248 249 250);
+}
+
+html {
+  font-size: 17px;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+}
+
+body {
+  max-width: 780px;
+  margin: 0 auto;
+  padding: 2rem 1.5rem 4rem;
+  color: var(--brand-black);
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen,
+    Ubuntu, Cantarell, 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
+}
+
+/* Header hierarchy */
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  margin-top: 2rem;
+  margin-bottom: 0.75rem;
+  line-height: 1.3;
+  color: var(--brand-black);
+}
+
+h1 {
+  font-size: 2rem;
+  border-bottom: 2px solid var(--brand-blue);
+  padding-bottom: 0.5rem;
+}
+
+h2 {
+  font-size: 1.5rem;
+  border-bottom: 1px solid var(--grey-light);
+  padding-bottom: 0.35rem;
+}
+
+h3 {
+  font-size: 1.2rem;
+}
+
+/* Table of Contents */
+nav#TOC {
+  background: var(--grey-bg);
+  border: 1px solid var(--grey-light);
+  border-radius: 6px;
+  padding: 1rem 1.5rem;
+  margin-bottom: 2.5rem;
+}
+
+nav#TOC > ul {
+  margin: 0;
+  padding-left: 1.25rem;
+}
+
+nav#TOC ul {
+  list-style: none;
+}
+
+nav#TOC li {
+  margin: 0.25rem 0;
+}
+
+nav#TOC a {
+  color: var(--brand-blue);
+  text-decoration: none;
+}
+
+nav#TOC a:hover {
+  text-decoration: underline;
+}
+
+/* Links */
+a {
+  color: var(--brand-blue);
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+/* Code blocks */
+pre {
+  background: var(--grey-bg);
+  border: 1px solid var(--grey-light);
+  border-radius: 6px;
+  padding: 1rem 1.25rem;
+  overflow-x: auto;
+  font-size: 0.875rem;
+  line-height: 1.5;
+}
+
+code {
+  font-family: 'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, Courier,
+    monospace;
+  font-size: 0.875em;
+}
+
+:not(pre) > code {
+  background: var(--grey-bg);
+  border: 1px solid var(--grey-light);
+  border-radius: 3px;
+  padding: 0.15em 0.35em;
+}
+
+/* Tables */
+table {
+  border-collapse: collapse;
+  width: 100%;
+  margin: 1rem 0;
+}
+
+th,
+td {
+  border: 1px solid var(--grey-light);
+  padding: 0.5rem 0.75rem;
+  text-align: left;
+}
+
+th {
+  background: var(--grey-bg);
+  font-weight: 600;
+}
+
+/* Blockquotes */
+blockquote {
+  border-left: 4px solid var(--brand-blue);
+  margin: 1rem 0;
+  padding: 0.5rem 1rem;
+  color: var(--grey-dark);
+  background: var(--grey-bg);
+  border-radius: 0 4px 4px 0;
+}
+
+/* Subtitle and header block */
+header {
+  margin-bottom: 2rem;
+}
+
+header .subtitle {
+  color: var(--grey-dark);
+  font-size: 1.1rem;
+  margin-top: 0.25rem;
+}
+
+/* Horizontal rules */
+hr {
+  border: none;
+  border-top: 1px solid var(--grey-light);
+  margin: 2rem 0;
+}
+
+/* Lists */
+ul,
+ol {
+  padding-left: 1.5rem;
+}
+
+li {
+  margin: 0.25rem 0;
+}
+
+/* Images */
+img {
+  max-width: 100%;
+  height: auto;
+}
+
+/* Print */
+@media print {
+  body {
+    max-width: none;
+    padding: 0;
+  }
+}
+
+/* Mobile */
+@media (max-width: 600px) {
+  body {
+    padding: 1rem;
+  }
+
+  h1 {
+    font-size: 1.5rem;
+  }
+
+  h2 {
+    font-size: 1.25rem;
+  }
+}

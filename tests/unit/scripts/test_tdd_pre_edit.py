@@ -23,14 +23,14 @@ def _write_log(log_path: Path, content: str) -> None:
 def test_edit_test_during_green_is_blocked(
     tmp_path: Path, monkeypatch: pytest.MonkeyPatch
 ) -> None:
-    """Test edits are blocked during non-skip-red green_intent.
+    """Test edits are blocked during non-skip-red making_tests_pass.
 
     This prevents modifying tests (changing the definition of 'red')
     and then editing prod code without re-verifying the test fails.
     """
     log_path = tmp_path / "tdd-test.log"
 
-    # Set up green_intent state (non-skip-red)
+    # Set up making_tests_pass state (non-skip-red)
     _write_log(
         log_path,
         "## Green — 2026-01-01T00:00:00+00:00\n"
@@ -59,14 +59,14 @@ def test_edit_test_during_green_is_blocked(
 def test_edit_test_during_skip_red_green_is_allowed(
     tmp_path: Path, monkeypatch: pytest.MonkeyPatch
 ) -> None:
-    """Test edits are allowed during skip-red green_intent.
+    """Test edits are allowed during skip-red making_tests_pass.
 
     skip-red with adding-coverage means tests are expected to pass immediately,
     so blocking test edits would prevent the intended workflow.
     """
     log_path = tmp_path / "tdd-test.log"
 
-    # Set up skip-red green_intent state
+    # Set up skip-red making_tests_pass state
     _write_log(
         log_path,
         "## Green (skip-red) — 2026-01-01T00:00:00+00:00\n"
@@ -102,7 +102,7 @@ def test_large_green_allowlist_emits_warning(tmp_path: Path, capsys: object) -> 
     """A Green allowlist with >5 files should emit a stderr warning."""
     log_path = tmp_path / "tdd-test.log"
 
-    # Create a green_intent with 7 files
+    # Create a making_tests_pass state with 7 files
     files = [f"src/file{i}.py" for i in range(7)]
     file_lines = "\n".join(f"File: {f}" for f in files)
     _write_log(
@@ -123,7 +123,7 @@ def test_small_green_allowlist_no_warning(tmp_path: Path, capsys: object) -> Non
     """A Green allowlist with <=5 files should NOT emit a warning."""
     log_path = tmp_path / "tdd-test.log"
 
-    # Create a green_intent with 3 files
+    # Create a making_tests_pass state with 3 files
     _write_log(
         log_path,
         "## Green — 2026-01-01T00:00:00+00:00\n"
@@ -139,8 +139,10 @@ def test_small_green_allowlist_no_warning(tmp_path: Path, capsys: object) -> Non
     assert captured.err == ""
 
 
-def test_failure_after_green_intent_stays_green(tmp_path: Path) -> None:
-    """A test failure during the Green phase should keep state as green_intent."""
+def test_failure_after_making_tests_pass_stays_making_tests_pass(
+    tmp_path: Path,
+) -> None:
+    """A test failure during the Green phase should keep state as making_tests_pass."""
     log_path = tmp_path / "tdd-test.log"
 
     _write_log(
@@ -151,11 +153,11 @@ def test_failure_after_green_intent_stays_green(tmp_path: Path) -> None:
         "[test] npm run test:python — FAILED(1)\n",
     )
 
-    assert read_state(log_path) == "green_intent"
+    assert read_state(log_path) == "making_tests_pass"
 
 
-def test_failure_after_red_intent_becomes_red(tmp_path: Path) -> None:
-    """A test failure during the Red phase should transition to red."""
+def test_failure_after_writing_tests_becomes_red(tmp_path: Path) -> None:
+    """A test failure during the writing-tests phase should transition to red."""
     log_path = tmp_path / "tdd-test.log"
 
     _write_log(
@@ -169,8 +171,8 @@ def test_failure_after_red_intent_becomes_red(tmp_path: Path) -> None:
     assert read_state(log_path) == "red"
 
 
-def test_success_after_green_intent_resets_to_initial(tmp_path: Path) -> None:
-    """A test success after Green intent should reset to initial."""
+def test_success_after_making_tests_pass_resets_to_initial(tmp_path: Path) -> None:
+    """A test success after making-tests-pass should reset to initial."""
     log_path = tmp_path / "tdd-test.log"
 
     _write_log(
@@ -217,7 +219,7 @@ def test_blocked_edit_allowed_by_agent_log(
     tmp_path: Path, monkeypatch: pytest.MonkeyPatch
 ) -> None:
     """A blocked edit (parent in initial) should be allowed if an agent log has the file in its green allowlist."""
-    # Create an agent log in green_intent state with the file declared
+    # Create an agent log in making_tests_pass state with the file declared
     agent_log = tmp_path / "tdd-agent-test123.log"
     _write_log(
         agent_log,
@@ -283,11 +285,11 @@ def test_blocked_edit_stays_blocked_without_agent_log(
     assert exc_info.value.code == 2
 
 
-def test_agent_log_red_intent_allows_test_edits(
+def test_agent_log_writing_tests_allows_test_edits(
     tmp_path: Path, monkeypatch: pytest.MonkeyPatch
 ) -> None:
-    """An agent log in red_intent state should allow test file edits."""
-    # Create an agent log in red_intent state
+    """An agent log in writing_tests state should allow test file edits."""
+    # Create an agent log in writing_tests state
     agent_log = tmp_path / "tdd-agent-red789.log"
     _write_log(
         agent_log,

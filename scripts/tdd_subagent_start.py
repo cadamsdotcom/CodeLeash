@@ -29,14 +29,14 @@ Use --log "{log_name}" with all tdd_log commands.
 
 TDD Red-Green-Refactor cycle:
 
-  1. Log Red intent (declare what test you expect to fail):
+  1. Start writing tests (declare what you expect to fail):
      uv run python -m scripts.tdd_log --log "{log_name}" red \\
        --test "path/to/test_file" \\
        --expects "test_name fails because ..."
 
   2. Write the failing test, then run it to confirm it fails.
 
-  3. Log Green intent (declare what you will change to make it pass):
+  3. Start making tests pass (declare what you will change):
      uv run python -m scripts.tdd_log --log "{log_name}" green \\
        --change "what you plan to do" \\
        --file "path/to/file1.py" --file "path/to/file2.py"

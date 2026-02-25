@@ -1,4 +1,4 @@
-"""TDD Guard — CLI for writing Red/Green log entries.
+"""TDD Guard — CLI for writing Red/Green log declarations.
 
 Replaces fragile echo chains with a single script invocation.
 The --log flag specifies the log filename (resolved relative to project root).
@@ -67,25 +67,25 @@ def cmd_green(args: argparse.Namespace) -> int:
             return 1
 
     # Validate state: Green requires a preceding Red cycle (test must have failed)
-    if not skip_red and state not in ("red", "green_intent"):
-        if state == "red_intent":
+    if not skip_red and state not in ("red", "making_tests_pass"):
+        if state == "writing_tests":
             print(
                 "ERROR: Run your failing test(s) before logging Green.\n"
-                "You declared a Red intent but haven't seen test(s) fail "
-                "yet.",
+                "You declared a writing-tests phase but haven't seen "
+                "test(s) fail yet.",
                 file=sys.stderr,
             )
         else:
             print(
                 "ERROR: Cannot log Green without a preceding Red cycle.\n"
-                "Log a Red intent first, write failing test(s) or modify "
-                "existing test(s) to fail, then run them.",
+                "Start writing tests first, write failing test(s) or "
+                "modify existing test(s) to fail, then run them.",
                 file=sys.stderr,
             )
         return 1
 
     # Determine if this is an override
-    is_override = state != "initial" if skip_red else state == "green_intent"
+    is_override = state != "initial" if skip_red else state == "making_tests_pass"
 
     # Build phase label
     if skip_red:
@@ -116,11 +116,11 @@ def main() -> None:
     )
     sub = parser.add_subparsers(dest="phase", required=True)
 
-    red = sub.add_parser("red", help="Log Red phase intent")
+    red = sub.add_parser("red", help="Log Red phase declaration")
     red.add_argument("--test", required=True, help="Path to the test file")
     red.add_argument("--expects", required=True, help="What you expect to fail and why")
 
-    green = sub.add_parser("green", help="Log Green phase intent")
+    green = sub.add_parser("green", help="Log Green phase declaration")
     green.add_argument("--change", required=True, help="What you plan to change")
     green.add_argument(
         "--file", required=True, action="append", help="File(s) you will edit"

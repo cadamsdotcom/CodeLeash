@@ -34,14 +34,14 @@ def is_prod_file(rel_path: str) -> bool:
 
 STATES = {
     "initial": "initial",
-    "red_intent": "red_intent",
+    "writing_tests": "writing_tests",
     "red": "red",
-    "green_intent": "green_intent",
+    "making_tests_pass": "making_tests_pass",
 }
 
 
-def _find_preceding_intent(lines: list[str], before_index: int) -> str | None:
-    """Scan backwards from before_index to find the preceding Red/Green intent."""
+def _find_preceding_declaration(lines: list[str], before_index: int) -> str | None:
+    """Scan backwards from before_index to find the preceding Red/Green declaration."""
     for i in range(before_index - 1, -1, -1):
         stripped = lines[i].rstrip()
         if stripped.startswith("## Green"):
@@ -67,15 +67,15 @@ def read_state(log_path: Path) -> str:
         if stripped.startswith("[test]") and stripped.endswith("— SUCCEEDED"):
             return STATES["initial"]
         if stripped.startswith("[test]") and "— FAILED" in stripped:
-            # Look further back for the preceding intent
-            preceding = _find_preceding_intent(lines, len(lines) - 1 - i)
+            # Look further back for the preceding declaration
+            preceding = _find_preceding_declaration(lines, len(lines) - 1 - i)
             if preceding == "green":
-                return STATES["green_intent"]
+                return STATES["making_tests_pass"]
             return STATES["red"]
         if stripped.startswith("## Red"):
-            return STATES["red_intent"]
+            return STATES["writing_tests"]
         if stripped.startswith("## Green"):
-            return STATES["green_intent"]
+            return STATES["making_tests_pass"]
         # Skip other lines (Test:, Expects:, Change:, File:, [bash], [edit])
 
     return STATES["initial"]

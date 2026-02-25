@@ -198,12 +198,12 @@ Remember: A test that fails for the wrong reason teaches you nothing about the c
 3. Can existing e2e tests be enhanced to cover this work instead of writing new ones?
 4. Can planned e2e tests be unit/integration/component tests instead?
 
-**Red Intent Honesty:**
+**Honest Test Declarations:**
 
-- **Red intent must describe expected failure.** If you're adding tests that will pass immediately, use `--skip-red` on the Green intent instead. Don't log a Red intent for tests you expect to pass.
+- **The writing-tests declaration must describe expected failure.** If you're adding tests that will pass immediately, use `--skip-red` on the making-tests-pass declaration instead. Don't start writing tests for tests you expect to pass.
 - **Guard tests (assert unchanged behavior):** When writing tests that expect existing/default behavior to continue (e.g., "blocked stays blocked", "no-op when absent"), these can't fail during a natural Red phase. Use `--skip-red --reason=adding-coverage` for these, even when they're part of a larger feature. Don't bundle them into a Red cycle where they'll pass immediately.
 - Do NOT use `--skip-red` to avoid TDD, even if you already have e2e coverage.
-- The TDD guard enforces that `tdd_log green` requires a preceding Red cycle (Red intent -> failing test -> Green intent). The `--skip-red` flag is the escape hatch for changes that genuinely don't need a failing test first.
+- The TDD guard enforces that `tdd_log green` requires a preceding Red cycle (writing tests -> failing test -> making tests pass). The `--skip-red` flag is the escape hatch for changes that genuinely don't need a failing test first.
 
 **Using --skip-red (requires --reason):**
 
@@ -238,7 +238,7 @@ The TDD log file name and full usage examples are provided automatically at sess
 
 **Overriding TDD State:**
 
-You can force the TDD state into any other state by logging a Red or Green intent by running tdd_log with your desired arguments as normal. Your override will be logged for later review. Useful if you get stuck in the wrong TDD state (e.g., you logged the wrong expectation or made a mistake).
+You can force the TDD state into any other state by logging a Red or Green declaration via tdd_log with your desired arguments as normal. Your override will be logged for later review. Useful if you get stuck in the wrong TDD state (e.g., you logged the wrong expectation or made a mistake).
 
 ### Unit Test Performance & Timeouts
 

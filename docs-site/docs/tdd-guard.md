@@ -10,7 +10,7 @@ The TDD Guard is a state machine enforced through Claude Code hooks. It ensures 
 The guard maintains four states:
 
 ```
-initial ──→ red_intent ──→ red ──→ green_intent ──→ initial
+initial ──→ writing_tests ──→ red ──→ making_tests_pass ──→ initial
    │            │                       │
    │         (write       (tests      (edit prod
    │          test)        fail)       files)
@@ -19,12 +19,12 @@ initial ──→ red_intent ──→ red ──→ green_intent ──→ init
                  (tests pass)
 ```
 
-| State          | Meaning                                       | Allowed Actions               |
-| -------------- | --------------------------------------------- | ----------------------------- |
-| `initial`      | No active TDD cycle                           | Log Red intent only           |
-| `red_intent`   | Agent declared what test should fail          | Edit test files only          |
-| `red`          | Test ran and failed (as expected)             | Log Green intent only         |
-| `green_intent` | Agent declared what to change and which files | Edit declared prod files only |
+| State               | Meaning                                       | Allowed Actions               |
+| ------------------- | --------------------------------------------- | ----------------------------- |
+| `initial`           | No active TDD cycle                           | Log Red declaration only      |
+| `writing_tests`     | Agent declared what test should fail          | Edit test files only          |
+| `red`               | Test ran and failed (as expected)             | Log Green declaration only    |
+| `making_tests_pass` | Agent declared what to change and which files | Edit declared prod files only |
 
 When tests pass after a Green phase, the state returns to `initial`.
 
@@ -42,14 +42,14 @@ def read_state(log_path: Path) -> str:
         if stripped.startswith("[test]") and stripped.endswith("— SUCCEEDED"):
             return "initial"
         if stripped.startswith("[test]") and "— FAILED" in stripped:
-            preceding = _find_preceding_intent(lines, len(lines) - 1 - i)
+            preceding = _find_preceding_declaration(lines, len(lines) - 1 - i)
             if preceding == "green":
-                return "green_intent"
+                return "making_tests_pass"
             return "red"
         if stripped.startswith("## Red"):
-            return "red_intent"
+            return "writing_tests"
         if stripped.startswith("## Green"):
-            return "green_intent"
+            return "making_tests_pass"
     return "initial"
 ```
 
@@ -58,22 +58,22 @@ def read_state(log_path: Path) -> str:
 Summary of state derivation rules:
 
 - `[test] ... — SUCCEEDED` → `initial`
-- `[test] ... — FAILED` after a `## Green` header → `green_intent` (test failed during Green)
+- `[test] ... — FAILED` after a `## Green` header → `making_tests_pass` (test failed during Green)
 - `[test] ... — FAILED` after a `## Red` header → `red` (test failed as expected)
-- `## Red ...` → `red_intent`
-- `## Green ...` → `green_intent`
+- `## Red ...` → `writing_tests`
+- `## Green ...` → `making_tests_pass`
 
 ## The CLI: `tdd_log`
 
 Agents interact with the TDD guard through [`scripts/tdd_log.py`](https://github.com/cadamsdotcom/CodeLeash/blob/main/scripts/tdd_log.py), invoked as:
 
 ```bash
-# Declare Red intent
+# Declare Red (writing-tests) phase
 uv run python -m scripts.tdd_log --log "tdd-abc123.log" red \
   --test "path/to/test_file" \
   --expects "test_name fails because ..."
 
-# Declare Green intent
+# Declare Green (making-tests-pass) phase
 uv run python -m scripts.tdd_log --log "tdd-abc123.log" green \
   --change "what you plan to do" \
   --file "path/to/file1.py" --file "path/to/file2.py"
@@ -88,12 +88,12 @@ uv run python -m scripts.tdd_log --log "tdd-abc123.log" green --skip-red \
 
 The `green` subcommand enforces prerequisites:
 
-- Without `--skip-red`: requires state to be `red` (test must have failed) or `green_intent` (re-logging)
+- Without `--skip-red`: requires state to be `red` (test must have failed) or `making_tests_pass` (re-logging)
 - With `--skip-red`: requires a `--reason` from `{refactoring, lint-only, adding-coverage}`
 
 ### Overrides
 
-Logging a Red or Green intent at any time overrides the current state. This is useful when the agent gets stuck in the wrong state. Overrides are recorded in the log for later review.
+Logging a Red or Green declaration at any time overrides the current state. This is useful when the agent gets stuck in the wrong state. Overrides are recorded in the log for later review.
 
 ## Pre-Edit Hook
 
@@ -124,14 +124,14 @@ PROD_PATTERNS = [
 
 ### Permission Table
 
-| State          | Test Files  | Prod Files                |
-| -------------- | ----------- | ------------------------- |
-| `initial`      | Blocked     | Blocked                   |
-| `red_intent`   | **Allowed** | Blocked                   |
-| `red`          | Blocked     | Blocked                   |
-| `green_intent` | Blocked\*   | Allowed (if in allowlist) |
+| State               | Test Files  | Prod Files                |
+| ------------------- | ----------- | ------------------------- |
+| `initial`           | Blocked     | Blocked                   |
+| `writing_tests`     | **Allowed** | Blocked                   |
+| `red`               | Blocked     | Blocked                   |
+| `making_tests_pass` | Blocked\*   | Allowed (if in allowlist) |
 
-\* Test files are allowed during `green_intent` only if the Green was logged with `--skip-red`.
+\* Test files are allowed during `making_tests_pass` only if the Green was logged with `--skip-red`.
 
 ### Green Allowlist
 
@@ -149,7 +149,7 @@ The [`scripts/tdd_post_bash.py`](https://github.com/cadamsdotcom/CodeLeash/blob/
 | `npm test*` or `npm run test*` | `test`             | Drives state transitions |
 | Everything else                | `bash`             | Logged, no state change  |
 
-Test commands tagged as `test` with `SUCCEEDED` status reset the state to `initial`. Test commands that `FAILED` during a Red phase confirm the state as `red`.
+Test commands tagged as `test` with `SUCCEEDED` status reset the state to `initial`. Test commands that `FAILED` during a writing-tests phase confirm the state as `red`.
 
 ### Example TDD Log
 

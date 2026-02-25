@@ -64,8 +64,8 @@ class TestCmdGreenRequiresRedCycle:
         # Log should not have been written to
         assert "## Green" not in log_path.read_text()
 
-    def test_rejects_from_red_intent_state(self, tmp_path: Path) -> None:
-        """Green from red_intent is rejected — test hasn't been run yet."""
+    def test_rejects_from_writing_tests_state(self, tmp_path: Path) -> None:
+        """Green from writing_tests is rejected — test hasn't been run yet."""
         log_path = tmp_path / "tdd-test.log"
         _write_log(
             log_path,
@@ -108,8 +108,8 @@ class TestCmdGreenRequiresRedCycle:
         assert exit_code == 0
         assert "## Green" in log_path.read_text()
 
-    def test_allows_from_green_intent_state(self, tmp_path: Path) -> None:
-        """Green from green_intent is allowed — re-declaring the allowlist."""
+    def test_allows_from_making_tests_pass_state(self, tmp_path: Path) -> None:
+        """Green from making_tests_pass is allowed — re-declaring the allowlist."""
         log_path = tmp_path / "tdd-test.log"
         _write_log(
             log_path,
@@ -156,8 +156,8 @@ class TestSkipRedFlag:
         assert exit_code == 0
         assert "## Green" in log_path.read_text()
 
-    def test_skip_red_allows_from_red_intent_state(self, tmp_path: Path) -> None:
-        """--skip-red allows Green even from red_intent (overrides normal check)."""
+    def test_skip_red_allows_from_writing_tests_state(self, tmp_path: Path) -> None:
+        """--skip-red allows Green even from writing_tests (overrides normal check)."""
         log_path = tmp_path / "tdd-test.log"
         _write_log(
             log_path,
@@ -331,8 +331,8 @@ class TestCmdGreenWritesLog:
 class TestOverrideDetection:
     """cmd_red and cmd_green detect and log state overrides."""
 
-    def test_red_from_red_intent_is_override(self, tmp_path: Path) -> None:
-        """Red from red_intent state is an override."""
+    def test_red_from_writing_tests_is_override(self, tmp_path: Path) -> None:
+        """Red from writing_tests state is an override."""
         log_path = tmp_path / "tdd-test.log"
         _write_log(
             log_path,
@@ -350,10 +350,10 @@ class TestOverrideDetection:
         cmd_red(args)
 
         content = log_path.read_text()
-        assert "(override from red_intent)" in content
+        assert "(override from writing_tests)" in content
 
-    def test_red_from_green_intent_is_override(self, tmp_path: Path) -> None:
-        """Red from green_intent state is an override."""
+    def test_red_from_making_tests_pass_is_override(self, tmp_path: Path) -> None:
+        """Red from making_tests_pass state is an override."""
         log_path = tmp_path / "tdd-test.log"
         _write_log(
             log_path,
@@ -375,7 +375,7 @@ class TestOverrideDetection:
         cmd_red(args)
 
         content = log_path.read_text()
-        assert "(override from green_intent)" in content
+        assert "(override from making_tests_pass)" in content
 
     def test_red_from_initial_no_override(self, tmp_path: Path) -> None:
         """Red from initial state is not an override (normal start)."""
@@ -416,8 +416,8 @@ class TestOverrideDetection:
         content = log_path.read_text()
         assert "(override from red)" in content
 
-    def test_green_from_green_intent_is_override(self, tmp_path: Path) -> None:
-        """Green from green_intent state is an override (re-declaring allowlist)."""
+    def test_green_from_making_tests_pass_is_override(self, tmp_path: Path) -> None:
+        """Green from making_tests_pass state is an override (re-declaring allowlist)."""
         log_path = tmp_path / "tdd-test.log"
         _write_log(
             log_path,
@@ -440,7 +440,7 @@ class TestOverrideDetection:
 
         assert exit_code == 0
         content = log_path.read_text()
-        assert "(override from green_intent)" in content
+        assert "(override from making_tests_pass)" in content
 
     def test_green_from_red_no_override(self, tmp_path: Path) -> None:
         """Green from red state is not an override (normal flow)."""
@@ -466,8 +466,8 @@ class TestOverrideDetection:
         assert "(override" not in content
         assert "## Green —" in content
 
-    def test_skip_red_from_red_intent_is_override(self, tmp_path: Path) -> None:
-        """Skip-red from red_intent state is an override."""
+    def test_skip_red_from_writing_tests_is_override(self, tmp_path: Path) -> None:
+        """Skip-red from writing_tests state is an override."""
         log_path = tmp_path / "tdd-test.log"
         _write_log(
             log_path,
@@ -488,7 +488,7 @@ class TestOverrideDetection:
 
         assert exit_code == 0
         content = log_path.read_text()
-        assert "(skip-red, override from red_intent)" in content
+        assert "(skip-red, override from writing_tests)" in content
 
     def test_skip_red_from_initial_no_override(self, tmp_path: Path) -> None:
         """Skip-red from initial state is not an override (normal skip-red use)."""

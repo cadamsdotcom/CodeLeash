@@ -48,7 +48,7 @@ function StateStrip(): ReactNode {
         <span className={styles.stateArrow}>&rarr;</span>
         <span className={styles.stateLabel}>log red</span>
         <span className={styles.stateArrow}>&rarr;</span>
-        <span className={styles.stateNode}>red_intent</span>
+        <span className={styles.stateNode}>writing_tests</span>
         <span className={styles.stateArrow}>&rarr;</span>
         <span className={styles.stateLabel}>test fails</span>
         <span className={styles.stateArrow}>&rarr;</span>
@@ -59,7 +59,7 @@ function StateStrip(): ReactNode {
         <span className={styles.stateLabel}>log green</span>
         <span className={styles.stateArrow}>&rarr;</span>
         <span className={`${styles.stateNode} ${styles.stateNodeGreen}`}>
-          green_intent
+          making_tests_pass
         </span>
         <span className={styles.stateArrow}>&rarr;</span>
         <span className={styles.stateLabel}>tests pass</span>

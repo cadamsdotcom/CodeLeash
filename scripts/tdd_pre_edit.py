@@ -123,21 +123,21 @@ def warn_large_allowlist(allowed: set[str], threshold: int = 5) -> None:
 
 def blocked_initial(log_name: str) -> str:
     return f"""\
-BLOCKED: Red-Green-Refactor — log your Red intent first.
+BLOCKED: Red-Green-Refactor — log your Red declaration first.
 Run (fill in the placeholders):
 
   uv run python -m scripts.tdd_log --log "{log_name}" red --test "path/to/test_file" --expects "test_name fails because ..." """
 
 
-def blocked_red_intent_impl() -> str:
+def blocked_writing_tests_impl() -> str:
     return """\
-BLOCKED: You're in the Red phase — only test files can be edited.
+BLOCKED: You're in the writing-tests phase — only test files can be edited.
 Write your failing test, then run it."""
 
 
 def blocked_red(log_name: str) -> str:
     return f"""\
-BLOCKED: Red confirmed. Log your Green intent before editing.
+BLOCKED: Red confirmed. Log your Green declaration before editing.
 Run (fill in the placeholders):
 
   uv run python -m scripts.tdd_log --log "{log_name}" green --change "what you plan to do" --file "path/to/file1.py" --file "path/to/file2.py" """
@@ -146,7 +146,7 @@ Run (fill in the placeholders):
 def blocked_test_in_green(log_name: str) -> str:
     return f"""\
 BLOCKED: Test edits are not allowed during Green.
-If you need to change your test, re-log your Red intent first:
+If you need to change your test, re-log your Red declaration first:
 
   uv run python -m scripts.tdd_log --log "{log_name}" red --test "path/to/test_file" --expects "test_name fails because ..." """
 
@@ -158,7 +158,7 @@ BLOCKED: {file_path} is not in your declared Green allowlist.
 Declared files:
 {listed}
 
-To add it, re-run your green intent including this file:
+To add it, re-run your Green declaration including this file:
   uv run python -m scripts.tdd_log --log "{log_name}" green --change "..." --file "{file_path}" """
 
 
@@ -187,14 +187,14 @@ def _check_agent_logs(file_path: str, rel_path: str, kind: str) -> bool:
         if _is_agent_log_finished(agent_log):
             continue
         agent_state = read_state(agent_log)
-        if agent_state == "green_intent":
+        if agent_state == "making_tests_pass":
             if kind == "test" and is_skip_red_green(agent_log):
                 return True
             if kind == "prod":
                 allowed = read_green_allowlist(agent_log)
                 if rel_path in allowed:
                     return True
-        elif agent_state == "red_intent" and kind == "test":
+        elif agent_state == "writing_tests" and kind == "test":
             return True
     return False
 
@@ -242,10 +242,10 @@ def main() -> None:
         sys.exit(0)
 
     # Permission table:
-    #   initial      → block all (test + prod)
-    #   red_intent   → test ok, prod blocked
-    #   red          → block all (test + prod)
-    #   green_intent → test blocked (unless skip-red), prod in allowlist
+    #   initial          → block all (test + prod)
+    #   writing_tests    → test ok, prod blocked
+    #   red              → block all (test + prod)
+    #   making_tests_pass → test blocked (unless skip-red), prod in allowlist
     if state == "initial":
         if _check_agent_logs(file_path, rel_path, kind):
             log_edit(log_path, file_path, kind, state, "ALLOWED(agent)")
@@ -253,13 +253,13 @@ def main() -> None:
         log_edit(log_path, file_path, kind, state, "BLOCKED")
         print(blocked_initial(log_name), file=sys.stderr)
         sys.exit(2)
-    elif state == "red_intent":
+    elif state == "writing_tests":
         if kind == "prod":
             if _check_agent_logs(file_path, rel_path, kind):
                 log_edit(log_path, file_path, kind, state, "ALLOWED(agent)")
                 sys.exit(0)
             log_edit(log_path, file_path, kind, state, "BLOCKED")
-            print(blocked_red_intent_impl(), file=sys.stderr)
+            print(blocked_writing_tests_impl(), file=sys.stderr)
             sys.exit(2)
         # test file → allowed
         log_edit(log_path, file_path, kind, state, "ALLOWED")
@@ -271,7 +271,7 @@ def main() -> None:
         log_edit(log_path, file_path, kind, state, "BLOCKED")
         print(blocked_red(log_name), file=sys.stderr)
         sys.exit(2)
-    elif state == "green_intent":
+    elif state == "making_tests_pass":
         if kind == "test":
             if is_skip_red_green(log_path):
                 log_edit(log_path, file_path, kind, state, "ALLOWED")

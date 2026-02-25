@@ -1,4 +1,7 @@
-# Agent Optimizations
+---
+title: 'Agent Optimizations'
+sidebar_position: 5
+---
 
 CodeLeash configures Claude Code to prevent common agent misbehaviors through deny rules, hooks, and environment settings. These are defined in [`.claude/settings.json`](https://github.com/cadamsdotcom/CodeLeash/blob/main/.claude/settings.json) and enforced automatically.
 

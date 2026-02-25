@@ -1,4 +1,7 @@
-# Code Quality Checks
+---
+title: 'Code Quality Checks'
+sidebar_position: 6
+---
 
 CodeLeash enforces code quality through custom Python scripts that run as pre-commit hooks. Each script is a focused lint rule implemented with AST walking, regex scanning, or both. This "Python script as lint rule" pattern makes rules easy to write, test, and understand.
 

@@ -1,4 +1,7 @@
-# Worker System
+---
+title: 'Worker System'
+sidebar_position: 7
+---
 
 CodeLeash includes a background job queue built on PostgreSQL. Instead of using a separate message broker, jobs are stored in a regular table and claimed atomically using `FOR UPDATE SKIP LOCKED`.
 

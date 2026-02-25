@@ -1,4 +1,7 @@
-# How Tests Work
+---
+title: 'How Tests Work'
+sidebar_position: 4
+---
 
 CodeLeash has three test levels --- unit, integration, and end-to-end --- plus frontend component tests via Vitest. The full suite runs automatically on every git commit via a pre-commit hook installed by [`init.sh`](https://github.com/cadamsdotcom/CodeLeash/blob/main/init.sh).
 

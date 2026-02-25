@@ -1,4 +1,7 @@
-# Worktree Parallel Work
+---
+title: 'Worktree Parallel Work'
+sidebar_position: 8
+---
 
 Git worktrees let you check out multiple branches of the same repo simultaneously, each in its own directory. CodeLeash's [`init.sh`](https://github.com/cadamsdotcom/CodeLeash/blob/main/init.sh) script automatically configures isolated ports and Supabase instances for each worktree, so multiple branches can run side by side without conflicts.
 

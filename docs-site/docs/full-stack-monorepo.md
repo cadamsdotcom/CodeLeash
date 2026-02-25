@@ -1,4 +1,7 @@
-# Full-Stack Monorepo
+---
+title: 'Full-Stack Monorepo'
+sidebar_position: 2
+---
 
 CodeLeash runs Vite and FastAPI as a single application. In development, two servers run concurrently with hot module replacement. In production, Vite builds static assets and FastAPI serves everything.
 
@@ -17,7 +20,7 @@ concurrently -n vite,uvicorn,worker \
 
 - **Vite** (port 5173) serves JavaScript/CSS with HMR
 - **Uvicorn** (port 8000) serves HTML pages and API routes
-- **Worker** processes background jobs (see [Worker System](06-worker-system.md))
+- **Worker** processes background jobs (see [Worker System](./worker-system.md))
 
 In production (`npm run build` then `uv run uvicorn main:app`), Vite compiles assets into `dist/` and FastAPI serves them directly using the Vite manifest for cache-busted URLs.
 

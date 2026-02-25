@@ -1,4 +1,7 @@
-# TDD Guard
+---
+title: 'TDD Guard'
+sidebar_position: 3
+---
 
 The TDD Guard is a state machine enforced through Claude Code hooks. It ensures agents follow the Red-Green-Refactor cycle by blocking file edits and tracking test outcomes. The guard is implemented entirely in Python scripts that run as hook handlers.
 

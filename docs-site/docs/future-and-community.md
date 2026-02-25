@@ -1,4 +1,7 @@
-# Future & Community
+---
+title: 'Future & Community'
+sidebar_position: 9
+---
 
 ## Migration Testing Framework
 

@@ -33,7 +33,7 @@ tests/
 
 # Documentation
 *.md
-docs/
+docs-site/
 LICENSE
 
 # IDE

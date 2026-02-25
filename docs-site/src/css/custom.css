@@ -1,0 +1,40 @@
+:root {
+  /* Brand blue (rgb(59 130 246)) mapped to Docusaurus primary palette */
+  --ifm-color-primary: rgb(59, 130, 246);
+  --ifm-color-primary-dark: rgb(37, 112, 237);
+  --ifm-color-primary-darker: rgb(26, 104, 233);
+  --ifm-color-primary-darkest: rgb(17, 82, 192);
+  --ifm-color-primary-light: rgb(81, 148, 255);
+  --ifm-color-primary-lighter: rgb(92, 155, 255);
+  --ifm-color-primary-lightest: rgb(125, 175, 255);
+
+  --ifm-code-font-size: 87.5%;
+  --ifm-font-size-base: 17px;
+  --docusaurus-highlighted-code-line-bg: rgba(0, 0, 0, 0.1);
+
+  /* Brand tokens */
+  --brand-black: rgb(15, 15, 15);
+  --brand-blue: rgb(59, 130, 246);
+  --brand-green: rgb(34, 197, 94);
+  --brand-red: rgb(239, 68, 68);
+  --grey-dark: rgb(55, 55, 55);
+  --grey-mid: rgb(160, 160, 160);
+  --grey-light: rgb(224, 224, 224);
+  --grey-bg: rgb(248, 249, 250);
+
+  --ifm-font-family-base: 'DM Mono', 'SFMono-Regular', Consolas,
+    'Liberation Mono', Menlo, monospace;
+  --ifm-heading-font-family: 'Instrument Serif', Georgia, serif;
+  --ifm-font-family-monospace: 'DM Mono', 'SFMono-Regular', Consolas,
+    'Liberation Mono', Menlo, monospace;
+}
+
+html {
+  -webkit-font-smoothing: antialiased;
+}
+
+.navbar__title {
+  font-family: 'Instrument Serif', Georgia, serif;
+  font-size: 1.35rem;
+  letter-spacing: -0.02em;
+}

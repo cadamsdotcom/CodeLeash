@@ -201,6 +201,7 @@ Remember: A test that fails for the wrong reason teaches you nothing about the c
 **Red Intent Honesty:**
 
 - **Red intent must describe expected failure.** If you're adding tests that will pass immediately, use `--skip-red` on the Green intent instead. Don't log a Red intent for tests you expect to pass.
+- **Guard tests (assert unchanged behavior):** When writing tests that expect existing/default behavior to continue (e.g., "blocked stays blocked", "no-op when absent"), these can't fail during a natural Red phase. Use `--skip-red --reason=adding-coverage` for these, even when they're part of a larger feature. Don't bundle them into a Red cycle where they'll pass immediately.
 - Do NOT use `--skip-red` to avoid TDD, even if you already have e2e coverage.
 - The TDD guard enforces that `tdd_log green` requires a preceding Red cycle (Red intent -> failing test -> Green intent). The `--skip-red` flag is the escape hatch for changes that genuinely don't need a failing test first.
 

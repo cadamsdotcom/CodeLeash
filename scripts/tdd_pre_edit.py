@@ -4,6 +4,7 @@ Enforces the Red-Green-Refactor cycle by allowing or blocking file edits
 based on the current TDD state derived from the per-agent log.
 """
 
+import glob
 import json
 import re
 import subprocess
@@ -162,6 +163,43 @@ To add it, re-run your green intent including this file:
 
 
 # ---------------------------------------------------------------------------
+# Per-agent log fallback chain
+# ---------------------------------------------------------------------------
+
+
+def _is_agent_log_finished(log_path: Path) -> bool:
+    """Check if an agent log has been finished by SubagentStop."""
+    if not log_path.exists():
+        return True
+    content = log_path.read_text()
+    return "## FINISHED" in content
+
+
+def _check_agent_logs(file_path: str, rel_path: str, kind: str) -> bool:
+    """Check per-agent TDD logs for edit permission (fallback chain).
+
+    When the parent log blocks an edit, this checks all active (non-finished)
+    agent logs. If any agent log permits the edit, it returns True.
+    """
+    project_root = get_project_root()
+    for agent_log_path in glob.glob(str(project_root / "tdd-agent-*.log")):
+        agent_log = Path(agent_log_path)
+        if _is_agent_log_finished(agent_log):
+            continue
+        agent_state = read_state(agent_log)
+        if agent_state == "green_intent":
+            if kind == "test" and is_skip_red_green(agent_log):
+                return True
+            if kind == "prod":
+                allowed = read_green_allowlist(agent_log)
+                if rel_path in allowed:
+                    return True
+        elif agent_state == "red_intent" and kind == "test":
+            return True
+    return False
+
+
+# ---------------------------------------------------------------------------
 # Main
 # ---------------------------------------------------------------------------
 
@@ -209,11 +247,17 @@ def main() -> None:
     #   red          → block all (test + prod)
     #   green_intent → test blocked (unless skip-red), prod in allowlist
     if state == "initial":
+        if _check_agent_logs(file_path, rel_path, kind):
+            log_edit(log_path, file_path, kind, state, "ALLOWED(agent)")
+            sys.exit(0)
         log_edit(log_path, file_path, kind, state, "BLOCKED")
         print(blocked_initial(log_name), file=sys.stderr)
         sys.exit(2)
     elif state == "red_intent":
         if kind == "prod":
+            if _check_agent_logs(file_path, rel_path, kind):
+                log_edit(log_path, file_path, kind, state, "ALLOWED(agent)")
+                sys.exit(0)
             log_edit(log_path, file_path, kind, state, "BLOCKED")
             print(blocked_red_intent_impl(), file=sys.stderr)
             sys.exit(2)
@@ -221,6 +265,9 @@ def main() -> None:
         log_edit(log_path, file_path, kind, state, "ALLOWED")
         sys.exit(0)
     elif state == "red":
+        if _check_agent_logs(file_path, rel_path, kind):
+            log_edit(log_path, file_path, kind, state, "ALLOWED(agent)")
+            sys.exit(0)
         log_edit(log_path, file_path, kind, state, "BLOCKED")
         print(blocked_red(log_name), file=sys.stderr)
         sys.exit(2)
@@ -229,12 +276,18 @@ def main() -> None:
             if is_skip_red_green(log_path):
                 log_edit(log_path, file_path, kind, state, "ALLOWED")
                 sys.exit(0)
+            if _check_agent_logs(file_path, rel_path, kind):
+                log_edit(log_path, file_path, kind, state, "ALLOWED(agent)")
+                sys.exit(0)
             log_edit(log_path, file_path, kind, state, "BLOCKED")
             print(blocked_test_in_green(log_name), file=sys.stderr)
             sys.exit(2)
         allowed = read_green_allowlist(log_path)
         warn_large_allowlist(allowed)
         if rel_path not in allowed:
+            if _check_agent_logs(file_path, rel_path, kind):
+                log_edit(log_path, file_path, kind, state, "ALLOWED(agent)")
+                sys.exit(0)
             log_edit(log_path, file_path, kind, state, "BLOCKED")
             print(
                 blocked_green_not_listed(rel_path, allowed, log_name),

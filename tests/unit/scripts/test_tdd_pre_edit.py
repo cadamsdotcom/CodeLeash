@@ -182,3 +182,128 @@ def test_success_after_green_intent_resets_to_initial(tmp_path: Path) -> None:
     )
 
     assert read_state(log_path) == "initial"
+
+
+# ---------------------------------------------------------------------------
+# Fallback chain: per-agent TDD log tests
+# ---------------------------------------------------------------------------
+
+
+def _setup_main_with_agent_logs(
+    tmp_path: Path,
+    monkeypatch: pytest.MonkeyPatch,
+    parent_log_content: str,
+    file_path: str,
+) -> None:
+    """Set up main() to run with a parent log and agent logs in tmp_path."""
+    log_path = tmp_path / "tdd-test.log"
+    _write_log(log_path, parent_log_content)
+
+    input_data = {
+        "tool_input": {
+            "file_path": file_path,
+            "old_string": "old",
+            "new_string": "new",
+        },
+        "transcript_path": "",
+    }
+
+    monkeypatch.setattr("scripts.tdd_pre_edit.get_log_path", lambda _: log_path)
+    monkeypatch.setattr("scripts.tdd_pre_edit.get_project_root", lambda: tmp_path)
+    monkeypatch.setattr("sys.stdin", io.StringIO(json.dumps(input_data)))
+
+
+def test_blocked_edit_allowed_by_agent_log(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    """A blocked edit (parent in initial) should be allowed if an agent log has the file in its green allowlist."""
+    # Create an agent log in green_intent state with the file declared
+    agent_log = tmp_path / "tdd-agent-test123.log"
+    _write_log(
+        agent_log,
+        "## Green — 2026-01-01T00:00:00+00:00\n"
+        "Change: implement feature\n"
+        "File: src/foo.py\n\n",
+    )
+
+    _setup_main_with_agent_logs(
+        tmp_path,
+        monkeypatch,
+        parent_log_content="",
+        file_path=str(tmp_path / "src" / "foo.py"),
+    )
+
+    with pytest.raises(SystemExit) as exc_info:
+        main()
+
+    assert exc_info.value.code == 0
+
+
+def test_finished_agent_log_is_skipped(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    """A finished agent log (with ## FINISHED marker) should not allow edits."""
+    # Create a finished agent log
+    agent_log = tmp_path / "tdd-agent-done456.log"
+    _write_log(
+        agent_log,
+        "## Green — 2026-01-01T00:00:00+00:00\n"
+        "Change: implement feature\n"
+        "File: src/foo.py\n\n"
+        "## FINISHED — 2026-01-01T01:00:00+00:00\n",
+    )
+
+    _setup_main_with_agent_logs(
+        tmp_path,
+        monkeypatch,
+        parent_log_content="",
+        file_path=str(tmp_path / "src" / "foo.py"),
+    )
+
+    with pytest.raises(SystemExit) as exc_info:
+        main()
+
+    assert exc_info.value.code == 2
+
+
+def test_blocked_edit_stays_blocked_without_agent_log(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    """A blocked edit with no agent logs should stay blocked."""
+    _setup_main_with_agent_logs(
+        tmp_path,
+        monkeypatch,
+        parent_log_content="",
+        file_path=str(tmp_path / "src" / "bar.py"),
+    )
+
+    with pytest.raises(SystemExit) as exc_info:
+        main()
+
+    assert exc_info.value.code == 2
+
+
+def test_agent_log_red_intent_allows_test_edits(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    """An agent log in red_intent state should allow test file edits."""
+    # Create an agent log in red_intent state
+    agent_log = tmp_path / "tdd-agent-red789.log"
+    _write_log(
+        agent_log,
+        "## Red — 2026-01-01T00:00:00+00:00\n"
+        "Test: tests/test_foo.py\n"
+        "Expects: should fail\n\n",
+    )
+
+    _setup_main_with_agent_logs(
+        tmp_path,
+        monkeypatch,
+        parent_log_content="",
+        file_path=str(tmp_path / "tests" / "test_foo.py"),
+    )
+
+    with pytest.raises(SystemExit) as exc_info:
+        main()
+
+    assert exc_info.value.code == 0

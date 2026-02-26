@@ -7,6 +7,7 @@ const sidebars: SidebarsConfig = {
     'tdd-guard',
     'how-tests-work',
     'agent-optimizations',
+    'self-reflection',
     'code-quality-checks',
     'worktree-parallel-work',
     'future-and-community',

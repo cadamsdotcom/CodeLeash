@@ -248,8 +248,8 @@ function Features(): ReactNode {
                   A test suite in which the agent has seen every test fail -
                   then made each test pass by writing code - helps prevent
                   regressions and keeps development velocity high as your
-                  product grows. Per-agent isolation lets agents run in parallel
-                  without interfering.
+                  product grows. Per-agent isolation lets agents run in
+                  parallel.
                 </p>
                 <span
                   className={`${styles.featureLearnMore} ${styles.featureLearnMoreRed}`}
@@ -334,13 +334,83 @@ function Features(): ReactNode {
             </div>
           </Link>
 
-          <Link to="/docs/how-tests-work" className={styles.featureCardLink}>
+          <Link to="/docs/self-reflection" className={styles.featureCardLink}>
             <div className={`${styles.featureCard} ${styles.featureCardGreen}`}>
               <div className={styles.featureLeft}>
                 <span
                   className={`${styles.featureNumber} ${styles.featureNumberGreen}`}
                 >
                   03
+                </span>
+                <div className={styles.featureIcon}>
+                  <svg
+                    width="36"
+                    height="36"
+                    viewBox="0 0 36 36"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      d="M18 4C12 4 7 9 7 15C7 21 12 24 12 28H24C24 24 29 21 29 15C29 9 24 4 18 4Z"
+                      stroke="rgb(34 197 94)"
+                      strokeWidth="2"
+                      fill="none"
+                    />
+                    <path
+                      d="M14 32H22"
+                      stroke="rgb(34 197 94)"
+                      strokeWidth="2"
+                      strokeLinecap="round"
+                    />
+                    <path
+                      d="M18 12V20M14 16H22"
+                      stroke="rgb(160 100 50)"
+                      strokeWidth="2"
+                      strokeLinecap="round"
+                    />
+                  </svg>
+                </div>
+                <h3 className={styles.featureCardTitle}>
+                  Self-Reflection System
+                </h3>
+              </div>
+              <div className={styles.featureRight}>
+                <p className={styles.featureCardDesc}>
+                  Agents forget everything between sessions. Compaction destroys
+                  knowledge and sessions end. Hard-won insights vanish. The same
+                  mistakes are made again and again.
+                </p>
+                <p className={styles.featureCardDesc}>
+                  CodeLeash hooks force your agent to capture learnings in files
+                  before context is lost. When a session ends or context
+                  compacts, the agent writes structured notes about surprises,
+                  workflow friction, TDD discipline issues...
+                </p>
+                <p className={styles.featureCardDesc}>
+                  Learnings can be used to make permanent improvements to your
+                  codebase. A <code>/learnings</code> command completes the loop
+                  -- integrating the best insights back into the codebase as
+                  permanent improvements, and deleting the learnings files.
+                </p>
+                <span
+                  className={`${styles.featureLearnMore} ${styles.featureLearnMoreGreen}`}
+                >
+                  Learn more{' '}
+                  <span className={styles.featureLearnMoreArrow}>&rarr;</span>
+                </span>
+              </div>
+            </div>
+          </Link>
+
+          <Link to="/docs/how-tests-work" className={styles.featureCardLink}>
+            <div
+              className={`${styles.featureCard} ${styles.featureCardReversed} ${styles.featureCardEarth}`}
+            >
+              <div className={styles.featureLeft}>
+                <span
+                  className={`${styles.featureNumber} ${styles.featureNumberEarth}`}
+                >
+                  04
                 </span>
                 <div className={styles.featureIcon}>
                   <svg
@@ -367,15 +437,19 @@ function Features(): ReactNode {
                     />
                   </svg>
                 </div>
-                <h3 className={styles.featureCardTitle}>Strict Timeouts</h3>
+                <h3 className={styles.featureCardTitle}>
+                  Strict Test Timeouts
+                </h3>
               </div>
               <div className={styles.featureRight}>
                 <p className={styles.featureCardDesc}>
-                  Each unit test must complete within 10ms. This is a TDD hack -
-                  it forces pure business logic - no I/O, no accidental imports,
-                  no framework startup, which makes it harder for tests to leak
-                  and interfere and allows parallel test runs. If a test touches
-                  the network or spins up a server, it fails.
+                  Each unit test must complete within 10ms. Forces tests to be
+                  pure business logic - no I/O, no testing third-party code.
+                </p>
+                <p className={styles.featureCardDesc}>
+                  This makes it hard for tests to interfere which allows
+                  parallel test runs. If a test touches the network or spins up
+                  a server, it fails.
                 </p>
                 <p className={styles.featureCardDesc}>
                   Auto-retry handles transient performance hiccups like JIT
@@ -384,8 +458,12 @@ function Features(): ReactNode {
                   And I was surprised to learn: agents can fix code based on a
                   flamegraph!
                 </p>
+                <p className={styles.featureCardDesc}>
+                  Your agent can test your entire product in under a minute. Let
+                  it move fast and break things - then fix them.
+                </p>
                 <span
-                  className={`${styles.featureLearnMore} ${styles.featureLearnMoreGreen}`}
+                  className={`${styles.featureLearnMore} ${styles.featureLearnMoreEarth}`}
                 >
                   Learn more{' '}
                   <span className={styles.featureLearnMoreArrow}>&rarr;</span>
@@ -398,14 +476,12 @@ function Features(): ReactNode {
             to="/docs/worktree-parallel-work"
             className={styles.featureCardLink}
           >
-            <div
-              className={`${styles.featureCard} ${styles.featureCardReversed} ${styles.featureCardEarth}`}
-            >
+            <div className={`${styles.featureCard} ${styles.featureCardRed}`}>
               <div className={styles.featureLeft}>
                 <span
-                  className={`${styles.featureNumber} ${styles.featureNumberEarth}`}
+                  className={`${styles.featureNumber} ${styles.featureNumberRed}`}
                 >
-                  04
+                  05
                 </span>
                 <div className={styles.featureIcon}>
                   <svg
@@ -451,7 +527,9 @@ function Features(): ReactNode {
                     <circle cx="26" cy="14" r="3" fill="rgb(239 68 68)" />
                   </svg>
                 </div>
-                <h3 className={styles.featureCardTitle}>Worktree Isolation</h3>
+                <h3 className={styles.featureCardTitle}>
+                  Worktree Isolation: Work On Many Features At Once
+                </h3>
               </div>
               <div className={styles.featureRight}>
                 <p className={styles.featureCardDesc}>
@@ -464,7 +542,7 @@ function Features(): ReactNode {
                   independent development environment with no port collisions.
                 </p>
                 <span
-                  className={`${styles.featureLearnMore} ${styles.featureLearnMoreEarth}`}
+                  className={`${styles.featureLearnMore} ${styles.featureLearnMoreRed}`}
                 >
                   Learn more{' '}
                   <span className={styles.featureLearnMoreArrow}>&rarr;</span>
@@ -477,12 +555,14 @@ function Features(): ReactNode {
             to="/docs/full-stack-monorepo"
             className={styles.featureCardLink}
           >
-            <div className={`${styles.featureCard} ${styles.featureCardRed}`}>
+            <div
+              className={`${styles.featureCard} ${styles.featureCardReversed} ${styles.featureCardEarth}`}
+            >
               <div className={styles.featureLeft}>
                 <span
-                  className={`${styles.featureNumber} ${styles.featureNumberRed}`}
+                  className={`${styles.featureNumber} ${styles.featureNumberEarth}`}
                 >
-                  05
+                  06
                 </span>
                 <div className={styles.featureIcon}>
                   <svg
@@ -532,7 +612,7 @@ function Features(): ReactNode {
                   </svg>
                 </div>
                 <h3 className={styles.featureCardTitle}>
-                  Full-Stack Integration
+                  Full-stack & Built To All Work Together
                 </h3>
               </div>
               <div className={styles.featureRight}>
@@ -551,7 +631,7 @@ function Features(): ReactNode {
                   shared data types between backend and frontend. Bliss!
                 </p>
                 <span
-                  className={`${styles.featureLearnMore} ${styles.featureLearnMoreRed}`}
+                  className={`${styles.featureLearnMore} ${styles.featureLearnMoreEarth}`}
                 >
                   Learn more{' '}
                   <span className={styles.featureLearnMoreArrow}>&rarr;</span>

@@ -130,34 +130,7 @@ Both `PostToolUse` and `PostToolUseFailure` hooks on `Bash` run [`tdd_post_bash.
 
 ## Stop and PreCompact Hooks
 
-- **Stop hook**: Fires when a session ends. Prompts the agent to write learnings to `.claude/learnings/` and review its TDD log for inappropriate overrides.
-- **PreCompact hook**: Fires before context compaction. Same prompt as Stop --- ensures learnings are captured before context is compressed.
-
-The Stop hook prompt:
-
-```
-SESSION ENDING -- If you learned anything noteworthy,
-create .claude/learnings/{date}-{slug}.md. Include surprises,
-key learnings, hook/workflow recommendations. Also review your
-TDD log for inappropriate overrides or skip-red usage.
-```
-
-> [`.claude/settings.json`](https://github.com/cadamsdotcom/CodeLeash/blob/main/.claude/settings.json)
-
-Both hooks encourage the agent to reflect on its session, producing structured notes that benefit future sessions.
-
-### The Learnings Lifecycle
-
-Learnings files accumulate in `.claude/learnings/` over time. They carry forward across sessions via context injection, but they're meant to be **temporary** --- each one represents a surprise or insight that should eventually be absorbed into the codebase itself.
-
-The `/learnings` command completes the cycle. It examines all learnings files, identifies which ones warrant permanent changes (better naming, documentation updates, new checks, script improvements, simplified architecture), plans those changes, and then **deletes the learnings files**. Anything the agent would simply relearn on the job is discarded rather than turned into permanent changes.
-
-The full flow:
-
-1. **Capture**: Stop/PreCompact hooks prompt the main session, and SubagentStart injects `additionalContext` prompting subagents, to write `.claude/learnings/{date}-{slug}.md`
-2. **Carry forward**: Learnings files are re-injected into future sessions so the agent doesn't repeat mistakes
-3. **Integrate**: The user runs `/learnings`, which incorporates worthwhile insights into code, docs, scripts, or tooling
-4. **Clean up**: Learnings files are deleted once their value has been absorbed into the repo
+These hooks power the [Self-Reflection System](/docs/self-reflection) -- see that page for details.
 
 ## Dot Silencing
 

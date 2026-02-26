@@ -206,18 +206,12 @@ function Features(): ReactNode {
               </div>
               <div className={styles.featureRight}>
                 <p className={styles.featureCardDesc}>
-                  <a
-                    href="https://medium.com/@bethqiang/the-absolute-beginners-guide-to-test-driven-development-with-a-practical-example-c39e73a11631"
-                    target="_blank"
-                    rel="noreferrer"
-                  >
-                    Test Driven Development
-                  </a>{' '}
-                  is almost a universal way to build software. Write failing
-                  tests, watch them fail, write code to make them pass, watch
-                  them pass. You're gradually building a repository of every
-                  decision you ever made. Even better, if a decision is{' '}
-                  <i>un-made</i>, tests fail. Alarms go off.
+                  <Link to="/docs/tdd-guard">Test Driven Development</Link> is a
+                  universal way to build software. Write failing tests, watch
+                  them fail, write code to make them pass, watch them pass.
+                  You're gradually building a repository of every decision you
+                  ever made. Even better, if a decision is <i>un-made</i>, tests
+                  fail. Alarms go off.
                 </p>
                 <p className={styles.featureCardDesc}>
                   Forcing the agent through TDD created a repository of all my

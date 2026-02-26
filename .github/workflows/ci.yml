@@ -149,8 +149,6 @@ jobs:
 
       - name: Run TypeScript tests with coverage
         run: npm run test:coverage
-        env:
-          LANG: en_AU.UTF-8
 
       - name: Upload TypeScript coverage reports
         uses: actions/upload-artifact@v4
@@ -228,7 +226,6 @@ jobs:
           uv run pytest tests/integration/ -v
         env:
           ENVIRONMENT: test
-          GOOGLE_API_KEY: ${{ secrets.GOOGLE_API_KEY }}
 
       - name: Stop Supabase
         if: always()
@@ -305,8 +302,6 @@ jobs:
 
       - name: Run E2E tests with isolated Supabase
         run: npm run test:e2e
-        env:
-          GOOGLE_API_KEY: ${{ secrets.GOOGLE_API_KEY }}
 
       - name: Upload test results
         if: failure()

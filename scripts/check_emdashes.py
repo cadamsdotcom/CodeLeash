@@ -24,9 +24,7 @@ def check_file_content(content: str) -> list[Violation]:
     violations: list[Violation] = []
     for lineno, line in enumerate(content.splitlines(), start=1):
         if EM_DASH in line:
-            violations.append(
-                (lineno, f"Found em dash ({EM_DASH}). Use '--' or '-' instead.")
-            )
+            violations.append((lineno, f"Found em dash ({EM_DASH}). Use '-' instead."))
     return violations
 
 

@@ -652,7 +652,7 @@ function Quickstart(): ReactNode {
         <div className={styles.quickstartGrid}>
           <div>
             <h2 className={styles.quickstartHeading}>
-              Two commands to see the
+              Get the repo to see the
               <br />
               <em className={styles.quickstartAccent}>hello world demo.</em>
             </h2>
@@ -664,6 +664,12 @@ function Quickstart(): ReactNode {
           </div>
           <div>
             <div className={styles.codeBlock}>
+              <span className={styles.codePrompt}>$ </span>
+              git clone https://github.com/cadamsdotcom/CodeLeash
+              <br />
+              <span className={styles.codePrompt}>$ </span>
+              cd CodeLeash
+              <br />
               <span className={styles.codePrompt}>$ </span>
               ./init.sh && npm run dev
               <span className={styles.codeComment}>

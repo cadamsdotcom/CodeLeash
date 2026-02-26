@@ -321,3 +321,68 @@ jobs:
             /tmp/e2e_server_*.txt
           if-no-files-found: ignore
           retention-days: 7
+
+  smoke-test:
+    name: Smoke Test
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Install uv
+        uses: astral-sh/setup-uv@v5
+        with:
+          enable-cache: true
+          prune-cache: false
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+          cache: 'npm'
+
+      - name: Install Supabase CLI
+        uses: supabase/setup-cli@v1
+        with:
+          version: latest
+
+      - name: Start dev server and smoke test
+        run: |
+          # Mirror the documented quickstart
+          ./init.sh
+          npm run dev &
+
+          # Wait for server to be ready (up to 30 seconds)
+          echo "Waiting for server to start..."
+          for i in $(seq 1 30); do
+            if curl -s -o /dev/null -w '%{http_code}' http://localhost:8000/health | grep -q 200; then
+              echo "Server is ready!"
+              break
+            fi
+            if [ $i -eq 30 ]; then
+              echo "Server failed to start within 30 seconds"
+              exit 1
+            fi
+            sleep 1
+          done
+
+          # Smoke test: seeded greeting from database appears on the page
+          echo "Testing / for seeded greeting..."
+          RESPONSE=$(curl -s http://localhost:8000/)
+          echo "$RESPONSE" | grep -q 'Hello from CodeLeash!' || {
+            echo "FAIL: / did not contain 'Hello from CodeLeash!'"
+            echo "Response body:"
+            echo "$RESPONSE"
+            exit 1
+          }
+          echo "PASS: / contains seeded greeting from database"
+
+      - name: Stop Supabase
+        if: always()
+        run: supabase stop

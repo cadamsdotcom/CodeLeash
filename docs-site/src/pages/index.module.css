@@ -504,7 +504,7 @@
 .quickstartGrid {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 4rem;
+  gap: 2rem;
   align-items: center;
 }
 
@@ -525,6 +525,7 @@
   font-size: 0.85rem;
   color: var(--grey-dark);
   margin-top: 1.25rem;
+  margin-right: 2rem;
   line-height: 1.65;
 }
 

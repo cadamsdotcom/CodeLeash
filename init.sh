@@ -3,6 +3,13 @@ set -e
 # This script is idempotent - safe to run repeatedly.
 # Each step either skips if already done or overwrites cleanly.
 
+# Cross-platform sed in-place: macOS needs '' argument, Linux does not
+if [[ "$OSTYPE" == "darwin"* ]]; then
+    sedi() { sed -i '' "$@"; }
+else
+    sedi() { sed -i "$@"; }
+fi
+
 # Initial setup: install packages
 npm install
 uv sync --all-extras
@@ -61,7 +68,7 @@ if [ "$SLOT" -gt 0 ]; then
     fi
 
     # Remove any existing port settings and re-add
-    [ -f .env ] && sed -i '' '/^PORT=/d; /^VITE_SERVER_PORT=/d; /^SUPABASE_URL=/d; /^DATABASE_URL=/d; /^# Worktree .* port configuration/d' .env 2>/dev/null || true
+    [ -f .env ] && sedi '/^PORT=/d; /^VITE_SERVER_PORT=/d; /^SUPABASE_URL=/d; /^DATABASE_URL=/d; /^# Worktree .* port configuration/d' .env 2>/dev/null || true
 
     # Add worktree-specific settings
     cat >> .env << EOF
@@ -86,14 +93,14 @@ if [ "$SLOT" -gt 0 ]; then
     cp "$TEMP_DIR/supabase/config.toml" "$TEMP_CONFIG"
     rm -rf "$TEMP_DIR"
 
-    sed -i '' "s/^project_id = .*/project_id = \"$PROJECT_ID\"/" "$TEMP_CONFIG"
-    sed -i '' "s/^port = 54321$/port = $API_PORT/" "$TEMP_CONFIG"
-    sed -i '' "s/^port = 54322$/port = $DB_PORT/" "$TEMP_CONFIG"
-    sed -i '' "s/^shadow_port = 54320$/shadow_port = $SHADOW_PORT/" "$TEMP_CONFIG"
-    sed -i '' "s/^port = 54329$/port = $POOLER_PORT/" "$TEMP_CONFIG"
-    sed -i '' "s/^port = 54323$/port = $STUDIO_PORT/" "$TEMP_CONFIG"
-    sed -i '' "s/^port = 54324$/port = $INBUCKET_PORT/" "$TEMP_CONFIG"
-    sed -i '' "s/^port = 54327$/port = $ANALYTICS_PORT/" "$TEMP_CONFIG"
+    sedi "s/^project_id = .*/project_id = \"$PROJECT_ID\"/" "$TEMP_CONFIG"
+    sedi "s/^port = 54321$/port = $API_PORT/" "$TEMP_CONFIG"
+    sedi "s/^port = 54322$/port = $DB_PORT/" "$TEMP_CONFIG"
+    sedi "s/^shadow_port = 54320$/shadow_port = $SHADOW_PORT/" "$TEMP_CONFIG"
+    sedi "s/^port = 54329$/port = $POOLER_PORT/" "$TEMP_CONFIG"
+    sedi "s/^port = 54323$/port = $STUDIO_PORT/" "$TEMP_CONFIG"
+    sedi "s/^port = 54324$/port = $INBUCKET_PORT/" "$TEMP_CONFIG"
+    sedi "s/^port = 54327$/port = $ANALYTICS_PORT/" "$TEMP_CONFIG"
 fi
 
 mv "$TEMP_CONFIG" supabase/config.toml
@@ -112,11 +119,11 @@ fi
 # Configure .env with Supabase credentials
 echo "🔑 Configuring Supabase credentials in .env..."
 eval "$(supabase status -o env 2>/dev/null | grep -v '^Stopped')"
-sed -i '' "s|^SUPABASE_URL=.*|SUPABASE_URL=$API_URL|" .env
-sed -i '' "s|^SUPABASE_ANON_KEY=.*|SUPABASE_ANON_KEY=$ANON_KEY|" .env
-sed -i '' "s|^SUPABASE_SERVICE_KEY=.*|SUPABASE_SERVICE_KEY=$SERVICE_ROLE_KEY|" .env
-sed -i '' "s|^DATABASE_URL=.*|DATABASE_URL=$DB_URL|" .env
-sed -i '' "s|^JWT_SECRET_KEY=.*|JWT_SECRET_KEY=$JWT_SECRET|" .env
+sedi "s|^SUPABASE_URL=.*|SUPABASE_URL=$API_URL|" .env
+sedi "s|^SUPABASE_ANON_KEY=.*|SUPABASE_ANON_KEY=$ANON_KEY|" .env
+sedi "s|^SUPABASE_SERVICE_KEY=.*|SUPABASE_SERVICE_KEY=$SERVICE_ROLE_KEY|" .env
+sedi "s|^DATABASE_URL=.*|DATABASE_URL=$DB_URL|" .env
+sedi "s|^JWT_SECRET_KEY=.*|JWT_SECRET_KEY=$JWT_SECRET|" .env
 echo "   ✅ Supabase credentials configured"
 
 # Install git pre-commit hook

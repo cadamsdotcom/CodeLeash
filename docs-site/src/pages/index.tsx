@@ -16,10 +16,11 @@ function Hero(): ReactNode {
         <div className={styles.heroRight}>
           <p className={styles.tagline}>Your coding agent, on a leash</p>
           <p className={styles.heroDesc}>
-            An opinionated full-stack scaffold with strong guardrails for
-            AI-assisted development. TDD enforcement, architectural constraints,
-            and code quality automation — because good constraints produce good
-            code.
+            An opinionated, full stack framework & toolkit for high quality
+            software development using Claude Code. Architectural constraints,
+            automated code quality checking & guidance for fixing issues. Helps
+            Claude Code generate high quality code. NOT an AI agent
+            orchestrator!
           </p>
           <div className={styles.heroCta}>
             <Link to="/docs/" className={styles.btnPrimary}>
@@ -74,9 +75,7 @@ function LeashComparison(): ReactNode {
       <div className={styles.container}>
         <div className={styles.leashGrid}>
           <div className={styles.leashCard}>
-            <h3 className={styles.leashHeadingBad}>
-              Your coding agent without a leash
-            </h3>
+            <h3 className={styles.leashHeadingBad}>Coding agent off leash:</h3>
             <div className={styles.leashImageWrap}>
               <img
                 src="/img/leash-dont-walk.jpg"
@@ -86,9 +85,7 @@ function LeashComparison(): ReactNode {
             </div>
           </div>
           <div className={styles.leashCard}>
-            <h3 className={styles.leashHeadingGood}>
-              Your coding agent on a leash
-            </h3>
+            <h3 className={styles.leashHeadingGood}>With a leash:</h3>
             <div className={styles.leashImageWrap}>
               <img
                 src="/img/leash-cant-walk.jpg"
@@ -110,29 +107,47 @@ function LeashComparison(): ReactNode {
           . I've been a software engineer for over 20 years.
         </p>
         <p className={styles.leashDesc}>
-          We are in a time of change! Claude Code writes all code for my
-          product,{' '}
+          Claude Code writes all code for my product,{' '}
           <a href="https://approviq.com" target="_blank" rel="noreferrer">
             ApprovIQ
           </a>{' '}
-          - but it doesn't do it alone.
+          - with{' '}
+          <a
+            href="https://github.com/cadamsdotcom/CodeLeash/commit/859910f86cd01d4fb8512a305d0c5cc6d231684c"
+            target="_blank"
+            rel="noreferrer"
+          >
+            no em-dashes
+          </a>
+          !
         </p>
         <p className={styles.leashDesc}>
-          (And no, that wasn't an em-dash just now.)
+          Agents go off the rails. They get distracted. Asking nicely with
+          AGENTS.md and system prompts and interrupting their work to remind
+          them of stuff... yeah, it works... sort of... most of the time. That's
+          a problem, because, "most of the time" doesn't cut it for building
+          serious software.
         </p>
         <p className={styles.leashDesc}>
-          Anyway. Agents go off the rails and get distracted. Asking nicely
-          doesn&apos;t work. CodeLeash puts guardrails <em>outside</em> the
-          agent, so it <em>can&apos;t</em> go off the rails. While everyone else
-          is building the tallest tower of agent orchestration they can build,
-          I've been tightly controlling outcomes by sharply defining what
-          quality code looks like, and getting results. CodeLeash enforces
-          quality with code based hooks, scripts, tools, and loops, in a way the
-          agent can&apos;t ignore or bypass.
+          CodeLeash puts guardrails <em>outside</em> the agent, so it{' '}
+          <em>can&apos;t</em> go off the rails, forget them or ignore them.
+          While everyone and their dog is building the tallest tower of agent
+          orchestration they can, I've been tightly controlling outcomes in
+          ApprovIQ&apos;s codebase, by sharply defining what quality code looks
+          like, rubbing Claude Code's nose in it with automation, and forcing it
+          to fix its mistakes - all while I am off doing something else.
+          CodeLeash enforces quality with code based hooks, scripts, tools, and
+          loops, in a way the agent can&apos;t ignore or bypass.
         </p>
         <p className={styles.leashDesc}>
-          We don&apos;t ask agents nicely, we let them fail, then tell them how
-          to correct it. That&apos;s why I&apos;ve used the analogy of a leash.
+          Look at the images. Notice: "Can&apos;t walk on the road" is NOT in a
+          speech bubble! A leash means never barking orders.
+        </p>
+        <p className={styles.leashDesc}>
+          Agents today cannot do everything you ask while also doing their task.
+          Create guardrails that automatically show how they failed to live up
+          to your standards while guiding them to correct their mistakes. Hence
+          the analogy of a leash.
         </p>
       </div>
     </section>
@@ -768,7 +783,7 @@ export default function Home(): ReactNode {
   return (
     <Layout
       title="Your coding agent, on a leash"
-      description="An opinionated full-stack scaffold with strong guardrails for AI-assisted development. TDD enforcement, architectural constraints, and code quality automation."
+      description="An opinionated, full stack framework & toolkit for high quality software development using Claude Code. Test-Driven Development process enforcement, architectural constraints, and code quality automation."
     >
       <div className={styles.page}>
         <Hero />

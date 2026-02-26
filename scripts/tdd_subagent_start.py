@@ -1,4 +1,4 @@
-"""TDD Guard — SubagentStart hook.
+"""TDD Guard - SubagentStart hook.
 
 Creates a per-agent TDD log file and injects additionalContext so the
 subagent knows which log file to use for its TDD cycles.
@@ -14,7 +14,7 @@ def main() -> None:
     agent_id = input_data.get("agent_id", "")
 
     if not agent_id:
-        # No agent_id — nothing to do
+        # No agent_id - nothing to do
         return
 
     log_name = f"tdd-agent-{agent_id}.log"

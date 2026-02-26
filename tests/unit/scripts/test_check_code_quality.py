@@ -1,4 +1,4 @@
-"""Tests for check_code_quality.py — code quality checks across the codebase."""
+"""Tests for check_code_quality.py - code quality checks across the codebase."""
 
 from scripts.check_code_quality import check_source
 

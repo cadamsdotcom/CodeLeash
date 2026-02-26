@@ -17,7 +17,7 @@ def test_subagent_stop_writes_finished_marker(
 
     # Create an existing agent log file with some content
     log_file = tmp_path / "tdd-agent-abc123.log"
-    log_file.write_text("## Red — 2026-01-01T00:00:00+00:00\nTest: tests/test_foo.py\n")
+    log_file.write_text("## Red - 2026-01-01T00:00:00+00:00\nTest: tests/test_foo.py\n")
 
     input_data = {"agent_id": "abc123"}
     monkeypatch.setattr("sys.stdin", io.StringIO(json.dumps(input_data)))

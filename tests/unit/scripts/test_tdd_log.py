@@ -1,4 +1,4 @@
-"""Tests for tdd_log.py — state validation in cmd_green."""
+"""Tests for tdd_log.py - state validation in cmd_green."""
 
 import argparse
 from pathlib import Path
@@ -47,7 +47,7 @@ class TestCmdGreenRequiresRedCycle:
     """cmd_green must reject Green intents when no Red cycle has occurred."""
 
     def test_rejects_from_initial_state(self, tmp_path: Path) -> None:
-        """Green from initial state is rejected — no Red cycle preceded it."""
+        """Green from initial state is rejected - no Red cycle preceded it."""
         log_path = tmp_path / "tdd-test.log"
         # Empty log → initial state
         _write_log(log_path, "")
@@ -65,11 +65,11 @@ class TestCmdGreenRequiresRedCycle:
         assert "## Green" not in log_path.read_text()
 
     def test_rejects_from_writing_tests_state(self, tmp_path: Path) -> None:
-        """Green from writing_tests is rejected — test hasn't been run yet."""
+        """Green from writing_tests is rejected - test hasn't been run yet."""
         log_path = tmp_path / "tdd-test.log"
         _write_log(
             log_path,
-            "## Red — 2026-01-01T00:00:00+00:00\n"
+            "## Red - 2026-01-01T00:00:00+00:00\n"
             "Test: tests/test_foo.py\n"
             "Expects: should fail\n\n",
         )
@@ -87,14 +87,14 @@ class TestCmdGreenRequiresRedCycle:
         assert log_path.read_text().count("## Green") == 0
 
     def test_allows_from_red_state(self, tmp_path: Path) -> None:
-        """Green from red state is allowed — test was run and failed."""
+        """Green from red state is allowed - test was run and failed."""
         log_path = tmp_path / "tdd-test.log"
         _write_log(
             log_path,
-            "## Red — 2026-01-01T00:00:00+00:00\n"
+            "## Red - 2026-01-01T00:00:00+00:00\n"
             "Test: tests/test_foo.py\n"
             "Expects: should fail\n\n"
-            "[test] npm run test:python -- tests/test_foo.py — FAILED\n",
+            "[test] npm run test:python -- tests/test_foo.py - FAILED\n",
         )
 
         args = _make_green_args(
@@ -109,15 +109,15 @@ class TestCmdGreenRequiresRedCycle:
         assert "## Green" in log_path.read_text()
 
     def test_allows_from_making_tests_pass_state(self, tmp_path: Path) -> None:
-        """Green from making_tests_pass is allowed — re-declaring the allowlist."""
+        """Green from making_tests_pass is allowed - re-declaring the allowlist."""
         log_path = tmp_path / "tdd-test.log"
         _write_log(
             log_path,
-            "## Red — 2026-01-01T00:00:00+00:00\n"
+            "## Red - 2026-01-01T00:00:00+00:00\n"
             "Test: tests/test_foo.py\n"
             "Expects: should fail\n\n"
-            "[test] npm run test:python -- tests/test_foo.py — FAILED\n"
-            "\n## Green — 2026-01-01T00:01:00+00:00\n"
+            "[test] npm run test:python -- tests/test_foo.py - FAILED\n"
+            "\n## Green - 2026-01-01T00:01:00+00:00\n"
             "Change: implement feature\n"
             "File: src/foo.py\n\n",
         )
@@ -161,7 +161,7 @@ class TestSkipRedFlag:
         log_path = tmp_path / "tdd-test.log"
         _write_log(
             log_path,
-            "## Red — 2026-01-01T00:00:00+00:00\n"
+            "## Red - 2026-01-01T00:00:00+00:00\n"
             "Test: tests/test_foo.py\n"
             "Expects: should fail\n\n",
         )
@@ -307,10 +307,10 @@ class TestCmdGreenWritesLog:
         log_path = tmp_path / "tdd-test.log"
         _write_log(
             log_path,
-            "## Red — 2026-01-01T00:00:00+00:00\n"
+            "## Red - 2026-01-01T00:00:00+00:00\n"
             "Test: tests/test_foo.py\n"
             "Expects: should fail\n\n"
-            "[test] npm run test:python -- tests/test_foo.py — FAILED\n",
+            "[test] npm run test:python -- tests/test_foo.py - FAILED\n",
         )
 
         args = _make_green_args(
@@ -336,7 +336,7 @@ class TestOverrideDetection:
         log_path = tmp_path / "tdd-test.log"
         _write_log(
             log_path,
-            "## Red — 2026-01-01T00:00:00+00:00\n"
+            "## Red - 2026-01-01T00:00:00+00:00\n"
             "Test: tests/test_foo.py\n"
             "Expects: should fail\n\n",
         )
@@ -357,11 +357,11 @@ class TestOverrideDetection:
         log_path = tmp_path / "tdd-test.log"
         _write_log(
             log_path,
-            "## Red — 2026-01-01T00:00:00+00:00\n"
+            "## Red - 2026-01-01T00:00:00+00:00\n"
             "Test: tests/test_foo.py\n"
             "Expects: should fail\n\n"
-            "[test] npm run test:python -- tests/test_foo.py — FAILED\n"
-            "\n## Green — 2026-01-01T00:01:00+00:00\n"
+            "[test] npm run test:python -- tests/test_foo.py - FAILED\n"
+            "\n## Green - 2026-01-01T00:01:00+00:00\n"
             "Change: implement feature\n"
             "File: src/foo.py\n\n",
         )
@@ -392,17 +392,17 @@ class TestOverrideDetection:
 
         content = log_path.read_text()
         assert "(override" not in content
-        assert "## Red —" in content
+        assert "## Red -" in content
 
     def test_red_from_red_is_override(self, tmp_path: Path) -> None:
         """Red from red state is an override."""
         log_path = tmp_path / "tdd-test.log"
         _write_log(
             log_path,
-            "## Red — 2026-01-01T00:00:00+00:00\n"
+            "## Red - 2026-01-01T00:00:00+00:00\n"
             "Test: tests/test_foo.py\n"
             "Expects: should fail\n\n"
-            "[test] npm run test:python -- tests/test_foo.py — FAILED\n",
+            "[test] npm run test:python -- tests/test_foo.py - FAILED\n",
         )
 
         args = _make_red_args(
@@ -421,11 +421,11 @@ class TestOverrideDetection:
         log_path = tmp_path / "tdd-test.log"
         _write_log(
             log_path,
-            "## Red — 2026-01-01T00:00:00+00:00\n"
+            "## Red - 2026-01-01T00:00:00+00:00\n"
             "Test: tests/test_foo.py\n"
             "Expects: should fail\n\n"
-            "[test] npm run test:python -- tests/test_foo.py — FAILED\n"
-            "\n## Green — 2026-01-01T00:01:00+00:00\n"
+            "[test] npm run test:python -- tests/test_foo.py - FAILED\n"
+            "\n## Green - 2026-01-01T00:01:00+00:00\n"
             "Change: implement feature\n"
             "File: src/foo.py\n\n",
         )
@@ -447,10 +447,10 @@ class TestOverrideDetection:
         log_path = tmp_path / "tdd-test.log"
         _write_log(
             log_path,
-            "## Red — 2026-01-01T00:00:00+00:00\n"
+            "## Red - 2026-01-01T00:00:00+00:00\n"
             "Test: tests/test_foo.py\n"
             "Expects: should fail\n\n"
-            "[test] npm run test:python -- tests/test_foo.py — FAILED\n",
+            "[test] npm run test:python -- tests/test_foo.py - FAILED\n",
         )
 
         args = _make_green_args(
@@ -464,14 +464,14 @@ class TestOverrideDetection:
         assert exit_code == 0
         content = log_path.read_text()
         assert "(override" not in content
-        assert "## Green —" in content
+        assert "## Green -" in content
 
     def test_skip_red_from_writing_tests_is_override(self, tmp_path: Path) -> None:
         """Skip-red from writing_tests state is an override."""
         log_path = tmp_path / "tdd-test.log"
         _write_log(
             log_path,
-            "## Red — 2026-01-01T00:00:00+00:00\n"
+            "## Red - 2026-01-01T00:00:00+00:00\n"
             "Test: tests/test_foo.py\n"
             "Expects: should fail\n\n",
         )
@@ -508,4 +508,4 @@ class TestOverrideDetection:
         assert exit_code == 0
         content = log_path.read_text()
         assert "(override" not in content
-        assert "## Green (skip-red) —" in content
+        assert "## Green (skip-red) -" in content

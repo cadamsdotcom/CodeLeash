@@ -33,7 +33,7 @@ def test_edit_test_during_green_is_blocked(
     # Set up making_tests_pass state (non-skip-red)
     _write_log(
         log_path,
-        "## Green — 2026-01-01T00:00:00+00:00\n"
+        "## Green - 2026-01-01T00:00:00+00:00\n"
         "Change: implement feature\n"
         "File: src/foo.py\n\n",
     )
@@ -69,7 +69,7 @@ def test_edit_test_during_skip_red_green_is_allowed(
     # Set up skip-red making_tests_pass state
     _write_log(
         log_path,
-        "## Green (skip-red) — 2026-01-01T00:00:00+00:00\n"
+        "## Green (skip-red) - 2026-01-01T00:00:00+00:00\n"
         "Change: add test coverage\n"
         "File: tests/test_foo.py\n"
         "Reason: adding-coverage\n\n",
@@ -107,7 +107,7 @@ def test_large_green_allowlist_emits_warning(tmp_path: Path, capsys: object) -> 
     file_lines = "\n".join(f"File: {f}" for f in files)
     _write_log(
         log_path,
-        f"## Green — 2026-01-01T00:00:00+00:00\n"
+        f"## Green - 2026-01-01T00:00:00+00:00\n"
         f"Change: big change\n"
         f"{file_lines}\n\n",
     )
@@ -126,7 +126,7 @@ def test_small_green_allowlist_no_warning(tmp_path: Path, capsys: object) -> Non
     # Create a making_tests_pass state with 3 files
     _write_log(
         log_path,
-        "## Green — 2026-01-01T00:00:00+00:00\n"
+        "## Green - 2026-01-01T00:00:00+00:00\n"
         "Change: small change\n"
         "File: src/a.py\n"
         "File: src/b.py\n"
@@ -147,10 +147,10 @@ def test_failure_after_making_tests_pass_stays_making_tests_pass(
 
     _write_log(
         log_path,
-        "## Green — 2026-01-01T00:00:00+00:00\n"
+        "## Green - 2026-01-01T00:00:00+00:00\n"
         "Change: implement feature\n"
         "File: src/foo.py\n\n"
-        "[test] npm run test:python — FAILED(1)\n",
+        "[test] npm run test:python - FAILED(1)\n",
     )
 
     assert read_state(log_path) == "making_tests_pass"
@@ -162,10 +162,10 @@ def test_failure_after_writing_tests_becomes_red(tmp_path: Path) -> None:
 
     _write_log(
         log_path,
-        "## Red — 2026-01-01T00:00:00+00:00\n"
+        "## Red - 2026-01-01T00:00:00+00:00\n"
         "Test: tests/test_foo.py\n"
         "Expects: should fail\n\n"
-        "[test] npm run test:python — FAILED(1)\n",
+        "[test] npm run test:python - FAILED(1)\n",
     )
 
     assert read_state(log_path) == "red"
@@ -177,10 +177,10 @@ def test_success_after_making_tests_pass_resets_to_initial(tmp_path: Path) -> No
 
     _write_log(
         log_path,
-        "## Green — 2026-01-01T00:00:00+00:00\n"
+        "## Green - 2026-01-01T00:00:00+00:00\n"
         "Change: implement feature\n"
         "File: src/foo.py\n\n"
-        "[test] npm run test:python — SUCCEEDED\n",
+        "[test] npm run test:python - SUCCEEDED\n",
     )
 
     assert read_state(log_path) == "initial"
@@ -223,7 +223,7 @@ def test_blocked_edit_allowed_by_agent_log(
     agent_log = tmp_path / "tdd-agent-test123.log"
     _write_log(
         agent_log,
-        "## Green — 2026-01-01T00:00:00+00:00\n"
+        "## Green - 2026-01-01T00:00:00+00:00\n"
         "Change: implement feature\n"
         "File: src/foo.py\n\n",
     )
@@ -249,10 +249,10 @@ def test_finished_agent_log_is_skipped(
     agent_log = tmp_path / "tdd-agent-done456.log"
     _write_log(
         agent_log,
-        "## Green — 2026-01-01T00:00:00+00:00\n"
+        "## Green - 2026-01-01T00:00:00+00:00\n"
         "Change: implement feature\n"
         "File: src/foo.py\n\n"
-        "## FINISHED — 2026-01-01T01:00:00+00:00\n",
+        "## FINISHED - 2026-01-01T01:00:00+00:00\n",
     )
 
     _setup_main_with_agent_logs(
@@ -293,7 +293,7 @@ def test_agent_log_writing_tests_allows_test_edits(
     agent_log = tmp_path / "tdd-agent-red789.log"
     _write_log(
         agent_log,
-        "## Red — 2026-01-01T00:00:00+00:00\n"
+        "## Red - 2026-01-01T00:00:00+00:00\n"
         "Test: tests/test_foo.py\n"
         "Expects: should fail\n\n",
     )

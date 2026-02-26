@@ -1,4 +1,4 @@
-"""TDD Guard — PreToolUse hook for Edit|Write.
+"""TDD Guard - PreToolUse hook for Edit|Write.
 
 Enforces the Red-Green-Refactor cycle by allowing or blocking file edits
 based on the current TDD state derived from the per-agent log.
@@ -123,7 +123,7 @@ def warn_large_allowlist(allowed: set[str], threshold: int = 5) -> None:
 
 def blocked_initial(log_name: str) -> str:
     return f"""\
-BLOCKED: Red-Green-Refactor — log your Red declaration first.
+BLOCKED: Red-Green-Refactor - log your Red declaration first.
 Run (fill in the placeholders):
 
   uv run python -m scripts.tdd_log --log "{log_name}" red --test "path/to/test_file" --expects "test_name fails because ..." """
@@ -131,7 +131,7 @@ Run (fill in the placeholders):
 
 def blocked_writing_tests_impl() -> str:
     return """\
-BLOCKED: You're in the writing-tests phase — only test files can be edited.
+BLOCKED: You're in the writing-tests phase - only test files can be edited.
 Write your failing test, then run it."""
 
 
@@ -214,7 +214,7 @@ def log_edit(
     """Append an edit attempt to the TDD log."""
     log_path.parent.mkdir(parents=True, exist_ok=True)
     with open(log_path, "a") as f:
-        f.write(f"[edit] {file_path} ({kind}) state={state} — {result}\n")
+        f.write(f"[edit] {file_path} ({kind}) state={state} - {result}\n")
 
 
 def main() -> None:

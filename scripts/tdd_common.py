@@ -64,9 +64,9 @@ def read_state(log_path: Path) -> str:
         stripped = line.rstrip()
         if not stripped:
             continue
-        if stripped.startswith("[test]") and stripped.endswith("— SUCCEEDED"):
+        if stripped.startswith("[test]") and stripped.endswith("- SUCCEEDED"):
             return STATES["initial"]
-        if stripped.startswith("[test]") and "— FAILED" in stripped:
+        if stripped.startswith("[test]") and "- FAILED" in stripped:
             # Look further back for the preceding declaration
             preceding = _find_preceding_declaration(lines, len(lines) - 1 - i)
             if preceding == "green":

@@ -1,4 +1,4 @@
-"""Tests for check_soft_deletes.py — detect hard deletes on soft-deleteable tables."""
+"""Tests for check_soft_deletes.py - detect hard deletes on soft-deleteable tables."""
 
 from scripts.check_soft_deletes import (
     find_direct_delete_chains,

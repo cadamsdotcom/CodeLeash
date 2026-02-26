@@ -39,9 +39,9 @@ def read_state(log_path: Path) -> str:
 
     for i, line in enumerate(reversed(lines)):
         stripped = line.rstrip()
-        if stripped.startswith("[test]") and stripped.endswith("— SUCCEEDED"):
+        if stripped.startswith("[test]") and stripped.endswith("- SUCCEEDED"):
             return "initial"
-        if stripped.startswith("[test]") and "— FAILED" in stripped:
+        if stripped.startswith("[test]") and "- FAILED" in stripped:
             preceding = _find_preceding_declaration(lines, len(lines) - 1 - i)
             if preceding == "green":
                 return "making_tests_pass"
@@ -57,9 +57,9 @@ def read_state(log_path: Path) -> str:
 
 Summary of state derivation rules:
 
-- `[test] ... — SUCCEEDED` → `initial`
-- `[test] ... — FAILED` after a `## Green` header → `making_tests_pass` (test failed during Green)
-- `[test] ... — FAILED` after a `## Red` header → `red` (test failed as expected)
+- `[test] ... - SUCCEEDED` → `initial`
+- `[test] ... - FAILED` after a `## Green` header → `making_tests_pass` (test failed during Green)
+- `[test] ... - FAILED` after a `## Red` header → `red` (test failed as expected)
 - `## Red ...` → `writing_tests`
 - `## Green ...` → `making_tests_pass`
 
@@ -156,17 +156,17 @@ Test commands tagged as `test` with `SUCCEEDED` status reset the state to `initi
 A full Red-Green cycle produces log entries like this:
 
 ```
-## Red — 2026-02-24 10:30:00
+## Red - 2026-02-24 10:30:00
 Test: tests/unit/services/test_greeting_service.py
 Expects: test_create_greeting fails because create() method doesn't exist yet
 
-[test] npm run test:python -- tests/unit/services/test_greeting_service.py -v — FAILED
+[test] npm run test:python -- tests/unit/services/test_greeting_service.py -v - FAILED
 
-## Green — 2026-02-24 10:32:00
+## Green - 2026-02-24 10:32:00
 Change: Add create() method to GreetingService
 File: app/services/greeting.py
 
-[test] npm run test:python -- tests/unit/services/test_greeting_service.py -v — SUCCEEDED
+[test] npm run test:python -- tests/unit/services/test_greeting_service.py -v - SUCCEEDED
 ```
 
 ## Plan Exit Hook

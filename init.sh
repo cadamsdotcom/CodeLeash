@@ -1,6 +1,6 @@
 #!/bin/bash
 set -e
-# This script is idempotent — safe to run repeatedly.
+# This script is idempotent - safe to run repeatedly.
 # Each step either skips if already done or overwrites cleanly.
 
 # Initial setup: install packages

@@ -1,4 +1,4 @@
-"""TDD Guard — SessionStart hook.
+"""TDD Guard - SessionStart hook.
 
 Outputs the TDD log file name so Claude knows it from the start of the session.
 """

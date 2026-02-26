@@ -49,7 +49,7 @@ Check for these classes of issues:
   - **Worker**: Access container via `app/core/worker_dependencies.py`
   - **Scripts/CLI**: Direct `_get_container()` calls are acceptable
   - **Tests**: Direct instantiation is acceptable
-- Watch for `SomeService(...)` or `SomeRepository(...)` constructor calls in route handlers, other services, or middleware — these should use the container instead.
+- Watch for `SomeService(...)` or `SomeRepository(...)` constructor calls in route handlers, other services, or middleware - these should use the container instead.
 - If a new service or repository class is introduced, does it have a corresponding factory method in `Container` and a dependency function in the appropriate dependencies module?
 - Are there direct calls to infrastructure clients (e.g., `get_supabase_service_client()`) that bypass an already-injected dependency?
 

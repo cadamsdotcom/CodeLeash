@@ -53,7 +53,7 @@ For test efficiency:
 - Could @pytest.mark.parametrize replace groups of near-identical test functions
   that vary only in input/expected values?
 - Does the plan say "no test needed" or rationalize skipping tests for any changed file?
-  If so, flag it — if it's worth implementing, it's worth testing.
+  If so, flag it - if it's worth implementing, it's worth testing.
 - If the plan modifies UI rendering (new elements, conditional display, disabled states,
   event handlers), does it require component-level tests? Hook tests and backend tests
   do NOT substitute for component tests that verify rendering and interaction.
@@ -134,9 +134,9 @@ Claude: Before the user approves this plan, verify it addresses:
    - Are role-based access checks present?
    - If the plan adds or updates queries or handles user data, are the updatable fields restricted to only those needed?
 11. If the plan modifies UI rendering (new elements, conditional display, disabled states,
-    event handlers), component tests are required — not optional. Hook tests verify data flow,
+    event handlers), component tests are required - not optional. Hook tests verify data flow,
     backend tests verify the API, but neither verifies that elements render or wire events correctly.
-12. Reject any plan section that says "no test needed" — if it's worth implementing, it's worth testing.
+12. Reject any plan section that says "no test needed" - if it's worth implementing, it's worth testing.
 13. Add a CLEANUP step at the end of your plan that addresses:
    - Remove "absence tests" used during TDD to verify removal of features/routes/UI
      (tests that assert something is NOT present are scaffolding, not long-term value)
@@ -145,7 +145,7 @@ Claude: Before the user approves this plan, verify it addresses:
    - Remove stale TODO/FIXME comments that were addressed during implementation
    - Address any test construction issues from item 9 that slipped through
    - Clean up unused Pydantic model fields and API response fields
-   - Run pre-commit checks (npm run pre-commit) and fix all failures — this catches
+   - Run pre-commit checks (npm run pre-commit) and fix all failures - this catches
      unused imports, dead functions, vestigial conditionals, unused routes, and more
 """,
         file=sys.stderr,

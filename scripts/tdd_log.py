@@ -1,4 +1,4 @@
-"""TDD Guard — CLI for writing Red/Green log declarations.
+"""TDD Guard - CLI for writing Red/Green log declarations.
 
 Replaces fragile echo chains with a single script invocation.
 The --log flag specifies the log filename (resolved relative to project root).
@@ -35,7 +35,7 @@ def cmd_red(args: argparse.Namespace) -> None:
 
     with open(log_path, "a") as f:
         f.write("\n")
-        f.write(f"## {phase_label} — {_now_iso()}\n")
+        f.write(f"## {phase_label} - {_now_iso()}\n")
         f.write(f"Test: {args.test}\n")
         f.write(f"Expects: {args.expects}\n")
         f.write("\n")
@@ -99,7 +99,7 @@ def cmd_green(args: argparse.Namespace) -> int:
 
     with open(log_path, "a") as f:
         f.write("\n")
-        f.write(f"## {phase_label} — {_now_iso()}\n")
+        f.write(f"## {phase_label} - {_now_iso()}\n")
         f.write(f"Change: {args.change}\n")
         for file in args.file:
             f.write(f"File: {file}\n")

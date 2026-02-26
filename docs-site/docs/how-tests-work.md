@@ -159,7 +159,7 @@ Setup output (Supabase startup, frontend build, server startup) is captured in a
 
 ### Cleaning Up Orphaned E2E Resources
 
-Each E2E run creates an isolated Supabase instance with its own Docker containers, volumes, and networks. If a run is interrupted (Ctrl-C, crash, timeout), these resources can be left behind. Over time, stale volumes and containers from past runs can accumulate and cause E2E tests to start failing unexpectedly — typically with port conflicts, Supabase startup errors, or database state issues. If E2E tests begin failing and the cause isn't obvious, orphaned resources from previous runs are a likely culprit.
+Each E2E run creates an isolated Supabase instance with its own Docker containers, volumes, and networks. If a run is interrupted (Ctrl-C, crash, timeout), these resources can be left behind. Over time, stale volumes and containers from past runs can accumulate and cause E2E tests to start failing unexpectedly - typically with port conflicts, Supabase startup errors, or database state issues. If E2E tests begin failing and the cause isn't obvious, orphaned resources from previous runs are a likely culprit.
 
 Run the cleanup script to remove them:
 
@@ -169,12 +169,12 @@ bash scripts/cleanup_orphaned_e2e.sh
 
 The script targets only E2E test resources and is safe to run at any time. It cleans up:
 
-- **E2E containers** — Docker containers with `_e2e-` in their name
-- **Random-named Supabase containers** — Exited containers from `public.ecr.aws/supabase/` images that aren't part of a named project
-- **E2E volumes** — Docker volumes with `_e2e-` in their name
-- **Dangling Supabase volumes** — Volumes prefixed with `supabase_` not referenced by any container
-- **E2E networks** — Docker networks with `_e2e-` in their name
-- **Temporary directories** — Contents of `/tmp/supabase-e2e/`
+- **E2E containers** - Docker containers with `_e2e-` in their name
+- **Random-named Supabase containers** - Exited containers from `public.ecr.aws/supabase/` images that aren't part of a named project
+- **E2E volumes** - Docker volumes with `_e2e-` in their name
+- **Dangling Supabase volumes** - Volumes prefixed with `supabase_` not referenced by any container
+- **E2E networks** - Docker networks with `_e2e-` in their name
+- **Temporary directories** - Contents of `/tmp/supabase-e2e/`
 
 ## Dot Silencing
 

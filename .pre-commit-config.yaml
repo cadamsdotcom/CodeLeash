@@ -123,6 +123,12 @@ repos:
         language: system
         pass_filenames: false
         always_run: true
+      - id: check-emdashes
+        name: Check for em dashes
+        entry: uv run python scripts/check_emdashes.py
+        language: system
+        pass_filenames: false
+        always_run: true
 
   - repo: https://github.com/jendrikseipp/vulture
     rev: v2.13

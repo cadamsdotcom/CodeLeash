@@ -1,4 +1,4 @@
-"""TDD Guard — PostToolUse / PostToolUseFailure hook for Bash.
+"""TDD Guard - PostToolUse / PostToolUseFailure hook for Bash.
 
 Logs bash commands to the per-agent TDD log.
 
@@ -51,7 +51,7 @@ def main() -> None:
 
     log_path.parent.mkdir(parents=True, exist_ok=True)
     with open(log_path, "a") as f:
-        f.write(f"[{tag}] {command_single_line} — {suffix}\n")
+        f.write(f"[{tag}] {command_single_line} - {suffix}\n")
 
     sys.exit(0)
 

@@ -80,7 +80,7 @@ function LeashComparison(): ReactNode {
             <div className={styles.leashImageWrap}>
               <img
                 src="/img/leash-dont-walk.jpg"
-                alt="Frustrated person telling their dog not to walk on the road — the dog ignores them"
+                alt="Frustrated person telling their dog not to walk on the road - the dog ignores them"
                 className={styles.leashImage}
               />
             </div>
@@ -92,7 +92,7 @@ function LeashComparison(): ReactNode {
             <div className={styles.leashImageWrap}>
               <img
                 src="/img/leash-cant-walk.jpg"
-                alt="Happy person walking their dog on a leash — the dog can't walk on the road"
+                alt="Happy person walking their dog on a leash - the dog can't walk on the road"
                 className={styles.leashImage}
               />
             </div>

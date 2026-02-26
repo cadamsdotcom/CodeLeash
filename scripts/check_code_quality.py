@@ -3,9 +3,9 @@
 Check code quality across the codebase.
 
 Enforces zero-tolerance rules:
-1. No page.wait_for_timeout() calls in e2e tests — use polling utilities or Playwright built-in waiting
-2. No if/else branches in e2e test_* methods — tests should fully control system state
-3. No repository.client access outside repository files — use repository methods instead
+1. No page.wait_for_timeout() calls in e2e tests - use polling utilities or Playwright built-in waiting
+2. No if/else branches in e2e test_* methods - tests should fully control system state
+3. No repository.client access outside repository files - use repository methods instead
 """
 
 import ast
@@ -105,7 +105,7 @@ def _check_conditionals(source: str) -> list[Violation]:
                 (
                     child.lineno,
                     "conditional",
-                    "Avoid if/else branches in test methods — tests should control state directly",
+                    "Avoid if/else branches in test methods - tests should control state directly",
                 )
             )
 
@@ -191,7 +191,7 @@ def _check_mock_spec_bypass(source: str) -> list[Violation]:
                 (
                     node.lineno,
                     "mock-spec-bypass",
-                    "Attribute assignment on spec-based mock bypasses spec validation — use configure_mock() or create_autospec()",
+                    "Attribute assignment on spec-based mock bypasses spec validation - use configure_mock() or create_autospec()",
                 )
             )
 

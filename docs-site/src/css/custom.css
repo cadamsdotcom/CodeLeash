@@ -1,5 +1,5 @@
 :root {
-  /* Docusaurus primary palette — recalculated around park sky rgb(70, 170, 220) */
+  /* Docusaurus primary palette - recalculated around park sky rgb(70, 170, 220) */
   --ifm-color-primary: rgb(70, 170, 220);
   --ifm-color-primary-dark: rgb(50, 155, 210);
   --ifm-color-primary-darker: rgb(40, 148, 205);
@@ -12,7 +12,7 @@
   --ifm-font-size-base: 17px;
   --docusaurus-highlighted-code-line-bg: rgba(0, 0, 0, 0.1);
 
-  /* Brand tokens — warmed neutrals */
+  /* Brand tokens - warmed neutrals */
   --brand-black: rgb(40, 35, 30);
   --brand-blue: rgb(105, 196, 240);
   --brand-green: rgb(34, 197, 94);

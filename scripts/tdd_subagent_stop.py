@@ -1,4 +1,4 @@
-"""TDD Guard — SubagentStop hook.
+"""TDD Guard - SubagentStop hook.
 
 Writes a FINISHED marker to the per-agent TDD log file so that
 tdd_pre_edit.py's fallback chain skips finished agent logs.
@@ -24,7 +24,7 @@ def main() -> None:
 
     timestamp = datetime.now(UTC).astimezone().isoformat(timespec="seconds")
     with open(log_path, "a") as f:
-        f.write(f"\n## FINISHED — {timestamp}\n")
+        f.write(f"\n## FINISHED - {timestamp}\n")
 
 
 if __name__ == "__main__":

@@ -33,7 +33,7 @@ class _DeleteChainVisitor(ast.NodeVisitor):
 
     def visit_FunctionDef(self, node: ast.FunctionDef) -> None:
         old = self.in_base_delete
-        # Allow BaseRepository.delete method — it handles soft-delete internally
+        # Allow BaseRepository.delete method - it handles soft-delete internally
         if node.name == "delete":
             # Check if this is inside a class named BaseRepository
             # We detect this by checking parent context set during walk

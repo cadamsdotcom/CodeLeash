@@ -42,30 +42,26 @@ function StateStrip(): ReactNode {
   return (
     <div className={styles.stateStrip}>
       <div className={styles.stateStripInner}>
-        <span className={`${styles.stateNode} ${styles.stateNodeActive}`}>
-          initial
-        </span>
+        <span className={`${styles.stateNode} ${styles.stateNode}`}>BEGIN</span>
         <span className={styles.stateArrow}>&rarr;</span>
-        <span className={styles.stateLabel}>log red</span>
+        <span className={styles.stateLabel}>write tests</span>
         <span className={styles.stateArrow}>&rarr;</span>
-        <span className={styles.stateNode}>writing_tests</span>
-        <span className={styles.stateArrow}>&rarr;</span>
-        <span className={styles.stateLabel}>test fails</span>
+        <span className={styles.stateNode}>watch tests fail</span>
         <span className={styles.stateArrow}>&rarr;</span>
         <span className={`${styles.stateNode} ${styles.stateNodeRed}`}>
           red
         </span>
         <span className={styles.stateArrow}>&rarr;</span>
-        <span className={styles.stateLabel}>log green</span>
+        <span className={styles.stateLabel}>write code so tests pass</span>
+        <span className={styles.stateArrow}>&rarr;</span>
+        <span className={styles.stateNode}>watch tests pass</span>
         <span className={styles.stateArrow}>&rarr;</span>
         <span className={`${styles.stateNode} ${styles.stateNodeGreen}`}>
-          making_tests_pass
+          green
         </span>
         <span className={styles.stateArrow}>&rarr;</span>
-        <span className={styles.stateLabel}>tests pass</span>
-        <span className={styles.stateArrow}>&rarr;</span>
-        <span className={`${styles.stateNode} ${styles.stateNodeActive}`}>
-          initial
+        <span className={`${styles.stateNode} ${styles.stateNode}`}>
+          REPEAT
         </span>
       </div>
     </div>
@@ -81,228 +77,424 @@ function Features(): ReactNode {
           <span className={styles.sectionTitle}>What's Inside</span>
         </div>
         <div className={styles.featuresGrid}>
-          <div className={styles.featureCard}>
-            <div className={styles.featureIcon}>
-              <svg
-                width="36"
-                height="36"
-                viewBox="0 0 36 36"
-                fill="none"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <rect
-                  x="2"
-                  y="2"
-                  width="32"
-                  height="32"
-                  rx="2"
-                  stroke="rgb(239 68 68)"
-                  strokeWidth="2"
-                  fill="none"
-                />
-                <path
-                  d="M10 18L15 23L26 12"
-                  stroke="rgb(34 197 94)"
-                  strokeWidth="2.5"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                />
-              </svg>
+          <Link to="/docs/tdd-guard" className={styles.featureCardLink}>
+            <div className={`${styles.featureCard} ${styles.featureCardRed}`}>
+              <div className={styles.featureLeft}>
+                <span
+                  className={`${styles.featureNumber} ${styles.featureNumberRed}`}
+                >
+                  01
+                </span>
+                <div className={styles.featureIcon}>
+                  <svg
+                    width="36"
+                    height="36"
+                    viewBox="0 0 36 36"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <rect
+                      x="2"
+                      y="2"
+                      width="32"
+                      height="32"
+                      rx="2"
+                      stroke="rgb(239 68 68)"
+                      strokeWidth="2"
+                      fill="none"
+                    />
+                    <path
+                      d="M10 18L15 23L26 12"
+                      stroke="rgb(34 197 94)"
+                      strokeWidth="2.5"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                    />
+                  </svg>
+                </div>
+                <h3 className={styles.featureCardTitle}>
+                  Enforcement of Test-Driven Development
+                </h3>
+              </div>
+              <div className={styles.featureRight}>
+                <p className={styles.featureCardDesc}>
+                  The agent MUST use TDD. A state machine enforces the
+                  Red-Green-Refactor cycle and blocks file edits until tests
+                  fail first. No shortcuts, no skipping ahead.
+                </p>
+                <p className={styles.featureCardDesc}>
+                  A test suite in which the agent has seen every test fail -
+                  then made each test pass by writing code - helps prevent
+                  regressions and keeps development velocity high as your
+                  product grows. Per-agent isolation via transcript-hashed log
+                  files means parallel agents never interfere with each other.
+                </p>
+                <span
+                  className={`${styles.featureLearnMore} ${styles.featureLearnMoreRed}`}
+                >
+                  Learn more{' '}
+                  <span className={styles.featureLearnMoreArrow}>&rarr;</span>
+                </span>
+              </div>
             </div>
-            <h3 className={styles.featureCardTitle}>TDD Guard</h3>
-            <p className={styles.featureCardDesc}>
-              State machine forces Red-Green-Refactor cycle. Blocks file edits
-              until tests fail first. Per-agent isolation via transcript-hashed
-              log files.
-            </p>
-            <span className={styles.featureTag}>hooks + state machine</span>
-          </div>
+          </Link>
 
-          <div className={styles.featureCard}>
-            <div className={styles.featureIcon}>
-              <svg
-                width="36"
-                height="36"
-                viewBox="0 0 36 36"
-                fill="none"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <circle
-                  cx="18"
-                  cy="18"
-                  r="15"
-                  stroke="rgb(59 130 246)"
-                  strokeWidth="2"
-                  fill="none"
-                />
-                <path
-                  d="M18 10V18L23 23"
-                  stroke="rgb(59 130 246)"
-                  strokeWidth="2.5"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                />
-              </svg>
+          <Link to="/docs/how-tests-work" className={styles.featureCardLink}>
+            <div
+              className={`${styles.featureCard} ${styles.featureCardReversed} ${styles.featureCardBlue}`}
+            >
+              <div className={styles.featureLeft}>
+                <span
+                  className={`${styles.featureNumber} ${styles.featureNumberBlue}`}
+                >
+                  02
+                </span>
+                <div className={styles.featureIcon}>
+                  <svg
+                    width="36"
+                    height="36"
+                    viewBox="0 0 36 36"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <circle
+                      cx="18"
+                      cy="18"
+                      r="15"
+                      stroke="rgb(59 130 246)"
+                      strokeWidth="2"
+                      fill="none"
+                    />
+                    <path
+                      d="M18 10V18L23 23"
+                      stroke="rgb(59 130 246)"
+                      strokeWidth="2.5"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                    />
+                  </svg>
+                </div>
+                <h3 className={styles.featureCardTitle}>Strict Timeouts</h3>
+              </div>
+              <div className={styles.featureRight}>
+                <p className={styles.featureCardDesc}>
+                  Each unit test must complete within 10ms. This forces pure
+                  business logic - no I/O, no accidental imports, no framework
+                  startup. If a test touches the network or spins up a server,
+                  it fails.
+                </p>
+                <p className={styles.featureCardDesc}>
+                  Auto-retry handles transient performance hiccups like JIT
+                  warmup. When a test does time out, a flamegraph SVG is
+                  generated automatically so you can see exactly where the time
+                  went.
+                </p>
+                <span
+                  className={`${styles.featureLearnMore} ${styles.featureLearnMoreBlue}`}
+                >
+                  Learn more{' '}
+                  <span className={styles.featureLearnMoreArrow}>&rarr;</span>
+                </span>
+              </div>
             </div>
-            <h3 className={styles.featureCardTitle}>10ms Timeout</h3>
-            <p className={styles.featureCardDesc}>
-              Unit tests enforce a 10ms limit. Forces pure business logic — no
-              I/O, no accidental imports. Auto-retry for transients, flamegraph
-              SVG on failure.
-            </p>
-            <span className={styles.featureTag}>pytest hook</span>
-          </div>
+          </Link>
 
-          <div className={styles.featureCard}>
-            <div className={styles.featureIcon}>
-              <svg
-                width="36"
-                height="36"
-                viewBox="0 0 36 36"
-                fill="none"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <path
-                  d="M6 8H30M6 14H24M6 20H28M6 26H20"
-                  stroke="rgb(34 197 94)"
-                  strokeWidth="2"
-                  strokeLinecap="round"
-                />
-              </svg>
+          <Link
+            to="/docs/code-quality-checks"
+            className={styles.featureCardLink}
+          >
+            <div className={`${styles.featureCard} ${styles.featureCardGreen}`}>
+              <div className={styles.featureLeft}>
+                <span
+                  className={`${styles.featureNumber} ${styles.featureNumberGreen}`}
+                >
+                  03
+                </span>
+                <div className={styles.featureIcon}>
+                  <svg
+                    width="36"
+                    height="36"
+                    viewBox="0 0 36 36"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      d="M6 8H30M6 14H24M6 20H28M6 26H20"
+                      stroke="rgb(34 197 94)"
+                      strokeWidth="2"
+                      strokeLinecap="round"
+                    />
+                  </svg>
+                </div>
+                <h3 className={styles.featureCardTitle}>Code Quality Checks</h3>
+              </div>
+              <div className={styles.featureRight}>
+                <p className={styles.featureCardDesc}>
+                  CodeLeash checks code quality using many small scripts,{' '}
+                  <i>not</i> via AI. Scripts use zero tokens, finish in
+                  milliseconds, and with no AI involved, they avoid false
+                  positives and inconsistency. They&apos;re deterministic, fast,
+                  and impossible to fool. And they're fast, so you can run them
+                  more often.
+                </p>
+                <p className={styles.featureCardDesc}>
+                  The repo contains many examples for your coding agent to pick
+                  up the pattern from. Some checks traverse the codebase with
+                  ASTs; others look for code quality issues using regex.
+                </p>
+                <p className={styles.featureCardDesc}>
+                  The included checks prevent code from using non-brand colors,
+                  catch unused API routes, enforce soft deletes for tables that
+                  have soft-delete enabled, prevent dynamic imports that can
+                  mask import loops, and more.
+                </p>
+                <p className={styles.featureCardDesc}>
+                  All checks run before every commit, blocking problems from
+                  ever reaching your repository.
+                </p>
+                <span
+                  className={`${styles.featureLearnMore} ${styles.featureLearnMoreGreen}`}
+                >
+                  Learn more{' '}
+                  <span className={styles.featureLearnMoreArrow}>&rarr;</span>
+                </span>
+              </div>
             </div>
-            <h3 className={styles.featureCardTitle}>Code Quality Checks</h3>
-            <p className={styles.featureCardDesc}>
-              Custom Python scripts walking ASTs, running as pre-commit hooks.
-              Brand colors, unused routes, soft deletes, dynamic imports, and
-              more.
-            </p>
-            <span className={styles.featureTag}>ast + pre-commit</span>
-          </div>
+          </Link>
 
-          <div className={styles.featureCard}>
-            <div className={styles.featureIcon}>
-              <svg
-                width="36"
-                height="36"
-                viewBox="0 0 36 36"
-                fill="none"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <rect
-                  x="4"
-                  y="10"
-                  width="28"
-                  height="18"
-                  rx="2"
-                  stroke="rgb(59 130 246)"
-                  strokeWidth="2"
-                  fill="none"
-                />
-                <path d="M4 16H32" stroke="rgb(59 130 246)" strokeWidth="2" />
-                <circle cx="9" cy="13" r="1.5" fill="rgb(239 68 68)" />
-                <circle cx="14" cy="13" r="1.5" fill="rgb(234 179 8)" />
-                <circle cx="19" cy="13" r="1.5" fill="rgb(34 197 94)" />
-              </svg>
+          <Link to="/docs/worker-system" className={styles.featureCardLink}>
+            <div
+              className={`${styles.featureCard} ${styles.featureCardReversed} ${styles.featureCardBlue}`}
+            >
+              <div className={styles.featureLeft}>
+                <span
+                  className={`${styles.featureNumber} ${styles.featureNumberBlue}`}
+                >
+                  04
+                </span>
+                <div className={styles.featureIcon}>
+                  <svg
+                    width="36"
+                    height="36"
+                    viewBox="0 0 36 36"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <rect
+                      x="4"
+                      y="10"
+                      width="28"
+                      height="18"
+                      rx="2"
+                      stroke="rgb(59 130 246)"
+                      strokeWidth="2"
+                      fill="none"
+                    />
+                    <path
+                      d="M4 16H32"
+                      stroke="rgb(59 130 246)"
+                      strokeWidth="2"
+                    />
+                    <circle cx="9" cy="13" r="1.5" fill="rgb(239 68 68)" />
+                    <circle cx="14" cy="13" r="1.5" fill="rgb(234 179 8)" />
+                    <circle cx="19" cy="13" r="1.5" fill="rgb(34 197 94)" />
+                  </svg>
+                </div>
+                <h3 className={styles.featureCardTitle}>Worker System</h3>
+              </div>
+              <div className={styles.featureRight}>
+                <p className={styles.featureCardDesc}>
+                  A job queue system that only needs one database table and has
+                  zero external dependencies. No Redis, no RabbitMQ, no external
+                  broker of any kind.
+                </p>
+                <p className={styles.featureCardDesc}>
+                  PostgreSQL can lock a table row upon select. Workers query the
+                  job table performing their selects using SELECT FOR UPDATE
+                  SKIP LOCKED. Doing SELECT FOR UPDATE SKIP LOCKED in a
+                  transaction locks that job row so the next worker skips over
+                  it and picks up the next job, until the transaction is
+                  committed.
+                </p>
+                <p className={styles.featureCardDesc}>
+                  Ensures safe concurrent processing - multiple workers pull
+                  jobs without conflicts. Includes exponential backoff retries,
+                  handler registration, and hot reload in development.
+                </p>
+                <span
+                  className={`${styles.featureLearnMore} ${styles.featureLearnMoreBlue}`}
+                >
+                  Learn more{' '}
+                  <span className={styles.featureLearnMoreArrow}>&rarr;</span>
+                </span>
+              </div>
             </div>
-            <h3 className={styles.featureCardTitle}>Worker System</h3>
-            <p className={styles.featureCardDesc}>
-              PostgreSQL job queue using FOR UPDATE SKIP LOCKED. Exponential
-              backoff retries, handler registration, hot reload in dev. No
-              external broker.
-            </p>
-            <span className={styles.featureTag}>postgresql + asyncio</span>
-          </div>
+          </Link>
 
-          <div className={styles.featureCard}>
-            <div className={styles.featureIcon}>
-              <svg
-                width="36"
-                height="36"
-                viewBox="0 0 36 36"
-                fill="none"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <path
-                  d="M8 8V28H28"
-                  stroke="rgb(160 160 160)"
-                  strokeWidth="2"
-                  strokeLinecap="round"
-                />
-                <path d="M14 8V28" stroke="rgb(224 224 224)" strokeWidth="1" />
-                <path d="M20 8V28" stroke="rgb(224 224 224)" strokeWidth="1" />
-                <path d="M26 8V28" stroke="rgb(224 224 224)" strokeWidth="1" />
-                <path d="M8 14H28" stroke="rgb(224 224 224)" strokeWidth="1" />
-                <path d="M8 20H28" stroke="rgb(224 224 224)" strokeWidth="1" />
-                <circle cx="14" cy="14" r="3" fill="rgb(59 130 246)" />
-                <circle cx="20" cy="20" r="3" fill="rgb(34 197 94)" />
-                <circle cx="26" cy="14" r="3" fill="rgb(239 68 68)" />
-              </svg>
+          <Link
+            to="/docs/worktree-parallel-work"
+            className={styles.featureCardLink}
+          >
+            <div className={`${styles.featureCard} ${styles.featureCardRed}`}>
+              <div className={styles.featureLeft}>
+                <span
+                  className={`${styles.featureNumber} ${styles.featureNumberRed}`}
+                >
+                  05
+                </span>
+                <div className={styles.featureIcon}>
+                  <svg
+                    width="36"
+                    height="36"
+                    viewBox="0 0 36 36"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      d="M8 8V28H28"
+                      stroke="rgb(160 160 160)"
+                      strokeWidth="2"
+                      strokeLinecap="round"
+                    />
+                    <path
+                      d="M14 8V28"
+                      stroke="rgb(224 224 224)"
+                      strokeWidth="1"
+                    />
+                    <path
+                      d="M20 8V28"
+                      stroke="rgb(224 224 224)"
+                      strokeWidth="1"
+                    />
+                    <path
+                      d="M26 8V28"
+                      stroke="rgb(224 224 224)"
+                      strokeWidth="1"
+                    />
+                    <path
+                      d="M8 14H28"
+                      stroke="rgb(224 224 224)"
+                      strokeWidth="1"
+                    />
+                    <path
+                      d="M8 20H28"
+                      stroke="rgb(224 224 224)"
+                      strokeWidth="1"
+                    />
+                    <circle cx="14" cy="14" r="3" fill="rgb(59 130 246)" />
+                    <circle cx="20" cy="20" r="3" fill="rgb(34 197 94)" />
+                    <circle cx="26" cy="14" r="3" fill="rgb(239 68 68)" />
+                  </svg>
+                </div>
+                <h3 className={styles.featureCardTitle}>Worktree Isolation</h3>
+              </div>
+              <div className={styles.featureRight}>
+                <p className={styles.featureCardDesc}>
+                  Parallel development with deterministic port hashing. Each git
+                  worktree gets its own FastAPI port, Vite port, and Supabase
+                  instance - fully isolated environments from a single repo.
+                </p>
+                <p className={styles.featureCardDesc}>
+                  Work on as many features at a time as you like without
+                  conflicts. Spin up a new worktree, run init.sh, and you have a
+                  completely independent development environment with no port
+                  collisions.
+                </p>
+                <span
+                  className={`${styles.featureLearnMore} ${styles.featureLearnMoreRed}`}
+                >
+                  Learn more{' '}
+                  <span className={styles.featureLearnMoreArrow}>&rarr;</span>
+                </span>
+              </div>
             </div>
-            <h3 className={styles.featureCardTitle}>Worktree Isolation</h3>
-            <p className={styles.featureCardDesc}>
-              Parallel development with deterministic port hashing. Each git
-              worktree gets its own FastAPI port, Vite port, and Supabase
-              instance.
-            </p>
-            <span className={styles.featureTag}>init.sh + cksum</span>
-          </div>
+          </Link>
 
-          <div className={styles.featureCard}>
-            <div className={styles.featureIcon}>
-              <svg
-                width="36"
-                height="36"
-                viewBox="0 0 36 36"
-                fill="none"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <rect
-                  x="4"
-                  y="4"
-                  width="12"
-                  height="12"
-                  rx="2"
-                  stroke="rgb(59 130 246)"
-                  strokeWidth="2"
-                  fill="none"
-                />
-                <rect
-                  x="20"
-                  y="4"
-                  width="12"
-                  height="12"
-                  rx="2"
-                  stroke="rgb(34 197 94)"
-                  strokeWidth="2"
-                  fill="none"
-                />
-                <rect
-                  x="12"
-                  y="20"
-                  width="12"
-                  height="12"
-                  rx="2"
-                  stroke="rgb(239 68 68)"
-                  strokeWidth="2"
-                  fill="none"
-                />
-                <path
-                  d="M16 10H20M10 16V20M26 16V20"
-                  stroke="rgb(160 160 160)"
-                  strokeWidth="1.5"
-                  strokeLinecap="round"
-                  strokeDasharray="2 2"
-                />
-              </svg>
+          <Link
+            to="/docs/full-stack-monorepo"
+            className={styles.featureCardLink}
+          >
+            <div
+              className={`${styles.featureCard} ${styles.featureCardReversed} ${styles.featureCardGreen}`}
+            >
+              <div className={styles.featureLeft}>
+                <span
+                  className={`${styles.featureNumber} ${styles.featureNumberGreen}`}
+                >
+                  06
+                </span>
+                <div className={styles.featureIcon}>
+                  <svg
+                    width="36"
+                    height="36"
+                    viewBox="0 0 36 36"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <rect
+                      x="4"
+                      y="4"
+                      width="12"
+                      height="12"
+                      rx="2"
+                      stroke="rgb(59 130 246)"
+                      strokeWidth="2"
+                      fill="none"
+                    />
+                    <rect
+                      x="20"
+                      y="4"
+                      width="12"
+                      height="12"
+                      rx="2"
+                      stroke="rgb(34 197 94)"
+                      strokeWidth="2"
+                      fill="none"
+                    />
+                    <rect
+                      x="12"
+                      y="20"
+                      width="12"
+                      height="12"
+                      rx="2"
+                      stroke="rgb(239 68 68)"
+                      strokeWidth="2"
+                      fill="none"
+                    />
+                    <path
+                      d="M16 10H20M10 16V20M26 16V20"
+                      stroke="rgb(160 160 160)"
+                      strokeWidth="1.5"
+                      strokeLinecap="round"
+                      strokeDasharray="2 2"
+                    />
+                  </svg>
+                </div>
+                <h3 className={styles.featureCardTitle}>
+                  Full-Stack Integration
+                </h3>
+              </div>
+              <div className={styles.featureRight}>
+                <p className={styles.featureCardDesc}>
+                  Agents can atomically commit changes to the backend and
+                  frontend in a single monorepo. No coordination across repos,
+                  no deploy ordering issues.
+                </p>
+                <p className={styles.featureCardDesc}>
+                  Only one server (uvicorn) is needed to serve your app in
+                  production - all React assets are built by Vite, minified, and
+                  served statically. Type-safe from Pydantic to TypeScript via
+                  render_page() and useInitialData().
+                </p>
+                <span
+                  className={`${styles.featureLearnMore} ${styles.featureLearnMoreGreen}`}
+                >
+                  Learn more{' '}
+                  <span className={styles.featureLearnMoreArrow}>&rarr;</span>
+                </span>
+              </div>
             </div>
-            <h3 className={styles.featureCardTitle}>Full-Stack Integration</h3>
-            <p className={styles.featureCardDesc}>
-              Vite + FastAPI + React with a server-to-client initial data
-              bridge. render_page() &rarr; data-initial &rarr; useInitialData().
-              Type-safe from Pydantic to TypeScript.
-            </p>
-            <span className={styles.featureTag}>vite + fastapi + react</span>
-          </div>
+          </Link>
         </div>
       </div>
     </section>
@@ -316,9 +508,9 @@ function Quickstart(): ReactNode {
         <div className={styles.quickstartGrid}>
           <div>
             <h2 className={styles.quickstartHeading}>
-              Two commands.
+              Two commands to see the
               <br />
-              <em className={styles.quickstartAccent}>That's it.</em>
+              <em className={styles.quickstartAccent}>hello world demo.</em>
             </h2>
             <p className={styles.quickstartDesc}>
               init.sh installs dependencies, starts Supabase, configures your
@@ -342,14 +534,61 @@ function Quickstart(): ReactNode {
 }
 
 function TechStack(): ReactNode {
-  const highlighted = ['Python', 'FastAPI', 'React', 'TypeScript'];
-  const normal = [
-    'Supabase',
-    'Vite',
-    'Tailwind CSS',
-    'Playwright',
-    'Prometheus',
-    'OpenTelemetry',
+  type Category = 'language' | 'framework' | 'platform';
+
+  const categoryClass: Record<Category, string> = {
+    language: styles.stackTagLanguage,
+    framework: styles.stackTagFramework,
+    platform: styles.stackTagPlatform,
+  };
+
+  const rows: {
+    label: string;
+    tags: { name: string; category: Category }[];
+  }[] = [
+    {
+      label: 'Database',
+      tags: [
+        { name: 'Supabase', category: 'platform' },
+        { name: 'PostgreSQL', category: 'platform' },
+      ],
+    },
+    {
+      label: 'Auth',
+      tags: [{ name: 'Supabase Auth', category: 'platform' }],
+    },
+    {
+      label: 'Backend',
+      tags: [
+        { name: 'Python', category: 'language' },
+        { name: 'FastAPI', category: 'framework' },
+      ],
+    },
+    {
+      label: 'Frontend',
+      tags: [
+        { name: 'React', category: 'framework' },
+        { name: 'TypeScript', category: 'language' },
+        { name: 'Vite', category: 'framework' },
+        { name: 'Tailwind CSS', category: 'framework' },
+      ],
+    },
+    {
+      label: 'Testing',
+      tags: [
+        { name: 'pytest', category: 'framework' },
+        { name: 'Vitest', category: 'framework' },
+        { name: 'Playwright', category: 'framework' },
+      ],
+    },
+    {
+      label: 'Observability',
+      tags: [
+        { name: 'Prometheus', category: 'platform' },
+        { name: 'OpenTelemetry', category: 'framework' },
+        { name: 'Sentry', category: 'platform' },
+      ],
+    },
   ];
 
   return (
@@ -359,20 +598,44 @@ function TechStack(): ReactNode {
           <span className={styles.sectionNumber}>02</span>
           <span className={styles.sectionTitle}>Stack</span>
         </div>
-        <div className={styles.stackFlex}>
-          {highlighted.map(tag => (
-            <span
-              key={tag}
-              className={`${styles.stackTag} ${styles.stackTagHighlight}`}
-            >
-              {tag}
-            </span>
+        <div className={styles.stackRows}>
+          {rows.map(row => (
+            <div key={row.label} className={styles.stackRow}>
+              <span className={styles.stackRowLabel}>{row.label}</span>
+              <div className={styles.stackRowTags}>
+                {row.tags.map(tag => (
+                  <span
+                    key={tag.name}
+                    className={`${styles.stackTag} ${
+                      categoryClass[tag.category]
+                    }`}
+                  >
+                    {tag.name}
+                  </span>
+                ))}
+              </div>
+            </div>
           ))}
-          {normal.map(tag => (
-            <span key={tag} className={styles.stackTag}>
-              {tag}
-            </span>
-          ))}
+        </div>
+        <div className={styles.stackLegend}>
+          <span
+            className={`${styles.stackLegendItem} ${styles.stackLegendLanguage}`}
+          >
+            <span className={styles.stackLegendSwatch} />
+            Language
+          </span>
+          <span
+            className={`${styles.stackLegendItem} ${styles.stackLegendFramework}`}
+          >
+            <span className={styles.stackLegendSwatch} />
+            Framework
+          </span>
+          <span
+            className={`${styles.stackLegendItem} ${styles.stackLegendPlatform}`}
+          >
+            <span className={styles.stackLegendSwatch} />
+            Platform
+          </span>
         </div>
       </div>
     </section>

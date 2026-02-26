@@ -194,15 +194,180 @@
 
 .featuresGrid {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: 1fr;
   gap: 1px;
   background: var(--brand-black);
   border: 1px solid var(--brand-black);
 }
 
+.featureCardLink {
+  text-decoration: none;
+  color: inherit;
+  display: block;
+}
+
+.featureCardLink:hover {
+  text-decoration: none;
+  color: inherit;
+}
+
 .featureCard {
   background: var(--grey-bg);
-  padding: 2.5rem 2rem;
+  padding: 3rem 3rem;
+  display: grid;
+  grid-template-columns: 1fr 1.5fr;
+  gap: 0 4rem;
+  align-items: center;
+  border-left: 4px solid transparent;
+  transition: background 0.2s ease;
+}
+
+.featureCardRed {
+  border-left-color: var(--brand-red);
+  background-color: var(--grey-bg);
+  background-image: linear-gradient(
+    rgb(239 68 68 / 0.06),
+    rgb(239 68 68 / 0.06)
+  );
+}
+
+.featureCardLink:hover .featureCardRed {
+  background-image: linear-gradient(
+    rgb(239 68 68 / 0.12),
+    rgb(239 68 68 / 0.12)
+  );
+}
+
+.featureCardBlue {
+  border-left-color: var(--brand-blue);
+  background-color: var(--grey-bg);
+  background-image: linear-gradient(
+    rgb(59 130 246 / 0.06),
+    rgb(59 130 246 / 0.06)
+  );
+}
+
+.featureCardLink:hover .featureCardBlue {
+  background-image: linear-gradient(
+    rgb(59 130 246 / 0.12),
+    rgb(59 130 246 / 0.12)
+  );
+}
+
+.featureCardGreen {
+  border-left-color: var(--brand-green);
+  background-color: var(--grey-bg);
+  background-image: linear-gradient(
+    rgb(34 197 94 / 0.06),
+    rgb(34 197 94 / 0.06)
+  );
+}
+
+.featureCardLink:hover .featureCardGreen {
+  background-image: linear-gradient(
+    rgb(34 197 94 / 0.12),
+    rgb(34 197 94 / 0.12)
+  );
+}
+
+.featureLearnMore {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-top: 1.25rem;
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--grey-mid);
+  transition: color 0.2s ease;
+  align-self: flex-start;
+}
+
+.featureLearnMoreArrow {
+  transition: transform 0.2s ease;
+  display: inline-block;
+}
+
+.featureCardLink:hover .featureLearnMore {
+  color: var(--grey-dark);
+}
+
+.featureCardLink:hover .featureLearnMoreArrow {
+  transform: translateX(4px);
+}
+
+.featureCardLink:hover .featureLearnMoreRed {
+  color: var(--brand-red);
+}
+
+.featureCardLink:hover .featureLearnMoreBlue {
+  color: var(--brand-blue);
+}
+
+.featureCardLink:hover .featureLearnMoreGreen {
+  color: var(--brand-green);
+}
+
+.featureCardReversed {
+  direction: rtl;
+  border-left: none;
+  border-right: 4px solid transparent;
+}
+
+.featureCardReversed.featureCardRed {
+  border-right-color: var(--brand-red);
+  background-color: var(--grey-bg);
+  background-image: linear-gradient(
+    rgb(239 68 68 / 0.06),
+    rgb(239 68 68 / 0.06)
+  );
+}
+
+.featureCardReversed.featureCardBlue {
+  border-right-color: var(--brand-blue);
+  background-color: var(--grey-bg);
+  background-image: linear-gradient(
+    rgb(59 130 246 / 0.06),
+    rgb(59 130 246 / 0.06)
+  );
+}
+
+.featureCardReversed.featureCardGreen {
+  border-right-color: var(--brand-green);
+  background-color: var(--grey-bg);
+  background-image: linear-gradient(
+    rgb(34 197 94 / 0.06),
+    rgb(34 197 94 / 0.06)
+  );
+}
+
+.featureCardReversed > * {
+  direction: ltr;
+}
+
+.featureLeft {
+  display: flex;
+  flex-direction: column;
+}
+
+.featureNumber {
+  font-family: 'Instrument Serif', Georgia, serif;
+  font-size: 4rem;
+  line-height: 1;
+  letter-spacing: -0.02em;
+  margin-bottom: 1rem;
+}
+
+.featureNumberRed {
+  color: rgb(239 68 68 / 0.3);
+}
+
+.featureNumberBlue {
+  color: rgb(59 130 246 / 0.3);
+}
+
+.featureNumberGreen {
+  color: rgb(34 197 94 / 0.3);
 }
 
 .featureIcon {
@@ -216,27 +381,28 @@
 
 .featureCardTitle {
   font-family: 'Instrument Serif', Georgia, serif;
-  font-size: 1.5rem;
+  font-size: 1.75rem;
   font-weight: 400;
   margin-bottom: 0.75rem;
   letter-spacing: -0.01em;
+  line-height: 1.2;
+}
+
+.featureRight {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
 }
 
 .featureCardDesc {
-  font-size: 0.82rem;
+  font-size: 0.85rem;
   color: var(--grey-dark);
-  line-height: 1.65;
+  line-height: 1.75;
+  margin-bottom: 0.75rem;
 }
 
-.featureTag {
-  display: inline-block;
-  font-size: 0.65rem;
-  text-transform: uppercase;
-  letter-spacing: 0.1em;
-  color: var(--grey-mid);
-  margin-top: 1rem;
-  padding: 0.25rem 0.5rem;
-  border: 1px solid var(--grey-light);
+.featureCardDesc:last-of-type {
+  margin-bottom: 0;
 }
 
 /* ---- QUICKSTART ---- */
@@ -298,25 +464,96 @@
   border-top: 1px solid var(--brand-black);
 }
 
-.stackFlex {
+.stackRows {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1px;
+  background: var(--brand-black);
+  border: 1px solid var(--brand-black);
+}
+
+.stackRow {
+  display: grid;
+  grid-template-columns: 200px 1fr;
+  background: var(--grey-bg);
+  align-items: center;
+}
+
+.stackRowLabel {
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--grey-mid);
+  padding: 1rem 1.25rem;
+  border-right: 1px solid var(--brand-black);
+}
+
+.stackRowTags {
   display: flex;
   flex-wrap: wrap;
   gap: 0.5rem;
+  padding: 1rem 1.25rem;
 }
 
 .stackTag {
   font-size: 0.75rem;
   text-transform: uppercase;
   letter-spacing: 0.08em;
-  padding: 0.5rem 1.25rem;
+  padding: 0.4rem 1rem;
   border: 1px solid var(--grey-light);
   color: var(--grey-dark);
   background: white;
 }
 
-.stackTagHighlight {
+.stackTagLanguage {
   border-color: var(--brand-blue);
   color: var(--brand-blue);
+}
+
+.stackTagFramework {
+  border-color: var(--brand-green);
+  color: var(--brand-green);
+}
+
+.stackTagPlatform {
+  border-color: var(--brand-red);
+  color: var(--brand-red);
+}
+
+/* ---- STACK LEGEND ---- */
+.stackLegend {
+  display: flex;
+  gap: 2rem;
+  margin-top: 1.25rem;
+  justify-content: flex-end;
+}
+
+.stackLegendItem {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--grey-mid);
+}
+
+.stackLegendSwatch {
+  width: 12px;
+  height: 12px;
+  border: 2px solid currentColor;
+}
+
+.stackLegendLanguage {
+  color: var(--brand-blue);
+}
+
+.stackLegendFramework {
+  color: var(--brand-green);
+}
+
+.stackLegendPlatform {
+  color: var(--brand-red);
 }
 
 /* ---- PHILOSOPHY ---- */
@@ -382,8 +619,42 @@
     font-size: 2.5rem;
   }
 
-  .featuresGrid {
+  .featureCard {
     grid-template-columns: 1fr;
+    gap: 1.5rem;
+    padding: 2.5rem 2rem;
+  }
+
+  .stackRow {
+    grid-template-columns: 1fr;
+  }
+
+  .stackRowLabel {
+    border-right: none;
+    border-bottom: 1px solid var(--brand-black);
+    padding: 0.75rem 1.25rem;
+  }
+
+  .featureCardReversed {
+    direction: ltr;
+    border-right: none;
+    border-left: 4px solid transparent;
+  }
+
+  .featureCardReversed.featureCardRed {
+    border-left-color: var(--brand-red);
+  }
+
+  .featureCardReversed.featureCardBlue {
+    border-left-color: var(--brand-blue);
+  }
+
+  .featureCardReversed.featureCardGreen {
+    border-left-color: var(--brand-green);
+  }
+
+  .featureNumber {
+    font-size: 3rem;
   }
 
   .hero {
@@ -409,11 +680,5 @@
 
   .stateStripInner {
     justify-content: flex-start;
-  }
-}
-
-@media (min-width: 901px) and (max-width: 1100px) {
-  .featuresGrid {
-    grid-template-columns: repeat(2, 1fr);
   }
 }

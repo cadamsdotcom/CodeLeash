@@ -5,7 +5,7 @@
   "type": "module",
   "scripts": {
     "init": "./init.sh",
-    "dev": "dotenv -- sh -c 'concurrently -n vite,uvicorn,worker vite \"uv run python main.py\" \"uv run python worker.py\"'",
+    "dev": "dotenv -- sh -c 'concurrently -n vite,uvicorn vite \"uv run python main.py\"'",
     "build": "vite build",
     "lint": "eslint . --max-warnings 0 --cache",
     "lint:fix": "eslint . --fix --cache",

@@ -65,7 +65,6 @@ class TestTddSessionStart:
         assert "app/" in output
         assert "scripts/" in output
         assert "main.py" in output
-        assert "worker.py" in output
 
     def test_outputs_test_file_patterns(self) -> None:
         """Output lists which file patterns are subject to TDD as test files."""

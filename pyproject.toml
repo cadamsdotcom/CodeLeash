@@ -32,8 +32,6 @@ dependencies = [
     "prometheus-client>=0.21.0",
     # Error tracking
     "sentry-sdk[fastapi]>=2.39.0",
-    # Worker hot reload
-    "watchdog>=6.0.0",
 ]
 
 [project.optional-dependencies]
@@ -63,6 +61,15 @@ dev = [
 
     # Code verification tools
     "coverage>=7.10.7",
+
+    # requests 2.32.5 has a spurious RequestsDependencyWarning when chardet
+    # 6.0+ is installed (chardet<6 hardcoded in __init__.py). The fix
+    # (psf/requests#7220, merged 2026-02-22) bumps the limit to chardet<7
+    # but no PyPI release exists yet. Remove this pin once one ships.
+    # Surfaced when removing the worker system changed e2e server startup
+    # from concurrently (mixed streams) to direct uvicorn (proper stderr
+    # separation), making the warning visible.
+    "chardet<6",
 ]
 
 [build-system]

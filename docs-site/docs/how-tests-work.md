@@ -108,7 +108,7 @@ The e2e test runner ([`scripts/run_e2e_tests.py`](https://github.com/cadamsdotco
 
 1. **Finds available ports** for both the application server and an isolated Supabase instance
 2. **Starts Supabase and builds the frontend** in parallel using `ThreadPoolExecutor`
-3. **Starts the server** (uvicorn + worker) via `concurrently`
+3. **Starts the server** (uvicorn)
 4. **Runs pytest** with parallel workers (`-n auto` by default)
 5. **Analyzes server logs** for unexpected HTTP errors or Python exceptions
 6. **Cleans up** everything (server processes, Supabase instance, temp directories)

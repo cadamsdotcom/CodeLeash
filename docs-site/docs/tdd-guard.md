@@ -109,7 +109,6 @@ PROD_PATTERNS = [
     r"^app/",
     r"^scripts/.*\.py$",
     r"^main\.py$",
-    r"^worker\.py$",
 ]
 ```
 
@@ -119,7 +118,7 @@ PROD_PATTERNS = [
 | ---------- | -------------------------------------------------------------- | ------------ |
 | `e2e_test` | `tests/e2e/`                                                   | No (bypass)  |
 | `test`     | `*.test.{ts,tsx,js,jsx}`, `test_*.py`, `tests/`, `conftest.py` | Yes          |
-| `prod`     | `src/`, `app/`, `scripts/*.py`, `main.py`, `worker.py`         | Yes          |
+| `prod`     | `src/`, `app/`, `scripts/*.py`, `main.py`                      | Yes          |
 | `other`    | Everything else                                                | No (bypass)  |
 
 ### Permission Table

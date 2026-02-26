@@ -3,24 +3,22 @@ title: 'Full-Stack Monorepo'
 sidebar_position: 2
 ---
 
-CodeLeash runs Vite and FastAPI as a single application. In development, two servers run concurrently with hot module replacement. In production, Vite builds static assets and FastAPI serves everything.
+CodeLeash runs Vite and FastAPI as a single application. In development, both run concurrently with hot module replacement. In production, Vite builds static assets and FastAPI serves everything.
 
 ## Dual-Server Architecture
 
-The `npm run dev` command starts three processes via `concurrently`:
+The `npm run dev` command starts two processes via `concurrently`:
 
 ```bash
-concurrently -n vite,uvicorn,worker \
+concurrently -n vite,uvicorn \
   vite \
-  "uv run python main.py" \
-  "uv run python worker.py"
+  "uv run python main.py"
 ```
 
 > [`package.json`](https://github.com/cadamsdotcom/CodeLeash/blob/main/package.json)
 
 - **Vite** (port 5173) serves JavaScript/CSS with HMR
 - **Uvicorn** (port 8000) serves HTML pages and API routes
-- **Worker** processes background jobs (see [Worker System](./worker-system.md))
 
 In production (`npm run build` then `uv run uvicorn main:app`), Vite compiles assets into `dist/` and FastAPI serves them directly using the Vite manifest for cache-busted URLs.
 

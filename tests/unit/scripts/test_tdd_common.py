@@ -17,7 +17,6 @@ class TestIsProdFile:
             "app/routes/api.py",
             "scripts/tdd_common.py",
             "main.py",
-            "worker.py",
         ],
     )
     def test_prod_files_are_detected(self, path: str) -> None:

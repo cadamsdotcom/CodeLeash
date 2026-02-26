@@ -162,6 +162,8 @@ function Features(): ReactNode {
           <span className={styles.sectionNumber}>01</span>
           <span className={styles.sectionTitle}>What's Inside</span>
         </div>
+        {/* Cards cycle: Red, Earth(reversed), Green, Earth(reversed), Red...
+            When adding/removing cards, shift colors to maintain the pattern. */}
         <div className={styles.featuresGrid}>
           <Link to="/docs/tdd-guard" className={styles.featureCardLink}>
             <div className={`${styles.featureCard} ${styles.featureCardRed}`}>
@@ -392,7 +394,10 @@ function Features(): ReactNode {
             </div>
           </Link>
 
-          <Link to="/docs/worker-system" className={styles.featureCardLink}>
+          <Link
+            to="/docs/worktree-parallel-work"
+            className={styles.featureCardLink}
+          >
             <div
               className={`${styles.featureCard} ${styles.featureCardReversed} ${styles.featureCardEarth}`}
             >
@@ -401,79 +406,6 @@ function Features(): ReactNode {
                   className={`${styles.featureNumber} ${styles.featureNumberEarth}`}
                 >
                   04
-                </span>
-                <div className={styles.featureIcon}>
-                  <svg
-                    width="36"
-                    height="36"
-                    viewBox="0 0 36 36"
-                    fill="none"
-                    xmlns="http://www.w3.org/2000/svg"
-                  >
-                    <rect
-                      x="4"
-                      y="10"
-                      width="28"
-                      height="18"
-                      rx="2"
-                      stroke="rgb(160 100 50)"
-                      strokeWidth="2"
-                      fill="none"
-                    />
-                    <path
-                      d="M4 16H32"
-                      stroke="rgb(160 100 50)"
-                      strokeWidth="2"
-                    />
-                    <circle cx="9" cy="13" r="1.5" fill="rgb(239 68 68)" />
-                    <circle cx="14" cy="13" r="1.5" fill="rgb(234 179 8)" />
-                    <circle cx="19" cy="13" r="1.5" fill="rgb(34 197 94)" />
-                  </svg>
-                </div>
-                <h3 className={styles.featureCardTitle}>Worker System</h3>
-              </div>
-              <div className={styles.featureRight}>
-                <p className={styles.featureCardDesc}>
-                  A job queue system that only uses one database table and zero
-                  external dependencies. No Redis, no RabbitMQ, no external
-                  broker of any kind.
-                </p>
-                <p className={styles.featureCardDesc}>
-                  Workers query the jobs table using SELECT FOR UPDATE SKIP
-                  LOCKED. When done in a transaction the selected rows are
-                  locked, and rows that were already locked are skipped over.
-                </p>
-                <p className={styles.featureCardDesc}>
-                  Workers always pick up the next available job. When a worker
-                  has finished (or crashes) the transaction is committed or
-                  rolled back, either completing the job, or releasing it to be
-                  retried.
-                </p>
-                <p className={styles.featureCardDesc}>
-                  Ensures safe concurrent processing. Includes exponential
-                  backoff retries, handler registration, and hot reload in
-                  development.
-                </p>
-                <span
-                  className={`${styles.featureLearnMore} ${styles.featureLearnMoreEarth}`}
-                >
-                  Learn more{' '}
-                  <span className={styles.featureLearnMoreArrow}>&rarr;</span>
-                </span>
-              </div>
-            </div>
-          </Link>
-
-          <Link
-            to="/docs/worktree-parallel-work"
-            className={styles.featureCardLink}
-          >
-            <div className={`${styles.featureCard} ${styles.featureCardRed}`}>
-              <div className={styles.featureLeft}>
-                <span
-                  className={`${styles.featureNumber} ${styles.featureNumberRed}`}
-                >
-                  05
                 </span>
                 <div className={styles.featureIcon}>
                   <svg
@@ -532,7 +464,7 @@ function Features(): ReactNode {
                   independent development environment with no port collisions.
                 </p>
                 <span
-                  className={`${styles.featureLearnMore} ${styles.featureLearnMoreRed}`}
+                  className={`${styles.featureLearnMore} ${styles.featureLearnMoreEarth}`}
                 >
                   Learn more{' '}
                   <span className={styles.featureLearnMoreArrow}>&rarr;</span>
@@ -545,14 +477,12 @@ function Features(): ReactNode {
             to="/docs/full-stack-monorepo"
             className={styles.featureCardLink}
           >
-            <div
-              className={`${styles.featureCard} ${styles.featureCardReversed} ${styles.featureCardGreen}`}
-            >
+            <div className={`${styles.featureCard} ${styles.featureCardRed}`}>
               <div className={styles.featureLeft}>
                 <span
-                  className={`${styles.featureNumber} ${styles.featureNumberGreen}`}
+                  className={`${styles.featureNumber} ${styles.featureNumberRed}`}
                 >
-                  06
+                  05
                 </span>
                 <div className={styles.featureIcon}>
                   <svg
@@ -621,7 +551,7 @@ function Features(): ReactNode {
                   shared data types between backend and frontend. Bliss!
                 </p>
                 <span
-                  className={`${styles.featureLearnMore} ${styles.featureLearnMoreGreen}`}
+                  className={`${styles.featureLearnMore} ${styles.featureLearnMoreRed}`}
                 >
                   Learn more{' '}
                   <span className={styles.featureLearnMoreArrow}>&rarr;</span>
@@ -649,7 +579,7 @@ function Quickstart(): ReactNode {
             <p className={styles.quickstartDesc}>
               init.sh installs dependencies, starts Supabase, configures your
               environment, and installs the pre-commit hook. Then dev starts
-              Vite, FastAPI, and the worker with hot reload.
+              Vite and FastAPI with hot reload.
             </p>
           </div>
           <div>

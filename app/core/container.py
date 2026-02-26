@@ -8,7 +8,6 @@ from supabase.client import Client
 from app.core.auth import AuthService
 from app.core.supabase import get_supabase_client, get_supabase_service_client
 from app.repositories.greeting import GreetingRepository
-from app.repositories.job import JobRepository
 from app.services.greeting import GreetingService
 
 
@@ -40,14 +39,6 @@ class Container:
                 greeting_repository=self.get_greeting_repository()
             )
         return self._instances["greeting_service"]
-
-    def get_job_repository(self) -> JobRepository:
-        """Get JobRepository instance."""
-        if "job_repository" not in self._instances:
-            self._instances["job_repository"] = JobRepository(
-                self.get_supabase_service_client()
-            )
-        return self._instances["job_repository"]
 
     def get_auth_service(self) -> AuthService:
         """Get AuthService instance."""

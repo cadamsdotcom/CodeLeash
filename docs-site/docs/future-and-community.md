@@ -36,8 +36,6 @@ You don't have to use CodeLeash as a whole. Individual systems are designed to b
 
 - **Custom Lint Scripts**: Each [`scripts/check_*.py`](https://github.com/cadamsdotcom/CodeLeash/tree/main/scripts) is independent. Copy the pattern --- parse files, check a rule, exit nonzero on violations --- and add it to your [`.pre-commit-config.yaml`](https://github.com/cadamsdotcom/CodeLeash/blob/main/.pre-commit-config.yaml).
 
-- **Worker System**: The [jobs table migration](https://github.com/cadamsdotcom/CodeLeash/blob/main/supabase/migrations/20260223000002_create_jobs_table.sql), [`JobRepository`](https://github.com/cadamsdotcom/CodeLeash/blob/main/app/repositories/job.py), and [`QueueWorker`](https://github.com/cadamsdotcom/CodeLeash/blob/main/app/workers/queue_worker.py) are a complete job queue in about 400 lines total. No external broker required.
-
 - **Worktree Port Hashing**: The port calculation logic in [`init.sh`](https://github.com/cadamsdotcom/CodeLeash/blob/main/init.sh) is about 20 lines. Apply it to any project that needs parallel development environments.
 
 ## Call to Action

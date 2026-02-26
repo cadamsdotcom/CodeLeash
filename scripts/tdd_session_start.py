@@ -38,7 +38,7 @@ def main() -> None:
     print('       --file "path/to/file.py"')
     print()
     print("Files subject to TDD (edits blocked until Red/Green declaration logged):")
-    print("  Prod:  src/  app/  scripts/*.py  main.py  worker.py")
+    print("  Prod:  src/  app/  scripts/*.py  main.py")
     print(
         "  Test:  *.test.{ts,tsx,js,jsx}  test_*.py  tests/  src/test-utils/  conftest.py"
     )

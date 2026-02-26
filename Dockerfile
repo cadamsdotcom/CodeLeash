@@ -78,7 +78,7 @@ COPY static ./static
 COPY --from=frontend-builder /app/dist ./dist
 
 # 5. Copy entrypoints (change occasionally)
-COPY main.py worker.py ./
+COPY main.py ./
 
 # 6. Copy app code last (changes most frequently)
 COPY app ./app

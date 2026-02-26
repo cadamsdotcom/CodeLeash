@@ -46,7 +46,6 @@ Check for these classes of issues:
 - All shared instances (services, repositories, clients) should be created as factory methods in `Container` and accessed via the dependency layers:
   - **Routes**: Use `Depends()` with functions from `app/core/service_dependencies.py`
   - **Auth**: Access container via `_get_container()` in `app/core/auth_dependencies.py`
-  - **Worker**: Access container via `app/core/worker_dependencies.py`
   - **Scripts/CLI**: Direct `_get_container()` calls are acceptable
   - **Tests**: Direct instantiation is acceptable
 - Watch for `SomeService(...)` or `SomeRepository(...)` constructor calls in route handlers, other services, or middleware - these should use the container instead.

@@ -19,7 +19,6 @@ PROD_PATTERNS = [
     r"^app/",
     r"^scripts/.*\.py$",
     r"^main\.py$",
-    r"^worker\.py$",
 ]
 
 

@@ -672,10 +672,8 @@ Examples:
 
     server_process: subprocess.Popen[bytes] | None = None
     try:
-        quiet.capture_print("🚀 Starting server processes with concurrently...")
+        quiet.capture_print("🚀 Starting server...")
 
-        # Use concurrently to start both server processes with visible output
-        # This matches the pattern in package.json but with dynamic port
         if worker_count:
             server_cmd = f"uv run uvicorn main:app --host 0.0.0.0 --port {port} --workers {worker_count}"
             quiet.capture_print(
@@ -683,19 +681,9 @@ Examples:
             )
         else:
             server_cmd = f"uv run uvicorn main:app --host 0.0.0.0 --port {port}"
-        worker_cmd = "uv run python worker.py"
 
-        # Start servers using concurrently and capture output for error detection
         server_process = subprocess.Popen(
-            [
-                "npx",
-                "concurrently",
-                "-n",
-                "web,worker",
-                "--kill-others-on-fail",
-                server_cmd,
-                worker_cmd,
-            ],
+            server_cmd.split(),
             env=env,
             stdout=subprocess.PIPE,
             stderr=subprocess.PIPE,
@@ -913,11 +901,11 @@ Examples:
         print(f"❌ Error running e2e tests: {e}")
         return 1
     finally:
-        # Clean up server process (concurrently handles both web and worker)
+        # Clean up server process
         teardown.capture_print("🧹 Cleaning up server processes...")
         if server_process is not None:
             try:
-                # Terminate concurrently (which will terminate both web and worker)
+                # Terminate server
                 server_process.terminate()
                 try:
                     server_process.wait(timeout=5)

@@ -204,9 +204,43 @@ function Features(): ReactNode {
               </div>
               <div className={styles.featureRight}>
                 <p className={styles.featureCardDesc}>
-                  The agent MUST use TDD. A state machine enforces the
-                  Red-Green-Refactor cycle and blocks file edits until tests
-                  fail first. No shortcuts, no skipping ahead.
+                  <a
+                    href="https://medium.com/@bethqiang/the-absolute-beginners-guide-to-test-driven-development-with-a-practical-example-c39e73a11631"
+                    target="_blank"
+                    rel="noreferrer"
+                  >
+                    Test Driven Development
+                  </a>{' '}
+                  is almost a universal way to build software. Write failing
+                  tests, watch them fail, write code to make them pass, watch
+                  them pass. You're gradually building a repository of every
+                  decision you ever made. Even better, if a decision is{' '}
+                  <i>un-made</i>, tests fail. Alarms go off.
+                </p>
+                <p className={styles.featureCardDesc}>
+                  Forcing the agent through TDD created a repository of all my
+                  micro decisions - I stopped needing to repeat past decisions
+                  to the agent. In time I began to be{' '}
+                  <i>supervising the TDD process itself</i>, while the agent
+                  built software according to its plan. I had gotten myself out
+                  of the loop, removing a layer of tedium.
+                </p>
+                <p className={styles.featureCardDesc}>
+                  But babysitting a TDD process is almost as tedious as doing
+                  TDD! I was constantly stopping the agent - don't do that, you
+                  didn't see the tests pass, roll that back, it's not time to
+                  write code yet. The agent was frequently befuddled by this. So
+                  I asked: can I get myself out of <i>that</i> loop too?
+                </p>
+                <p className={styles.featureCardDesc}>
+                  The solution Claude and I hit on is a state machine tracked in
+                  a local log file. You can see the state machine at the top of
+                  the page!
+                </p>
+                <p className={styles.featureCardDesc}>
+                  With CodeLeash, the agent MUST use TDD. A state machine
+                  enforces the Red-Green-Refactor cycle and blocks file edits
+                  until tests fail first. No shortcuts, no skipping ahead.
                 </p>
                 <p className={styles.featureCardDesc}>
                   A test suite in which the agent has seen every test fail -
@@ -277,10 +311,16 @@ function Features(): ReactNode {
                 <p className={styles.featureCardDesc}>
                   CodeLeash is full of examples for your coding agent to crib
                   from. Some traverse the codebase with ASTs; others with
-                  regexes. Most code review feedback can be at least partly
-                  automated. By the time your agent stops working, basic issues
-                  were already fixed - and you know because the checks passed.
-                  Never repeat obvious fixes again.
+                  regexes. A surprising amount of the code review feedback
+                  you've ever given in your software engineering career can be
+                  automated - ask your agent for ideas! With a big enough
+                  library of checks - built by you - once your agent stops
+                  working, all the basic issues were removed in response to the
+                  checks failing, without you watching. You no longer need to
+                  see agent code with obvious flaws.
+                </p>
+                <p className={styles.featureCardDesc}>
+                  Never repeat obvious fixes to your agent again.
                 </p>
                 <span
                   className={`${styles.featureLearnMore} ${styles.featureLearnMoreEarth}`}
@@ -329,16 +369,18 @@ function Features(): ReactNode {
               </div>
               <div className={styles.featureRight}>
                 <p className={styles.featureCardDesc}>
-                  Each unit test must complete within 10ms. This forces pure
-                  business logic - no I/O, no accidental imports, no framework
-                  startup. If a test touches the network or spins up a server,
-                  it fails.
+                  Each unit test must complete within 10ms. This is a TDD hack -
+                  it forces pure business logic - no I/O, no accidental imports,
+                  no framework startup, which makes it harder for tests to leak
+                  and interfere and allows parallel test runs. If a test touches
+                  the network or spins up a server, it fails.
                 </p>
                 <p className={styles.featureCardDesc}>
                   Auto-retry handles transient performance hiccups like JIT
-                  warmup. When a test does time out, a flamegraph SVG is
-                  generated automatically so you can see exactly where the time
-                  went.
+                  warmup or heavy import chains. When a test times out on retry,
+                  a flamegraph SVG is generated automatically so you can debug.
+                  And I was surprised to learn: agents can fix code based on a
+                  flamegraph!
                 </p>
                 <span
                   className={`${styles.featureLearnMore} ${styles.featureLearnMoreGreen}`}

@@ -1,30 +1,41 @@
 :root {
-  /* Brand blue (rgb(59 130 246)) mapped to Docusaurus primary palette */
-  --ifm-color-primary: rgb(59, 130, 246);
-  --ifm-color-primary-dark: rgb(37, 112, 237);
-  --ifm-color-primary-darker: rgb(26, 104, 233);
-  --ifm-color-primary-darkest: rgb(17, 82, 192);
-  --ifm-color-primary-light: rgb(81, 148, 255);
-  --ifm-color-primary-lighter: rgb(92, 155, 255);
-  --ifm-color-primary-lightest: rgb(125, 175, 255);
+  /* Docusaurus primary palette — recalculated around park sky rgb(70, 170, 220) */
+  --ifm-color-primary: rgb(70, 170, 220);
+  --ifm-color-primary-dark: rgb(50, 155, 210);
+  --ifm-color-primary-darker: rgb(40, 148, 205);
+  --ifm-color-primary-darkest: rgb(25, 125, 175);
+  --ifm-color-primary-light: rgb(95, 185, 228);
+  --ifm-color-primary-lighter: rgb(110, 192, 232);
+  --ifm-color-primary-lightest: rgb(145, 210, 240);
 
   --ifm-code-font-size: 87.5%;
   --ifm-font-size-base: 17px;
   --docusaurus-highlighted-code-line-bg: rgba(0, 0, 0, 0.1);
 
-  /* Brand tokens */
-  --brand-black: rgb(15, 15, 15);
-  --brand-blue: rgb(59, 130, 246);
+  /* Brand tokens — warmed neutrals */
+  --brand-black: rgb(40, 35, 30);
+  --brand-blue: rgb(105, 196, 240);
   --brand-green: rgb(34, 197, 94);
   --brand-red: rgb(239, 68, 68);
-  --grey-dark: rgb(55, 55, 55);
-  --grey-mid: rgb(160, 160, 160);
-  --grey-light: rgb(224, 224, 224);
-  --grey-bg: rgb(248, 249, 250);
+  --grey-dark: rgb(70, 60, 50);
+  --grey-mid: rgb(155, 150, 140);
+  --grey-light: rgb(195, 195, 190);
+  --grey-bg: rgb(252, 250, 245);
+
+  /* Park / nature palette */
+  --park-sky: rgb(105, 196, 240);
+  --park-sky-light: rgb(185, 228, 248);
+  --park-grass: rgb(100, 180, 80);
+  --park-grass-light: rgb(195, 225, 170);
+  --park-earth: rgb(160, 100, 50);
+  --park-earth-light: rgb(215, 185, 150);
+  --park-sun: rgb(245, 200, 60);
+  --park-sidewalk: rgb(195, 195, 190);
+  --park-warm-black: rgb(40, 35, 30);
 
   --ifm-font-family-base: 'DM Mono', 'SFMono-Regular', Consolas,
     'Liberation Mono', Menlo, monospace;
-  --ifm-heading-font-family: 'Instrument Serif', Georgia, serif;
+  --ifm-heading-font-family: 'Fraunces', Georgia, serif;
   --ifm-font-family-monospace: 'DM Mono', 'SFMono-Regular', Consolas,
     'Liberation Mono', Menlo, monospace;
 }
@@ -34,7 +45,7 @@ html {
 }
 
 .navbar__title {
-  font-family: 'Instrument Serif', Georgia, serif;
+  font-family: 'Fraunces', Georgia, serif;
   font-size: 1.35rem;
   letter-spacing: -0.02em;
 }

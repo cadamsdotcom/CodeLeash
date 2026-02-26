@@ -1,3 +1,14 @@
+/* ---- ANIMATIONS ---- */
+@keyframes heroBreathe {
+  0%,
+  100% {
+    background-position: 50% 50%;
+  }
+  50% {
+    background-position: 50% 45%;
+  }
+}
+
 /* ---- NOISE TEXTURE OVERLAY ---- */
 .page::before {
   content: '';
@@ -12,7 +23,14 @@
 /* ---- HERO ---- */
 .hero {
   padding: 6rem 0 5rem;
-  border-bottom: 1px solid var(--brand-black);
+  border-bottom: 1px solid var(--park-sidewalk);
+  background: linear-gradient(
+    180deg,
+    var(--park-sky-light) 0%,
+    var(--grey-bg) 60%
+  );
+  background-size: 100% 200%;
+  animation: heroBreathe 20s ease-in-out infinite;
 }
 
 .heroGrid {
@@ -26,7 +44,7 @@
 }
 
 .heroTitle {
-  font-family: 'Instrument Serif', Georgia, serif;
+  font-family: 'Fraunces', Georgia, serif;
   font-size: 5.5rem;
   font-weight: 400;
   line-height: 0.95;
@@ -36,7 +54,7 @@
 
 .heroTitleAccent {
   font-style: italic;
-  color: var(--brand-blue);
+  color: var(--park-grass);
 }
 
 .heroRight {
@@ -68,7 +86,7 @@
 .btnPrimary {
   display: inline-block;
   background: var(--brand-black);
-  color: var(--grey-bg);
+  color: white;
   padding: 0.75rem 1.75rem;
   font-family: var(--ifm-font-family-base);
   font-size: 0.8rem;
@@ -79,27 +97,29 @@
 }
 
 .btnPrimary:hover {
-  background: var(--brand-blue);
-  border-color: var(--brand-blue);
+  background: var(--park-grass);
+  border-color: var(--park-grass);
   text-decoration: none;
   color: white;
 }
 
 .btnGhost {
   display: inline-block;
-  color: var(--grey-dark);
+  color: white;
+  background: var(--park-grass);
   padding: 0.75rem 1.75rem;
   font-family: var(--ifm-font-family-base);
   font-size: 0.8rem;
   text-transform: uppercase;
   letter-spacing: 0.08em;
-  border: 2px solid var(--grey-light);
+  border: 2px solid var(--park-grass);
   text-decoration: none;
 }
 
 .btnGhost:hover {
+  background: var(--brand-black);
   border-color: var(--brand-black);
-  color: var(--brand-black);
+  color: white;
   text-decoration: none;
 }
 
@@ -158,6 +178,70 @@
   margin: 0 0.25rem;
 }
 
+/* ---- LEASH COMPARISON ---- */
+.leashComparison {
+  padding: 5rem 0 4rem;
+  background: linear-gradient(
+    180deg,
+    var(--grey-bg) 70%,
+    var(--park-grass-light) 100%
+  );
+}
+
+.leashGrid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 3rem;
+  margin-bottom: 3rem;
+}
+
+.leashCard {
+  text-align: center;
+}
+
+.leashImageWrap {
+  overflow: hidden;
+  border-radius: 16px;
+  box-shadow: 0 4px 24px rgb(0 0 0 / 0.08);
+}
+
+.leashImage {
+  width: 100%;
+  display: block;
+  transition: transform 0.3s ease;
+}
+
+.leashHeadingBad {
+  font-family: 'Fraunces', Georgia, serif;
+  font-size: 1.35rem;
+  font-weight: 400;
+  color: var(--brand-red);
+  letter-spacing: -0.01em;
+  margin-bottom: 1.25rem;
+}
+
+.leashHeadingGood {
+  font-family: 'Fraunces', Georgia, serif;
+  font-size: 1.35rem;
+  font-weight: 400;
+  color: var(--park-grass);
+  letter-spacing: -0.01em;
+  margin-bottom: 1.25rem;
+}
+
+.leashDesc {
+  max-width: 800px;
+  margin: 0 auto;
+  text-align: center;
+  font-size: 0.9rem;
+  color: var(--grey-dark);
+  line-height: 1.75;
+}
+
+.leashImageWrap:hover .leashImage {
+  transform: scale(1.02);
+}
+
 /* ---- SECTION SHARED ---- */
 .container {
   max-width: 1200px;
@@ -173,7 +257,7 @@
 }
 
 .sectionNumber {
-  font-family: 'Instrument Serif', Georgia, serif;
+  font-family: 'Fraunces', Georgia, serif;
   font-size: 3.5rem;
   color: var(--grey-light);
   line-height: 1;
@@ -196,8 +280,8 @@
   display: grid;
   grid-template-columns: 1fr;
   gap: 1px;
-  background: var(--brand-black);
-  border: 1px solid var(--brand-black);
+  background: var(--park-sidewalk);
+  border: 1px solid var(--park-sidewalk);
 }
 
 .featureCardLink {
@@ -238,19 +322,19 @@
   );
 }
 
-.featureCardBlue {
-  border-left-color: var(--brand-blue);
+.featureCardEarth {
+  border-left-color: var(--park-earth);
   background-color: var(--grey-bg);
   background-image: linear-gradient(
-    rgb(59 130 246 / 0.06),
-    rgb(59 130 246 / 0.06)
+    rgb(160 100 50 / 0.06),
+    rgb(160 100 50 / 0.06)
   );
 }
 
-.featureCardLink:hover .featureCardBlue {
+.featureCardLink:hover .featureCardEarth {
   background-image: linear-gradient(
-    rgb(59 130 246 / 0.12),
-    rgb(59 130 246 / 0.12)
+    rgb(160 100 50 / 0.12),
+    rgb(160 100 50 / 0.12)
   );
 }
 
@@ -300,8 +384,8 @@
   color: var(--brand-red);
 }
 
-.featureCardLink:hover .featureLearnMoreBlue {
-  color: var(--brand-blue);
+.featureCardLink:hover .featureLearnMoreEarth {
+  color: var(--park-earth);
 }
 
 .featureCardLink:hover .featureLearnMoreGreen {
@@ -323,12 +407,12 @@
   );
 }
 
-.featureCardReversed.featureCardBlue {
-  border-right-color: var(--brand-blue);
+.featureCardReversed.featureCardEarth {
+  border-right-color: var(--park-earth);
   background-color: var(--grey-bg);
   background-image: linear-gradient(
-    rgb(59 130 246 / 0.06),
-    rgb(59 130 246 / 0.06)
+    rgb(160 100 50 / 0.06),
+    rgb(160 100 50 / 0.06)
   );
 }
 
@@ -351,7 +435,7 @@
 }
 
 .featureNumber {
-  font-family: 'Instrument Serif', Georgia, serif;
+  font-family: 'Fraunces', Georgia, serif;
   font-size: 4rem;
   line-height: 1;
   letter-spacing: -0.02em;
@@ -362,8 +446,8 @@
   color: rgb(239 68 68 / 0.3);
 }
 
-.featureNumberBlue {
-  color: rgb(59 130 246 / 0.3);
+.featureNumberEarth {
+  color: rgb(160 100 50 / 0.3);
 }
 
 .featureNumberGreen {
@@ -380,7 +464,7 @@
 }
 
 .featureCardTitle {
-  font-family: 'Instrument Serif', Georgia, serif;
+  font-family: 'Fraunces', Georgia, serif;
   font-size: 1.75rem;
   font-weight: 400;
   margin-bottom: 0.75rem;
@@ -408,7 +492,12 @@
 /* ---- QUICKSTART ---- */
 .quickstart {
   padding: 5rem 0;
-  border-top: 1px solid var(--brand-black);
+  border-top: 1px solid var(--park-sidewalk);
+  background: linear-gradient(
+    180deg,
+    var(--grey-bg) 80%,
+    var(--park-grass-light) 100%
+  );
 }
 
 .quickstartGrid {
@@ -419,7 +508,7 @@
 }
 
 .quickstartHeading {
-  font-family: 'Instrument Serif', Georgia, serif;
+  font-family: 'Fraunces', Georgia, serif;
   font-size: 3rem;
   font-weight: 400;
   line-height: 1.1;
@@ -428,7 +517,7 @@
 
 .quickstartAccent {
   font-style: italic;
-  color: var(--brand-blue);
+  color: var(--park-grass);
 }
 
 .quickstartDesc {
@@ -461,15 +550,15 @@
 /* ---- TECH STACK ---- */
 .stack {
   padding: 4rem 0;
-  border-top: 1px solid var(--brand-black);
+  border-top: 1px solid var(--park-sidewalk);
 }
 
 .stackRows {
   display: grid;
   grid-template-columns: 1fr;
   gap: 1px;
-  background: var(--brand-black);
-  border: 1px solid var(--brand-black);
+  background: var(--park-sidewalk);
+  border: 1px solid var(--park-sidewalk);
 }
 
 .stackRow {
@@ -485,7 +574,7 @@
   letter-spacing: 0.1em;
   color: var(--grey-mid);
   padding: 1rem 1.25rem;
-  border-right: 1px solid var(--brand-black);
+  border-right: 1px solid var(--park-sidewalk);
 }
 
 .stackRowTags {
@@ -506,8 +595,8 @@
 }
 
 .stackTagLanguage {
-  border-color: var(--brand-blue);
-  color: var(--brand-blue);
+  border-color: rgb(70, 170, 220);
+  color: rgb(70, 170, 220);
 }
 
 .stackTagFramework {
@@ -516,8 +605,8 @@
 }
 
 .stackTagPlatform {
-  border-color: var(--brand-red);
-  color: var(--brand-red);
+  border-color: rgb(140, 100, 170);
+  color: rgb(140, 100, 170);
 }
 
 /* ---- STACK LEGEND ---- */
@@ -545,7 +634,7 @@
 }
 
 .stackLegendLanguage {
-  color: var(--brand-blue);
+  color: rgb(70, 170, 220);
 }
 
 .stackLegendFramework {
@@ -553,13 +642,18 @@
 }
 
 .stackLegendPlatform {
-  color: var(--brand-red);
+  color: rgb(140, 100, 170);
 }
 
 /* ---- PHILOSOPHY ---- */
 .philosophy {
   padding: 5rem 0;
-  border-top: 1px solid var(--brand-black);
+  border-top: 1px solid var(--park-sidewalk);
+  background: radial-gradient(
+    ellipse at 50% 100%,
+    var(--park-sky-light) 0%,
+    transparent 50%
+  );
 }
 
 .philosophyGrid {
@@ -569,7 +663,7 @@
 }
 
 .philosophyHeading {
-  font-family: 'Instrument Serif', Georgia, serif;
+  font-family: 'Fraunces', Georgia, serif;
   font-size: 3rem;
   font-weight: 400;
   line-height: 1.1;
@@ -578,11 +672,11 @@
 
 .tenet {
   padding: 1.5rem 0;
-  border-bottom: 1px solid var(--grey-light);
+  border-bottom: 1px solid var(--park-sidewalk);
 }
 
 .tenet:first-child {
-  border-top: 1px solid var(--grey-light);
+  border-top: 1px solid var(--park-sidewalk);
 }
 
 .tenetTitle {
@@ -631,7 +725,7 @@
 
   .stackRowLabel {
     border-right: none;
-    border-bottom: 1px solid var(--brand-black);
+    border-bottom: 1px solid var(--park-sidewalk);
     padding: 0.75rem 1.25rem;
   }
 
@@ -645,8 +739,8 @@
     border-left-color: var(--brand-red);
   }
 
-  .featureCardReversed.featureCardBlue {
-    border-left-color: var(--brand-blue);
+  .featureCardReversed.featureCardEarth {
+    border-left-color: var(--park-earth);
   }
 
   .featureCardReversed.featureCardGreen {
@@ -665,6 +759,15 @@
   .quickstart,
   .philosophy {
     padding: 3.5rem 0;
+  }
+
+  .leashComparison {
+    padding: 3.5rem 0 3rem;
+  }
+
+  .leashGrid {
+    grid-template-columns: 1fr;
+    gap: 2.5rem;
   }
 }
 

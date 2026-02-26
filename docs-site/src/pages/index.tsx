@@ -29,7 +29,7 @@ function Hero(): ReactNode {
               href="https://github.com/cadamsdotcom/CodeLeash"
               className={styles.btnGhost}
             >
-              GitHub
+              See the Code
             </Link>
           </div>
         </div>
@@ -65,6 +65,52 @@ function StateStrip(): ReactNode {
         </span>
       </div>
     </div>
+  );
+}
+
+function LeashComparison(): ReactNode {
+  return (
+    <section className={styles.leashComparison}>
+      <div className={styles.container}>
+        <div className={styles.leashGrid}>
+          <div className={styles.leashCard}>
+            <h3 className={styles.leashHeadingBad}>
+              Your coding agent without a leash
+            </h3>
+            <div className={styles.leashImageWrap}>
+              <img
+                src="/img/leash-dont-walk.jpg"
+                alt="Frustrated person telling their dog not to walk on the road — the dog ignores them"
+                className={styles.leashImage}
+              />
+            </div>
+          </div>
+          <div className={styles.leashCard}>
+            <h3 className={styles.leashHeadingGood}>
+              Your coding agent on a leash
+            </h3>
+            <div className={styles.leashImageWrap}>
+              <img
+                src="/img/leash-cant-walk.jpg"
+                alt="Happy person walking their dog on a leash — the dog can't walk on the road"
+                className={styles.leashImage}
+              />
+            </div>
+          </div>
+        </div>
+        <p className={styles.leashDesc}>
+          Agents go off the rails and get distracted. Asking nicely doesn&apos;t
+          work. CodeLeash puts the guardrails outside the agent, so it{' '}
+          <em>can&apos;t</em> go off the rails. While everyone else is trying to
+          build the tallest tower of agent orchestration mechanisms, we believe
+          in tightly controlling outcomes by sharply defining what quality code
+          looks like, and enforcing it with code in a way the agent can&apos;t
+          ignore or bypass. We don&apos;t ask agents nicely, we let them fail,
+          then tell them how to correct it. That&apos;s why we&apos;ve used the
+          analogy of a leash.
+        </p>
+      </div>
+    </section>
   );
 }
 
@@ -139,76 +185,18 @@ function Features(): ReactNode {
             </div>
           </Link>
 
-          <Link to="/docs/how-tests-work" className={styles.featureCardLink}>
-            <div
-              className={`${styles.featureCard} ${styles.featureCardReversed} ${styles.featureCardBlue}`}
-            >
-              <div className={styles.featureLeft}>
-                <span
-                  className={`${styles.featureNumber} ${styles.featureNumberBlue}`}
-                >
-                  02
-                </span>
-                <div className={styles.featureIcon}>
-                  <svg
-                    width="36"
-                    height="36"
-                    viewBox="0 0 36 36"
-                    fill="none"
-                    xmlns="http://www.w3.org/2000/svg"
-                  >
-                    <circle
-                      cx="18"
-                      cy="18"
-                      r="15"
-                      stroke="rgb(59 130 246)"
-                      strokeWidth="2"
-                      fill="none"
-                    />
-                    <path
-                      d="M18 10V18L23 23"
-                      stroke="rgb(59 130 246)"
-                      strokeWidth="2.5"
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                    />
-                  </svg>
-                </div>
-                <h3 className={styles.featureCardTitle}>Strict Timeouts</h3>
-              </div>
-              <div className={styles.featureRight}>
-                <p className={styles.featureCardDesc}>
-                  Each unit test must complete within 10ms. This forces pure
-                  business logic - no I/O, no accidental imports, no framework
-                  startup. If a test touches the network or spins up a server,
-                  it fails.
-                </p>
-                <p className={styles.featureCardDesc}>
-                  Auto-retry handles transient performance hiccups like JIT
-                  warmup. When a test does time out, a flamegraph SVG is
-                  generated automatically so you can see exactly where the time
-                  went.
-                </p>
-                <span
-                  className={`${styles.featureLearnMore} ${styles.featureLearnMoreBlue}`}
-                >
-                  Learn more{' '}
-                  <span className={styles.featureLearnMoreArrow}>&rarr;</span>
-                </span>
-              </div>
-            </div>
-          </Link>
-
           <Link
             to="/docs/code-quality-checks"
             className={styles.featureCardLink}
           >
-            <div className={`${styles.featureCard} ${styles.featureCardGreen}`}>
+            <div
+              className={`${styles.featureCard} ${styles.featureCardReversed} ${styles.featureCardEarth}`}
+            >
               <div className={styles.featureLeft}>
                 <span
-                  className={`${styles.featureNumber} ${styles.featureNumberGreen}`}
+                  className={`${styles.featureNumber} ${styles.featureNumberEarth}`}
                 >
-                  03
+                  02
                 </span>
                 <div className={styles.featureIcon}>
                   <svg
@@ -231,26 +219,82 @@ function Features(): ReactNode {
               <div className={styles.featureRight}>
                 <p className={styles.featureCardDesc}>
                   CodeLeash checks code quality using many small scripts,{' '}
-                  <i>not</i> via AI. Scripts use zero tokens, finish in
-                  milliseconds, and with no AI involved, they avoid false
-                  positives and inconsistency. They&apos;re deterministic, fast,
-                  and impossible to fool. And they're fast, so you can run them
-                  more often.
+                  <i>not</i> AI. No AI means zero tokens burned, and no false
+                  positives or inconsistency. They&apos;re deterministic so
+                  they're impossible to fool. And fast so you can run them
+                  often.
                 </p>
                 <p className={styles.featureCardDesc}>
-                  The repo contains many examples for your coding agent to pick
-                  up the pattern from. Some checks traverse the codebase with
-                  ASTs; others look for code quality issues using regex.
+                  Checks exit 0 on success, non-zero on failure - with
+                  instructions on how and where to fix. Failure blocks the agent
+                  which means things don't stay broken.
                 </p>
                 <p className={styles.featureCardDesc}>
-                  The included checks prevent code from using non-brand colors,
-                  catch unused API routes, enforce soft deletes for tables that
-                  have soft-delete enabled, prevent dynamic imports that can
-                  mask import loops, and more.
+                  CodeLeash is full of examples for your coding agent to crib
+                  from. Some traverse the codebase with ASTs; others with
+                  regexes. Most were actually written by coding agents.
                 </p>
                 <p className={styles.featureCardDesc}>
-                  All checks run before every commit, blocking problems from
-                  ever reaching your repository.
+                  Checks run before every commit, blocking problems from ever
+                  reaching your repository.
+                </p>
+                <span
+                  className={`${styles.featureLearnMore} ${styles.featureLearnMoreEarth}`}
+                >
+                  Learn more{' '}
+                  <span className={styles.featureLearnMoreArrow}>&rarr;</span>
+                </span>
+              </div>
+            </div>
+          </Link>
+
+          <Link to="/docs/how-tests-work" className={styles.featureCardLink}>
+            <div className={`${styles.featureCard} ${styles.featureCardGreen}`}>
+              <div className={styles.featureLeft}>
+                <span
+                  className={`${styles.featureNumber} ${styles.featureNumberGreen}`}
+                >
+                  03
+                </span>
+                <div className={styles.featureIcon}>
+                  <svg
+                    width="36"
+                    height="36"
+                    viewBox="0 0 36 36"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <circle
+                      cx="18"
+                      cy="18"
+                      r="15"
+                      stroke="rgb(160 100 50)"
+                      strokeWidth="2"
+                      fill="none"
+                    />
+                    <path
+                      d="M18 10V18L23 23"
+                      stroke="rgb(160 100 50)"
+                      strokeWidth="2.5"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                    />
+                  </svg>
+                </div>
+                <h3 className={styles.featureCardTitle}>Strict Timeouts</h3>
+              </div>
+              <div className={styles.featureRight}>
+                <p className={styles.featureCardDesc}>
+                  Each unit test must complete within 10ms. This forces pure
+                  business logic - no I/O, no accidental imports, no framework
+                  startup. If a test touches the network or spins up a server,
+                  it fails.
+                </p>
+                <p className={styles.featureCardDesc}>
+                  Auto-retry handles transient performance hiccups like JIT
+                  warmup. When a test does time out, a flamegraph SVG is
+                  generated automatically so you can see exactly where the time
+                  went.
                 </p>
                 <span
                   className={`${styles.featureLearnMore} ${styles.featureLearnMoreGreen}`}
@@ -264,11 +308,11 @@ function Features(): ReactNode {
 
           <Link to="/docs/worker-system" className={styles.featureCardLink}>
             <div
-              className={`${styles.featureCard} ${styles.featureCardReversed} ${styles.featureCardBlue}`}
+              className={`${styles.featureCard} ${styles.featureCardReversed} ${styles.featureCardEarth}`}
             >
               <div className={styles.featureLeft}>
                 <span
-                  className={`${styles.featureNumber} ${styles.featureNumberBlue}`}
+                  className={`${styles.featureNumber} ${styles.featureNumberEarth}`}
                 >
                   04
                 </span>
@@ -286,13 +330,13 @@ function Features(): ReactNode {
                       width="28"
                       height="18"
                       rx="2"
-                      stroke="rgb(59 130 246)"
+                      stroke="rgb(160 100 50)"
                       strokeWidth="2"
                       fill="none"
                     />
                     <path
                       d="M4 16H32"
-                      stroke="rgb(59 130 246)"
+                      stroke="rgb(160 100 50)"
                       strokeWidth="2"
                     />
                     <circle cx="9" cy="13" r="1.5" fill="rgb(239 68 68)" />
@@ -304,25 +348,28 @@ function Features(): ReactNode {
               </div>
               <div className={styles.featureRight}>
                 <p className={styles.featureCardDesc}>
-                  A job queue system that only needs one database table and has
-                  zero external dependencies. No Redis, no RabbitMQ, no external
+                  A job queue system that only uses one database table and zero
+                  external dependencies. No Redis, no RabbitMQ, no external
                   broker of any kind.
                 </p>
                 <p className={styles.featureCardDesc}>
-                  PostgreSQL can lock a table row upon select. Workers query the
-                  job table performing their selects using SELECT FOR UPDATE
-                  SKIP LOCKED. Doing SELECT FOR UPDATE SKIP LOCKED in a
-                  transaction locks that job row so the next worker skips over
-                  it and picks up the next job, until the transaction is
-                  committed.
+                  Workers query the jobs table using SELECT FOR UPDATE SKIP
+                  LOCKED. When done in a transaction the selected rows are
+                  locked, and rows that were already locked are skipped over.
                 </p>
                 <p className={styles.featureCardDesc}>
-                  Ensures safe concurrent processing - multiple workers pull
-                  jobs without conflicts. Includes exponential backoff retries,
-                  handler registration, and hot reload in development.
+                  Workers always pick up the next available job. When a worker
+                  has finished (or crashes) the transaction is committed or
+                  rolled back, either completing the job, or releasing it to be
+                  retried.
+                </p>
+                <p className={styles.featureCardDesc}>
+                  Ensures safe concurrent processing. Includes exponential
+                  backoff retries, handler registration, and hot reload in
+                  development.
                 </p>
                 <span
-                  className={`${styles.featureLearnMore} ${styles.featureLearnMoreBlue}`}
+                  className={`${styles.featureLearnMore} ${styles.featureLearnMoreEarth}`}
                 >
                   Learn more{' '}
                   <span className={styles.featureLearnMoreArrow}>&rarr;</span>
@@ -381,7 +428,7 @@ function Features(): ReactNode {
                       stroke="rgb(224 224 224)"
                       strokeWidth="1"
                     />
-                    <circle cx="14" cy="14" r="3" fill="rgb(59 130 246)" />
+                    <circle cx="14" cy="14" r="3" fill="rgb(160 100 50)" />
                     <circle cx="20" cy="20" r="3" fill="rgb(34 197 94)" />
                     <circle cx="26" cy="14" r="3" fill="rgb(239 68 68)" />
                   </svg>
@@ -390,15 +437,13 @@ function Features(): ReactNode {
               </div>
               <div className={styles.featureRight}>
                 <p className={styles.featureCardDesc}>
-                  Parallel development with deterministic port hashing. Each git
-                  worktree gets its own FastAPI port, Vite port, and Supabase
-                  instance - fully isolated environments from a single repo.
+                  Parallel development in git worktrees with full isolation
+                  between them. Each worktree gets its own ports for everything.
                 </p>
                 <p className={styles.featureCardDesc}>
-                  Work on as many features at a time as you like without
-                  conflicts. Spin up a new worktree, run init.sh, and you have a
-                  completely independent development environment with no port
-                  collisions.
+                  Work on many features at once without conflicts. Spin up a new
+                  worktree, run ./init.sh && npm run dev, and enjoy a completely
+                  independent development environment with no port collisions.
                 </p>
                 <span
                   className={`${styles.featureLearnMore} ${styles.featureLearnMoreRed}`}
@@ -437,7 +482,7 @@ function Features(): ReactNode {
                       width="12"
                       height="12"
                       rx="2"
-                      stroke="rgb(59 130 246)"
+                      stroke="rgb(160 100 50)"
                       strokeWidth="2"
                       fill="none"
                     />
@@ -476,15 +521,18 @@ function Features(): ReactNode {
               </div>
               <div className={styles.featureRight}>
                 <p className={styles.featureCardDesc}>
-                  Agents can atomically commit changes to the backend and
-                  frontend in a single monorepo. No coordination across repos,
-                  no deploy ordering issues.
+                  One repo has all your backend and frontend code. Simple data
+                  type sharing between pydantic and TypeScript.
                 </p>
                 <p className={styles.featureCardDesc}>
-                  Only one server (uvicorn) is needed to serve your app in
-                  production - all React assets are built by Vite, minified, and
-                  served statically. Type-safe from Pydantic to TypeScript via
-                  render_page() and useInitialData().
+                  One server (uvicorn) serves your app in production. React
+                  assets are built with Vite, minified, and served statically.
+                </p>
+                <p className={styles.featureCardDesc}>
+                  Your agent can atomically commit backend and frontend changes
+                  in one commit. No more coordination across repos, no deploy
+                  ordering issues, and no IDLs. Just JSON based REST APIs with
+                  shared data types between backend and frontend. Bliss!
                 </p>
                 <span
                   className={`${styles.featureLearnMore} ${styles.featureLearnMoreGreen}`}
@@ -696,6 +744,7 @@ export default function Home(): ReactNode {
       <div className={styles.page}>
         <Hero />
         <StateStrip />
+        <LeashComparison />
         <Features />
         <Quickstart />
         <TechStack />

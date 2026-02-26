@@ -236,6 +236,7 @@
   font-size: 0.9rem;
   color: var(--grey-dark);
   line-height: 1.75;
+  margin-bottom: 1.25rem;
 }
 
 .leashImageWrap:hover .leashImage {

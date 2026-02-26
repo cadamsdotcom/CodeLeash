@@ -99,15 +99,40 @@ function LeashComparison(): ReactNode {
           </div>
         </div>
         <p className={styles.leashDesc}>
-          Agents go off the rails and get distracted. Asking nicely doesn&apos;t
-          work. CodeLeash puts the guardrails outside the agent, so it{' '}
-          <em>can&apos;t</em> go off the rails. While everyone else is trying to
-          build the tallest tower of agent orchestration mechanisms, we believe
-          in tightly controlling outcomes by sharply defining what quality code
-          looks like, and enforcing it with code in a way the agent can&apos;t
-          ignore or bypass. We don&apos;t ask agents nicely, we let them fail,
-          then tell them how to correct it. That&apos;s why we&apos;ve used the
-          analogy of a leash.
+          I'm{' '}
+          <a
+            href="https://linkedin.com/in/cadamsdotcom"
+            target="_blank"
+            rel="noreferrer"
+          >
+            Chris
+          </a>
+          . I've been a software engineer for over 20 years.
+        </p>
+        <p className={styles.leashDesc}>
+          We are in a time of change! Claude Code writes all code for my
+          product,{' '}
+          <a href="https://approviq.com" target="_blank" rel="noreferrer">
+            ApprovIQ
+          </a>{' '}
+          - but it doesn't do it alone.
+        </p>
+        <p className={styles.leashDesc}>
+          (And no, that wasn't an em-dash just now.)
+        </p>
+        <p className={styles.leashDesc}>
+          Anyway. Agents go off the rails and get distracted. Asking nicely
+          doesn&apos;t work. CodeLeash puts guardrails <em>outside</em> the
+          agent, so it <em>can&apos;t</em> go off the rails. While everyone else
+          is building the tallest tower of agent orchestration they can build,
+          I've been tightly controlling outcomes by sharply defining what
+          quality code looks like, and getting results. CodeLeash enforces
+          quality with code based hooks, scripts, tools, and loops, in a way the
+          agent can&apos;t ignore or bypass.
+        </p>
+        <p className={styles.leashDesc}>
+          We don&apos;t ask agents nicely, we let them fail, then tell them how
+          to correct it. That&apos;s why I&apos;ve used the analogy of a leash.
         </p>
       </div>
     </section>
@@ -172,8 +197,8 @@ function Features(): ReactNode {
                   A test suite in which the agent has seen every test fail -
                   then made each test pass by writing code - helps prevent
                   regressions and keeps development velocity high as your
-                  product grows. Per-agent isolation via transcript-hashed log
-                  files means parallel agents never interfere with each other.
+                  product grows. Per-agent isolation lets agents run in parallel
+                  without interfering.
                 </p>
                 <span
                   className={`${styles.featureLearnMore} ${styles.featureLearnMoreRed}`}
@@ -219,24 +244,28 @@ function Features(): ReactNode {
               <div className={styles.featureRight}>
                 <p className={styles.featureCardDesc}>
                   CodeLeash checks code quality using many small scripts,{' '}
-                  <i>not</i> AI. No AI means zero tokens burned, and no false
-                  positives or inconsistency. They&apos;re deterministic so
-                  they're impossible to fool. And fast so you can run them
-                  often.
+                  <i>not</i> AI. No AI means zero tokens burned. No false
+                  positives and no inconsistency. They&apos;re deterministic so
+                  they're impossible to fool. And fast so you can run them every
+                  time you change code.
                 </p>
                 <p className={styles.featureCardDesc}>
-                  Checks exit 0 on success, non-zero on failure - with
-                  instructions on how and where to fix. Failure blocks the agent
-                  which means things don't stay broken.
-                </p>
-                <p className={styles.featureCardDesc}>
-                  CodeLeash is full of examples for your coding agent to crib
-                  from. Some traverse the codebase with ASTs; others with
-                  regexes. Most were actually written by coding agents.
+                  Check scripts exit 0 on success or non-zero on failure.
+                  Failures print instructions for the agent to tell it how and
+                  where to fix. Failure blocks the agent, and that forces it to
+                  fix breakage right away.
                 </p>
                 <p className={styles.featureCardDesc}>
                   Checks run before every commit, blocking problems from ever
                   reaching your repository.
+                </p>
+                <p className={styles.featureCardDesc}>
+                  CodeLeash is full of examples for your coding agent to crib
+                  from. Some traverse the codebase with ASTs; others with
+                  regexes. Most code review feedback can be at least partly
+                  automated. By the time your agent stops working, basic issues
+                  were already fixed - and you know because the checks passed.
+                  Never repeat obvious fixes again.
                 </p>
                 <span
                   className={`${styles.featureLearnMore} ${styles.featureLearnMoreEarth}`}
@@ -697,16 +726,16 @@ function Philosophy(): ReactNode {
       desc: "An unconstrained agent skips tests, makes sweeping changes, and produces code that works in isolation but breaks in context. The TDD guard exists because freedom doesn't scale.",
     },
     {
-      title: 'Tests are the specification.',
-      desc: "The 10ms timeout forces unit tests to be pure logic. The e2e harness ensures full integration. The pre-commit hook runs everything. If it isn't tested, it doesn't exist.",
+      title: 'Tests are the specs and the documentation.',
+      desc: "Every test has a descriptive name. Test failures are the only time agents need to know what is in the test suite - no context pollution except when there's something to fix. And tests' contents tell your agent how things were meant to work.",
     },
     {
-      title: 'Lint rules should be code.',
-      desc: 'Instead of configuring complex YAML, write a Python script that walks an AST. A script is easier to write, debug, and explain than a configuration.',
+      title: 'Advanced linting you create, in code.',
+      desc: "Write a Python script that walks your codebase's AST or checks code with regex. In fact, write lots of them. Go wild, because everything you codify reduces time spent explaining things to amnesiac agents and takes you out of one more loop. Every script means less things to tell your agent, more of your time spent sipping coffee, and better results by the time it stops working.",
     },
     {
-      title: 'The monorepo is the product.',
-      desc: 'Backend, frontend, database migrations, lint rules, tests, and CI all live together. Changes that cross boundaries are normal, not exceptional.',
+      title: 'Monorepo for maximum productivity.',
+      desc: 'Backend, frontend, database, migrations, lint rules, tests, CI, scripts and tools all happily coexisting in one repo. Changes that cross boundaries are normal, not exceptional. Plenty of documentation helps your agent work effectively with the patterns. Technologies such as Vite and patterns such as initial_data, carefully chosen for a fast, static frontend which is served with all data needed to hydrate it.',
     },
   ];
 

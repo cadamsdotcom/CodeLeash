@@ -146,6 +146,19 @@ TDD log for inappropriate overrides or skip-red usage.
 
 Both hooks encourage the agent to reflect on its session, producing structured notes that benefit future sessions.
 
+### The Learnings Lifecycle
+
+Learnings files accumulate in `.claude/learnings/` over time. They carry forward across sessions via context injection, but they're meant to be **temporary** --- each one represents a surprise or insight that should eventually be absorbed into the codebase itself.
+
+The `/learnings` command completes the cycle. It examines all learnings files, identifies which ones warrant permanent changes (better naming, documentation updates, new checks, script improvements, simplified architecture), plans those changes, and then **deletes the learnings files**. Anything the agent would simply relearn on the job is discarded rather than turned into permanent changes.
+
+The full flow:
+
+1. **Capture**: Stop/PreCompact hooks prompt the main session, and SubagentStart injects `additionalContext` prompting subagents, to write `.claude/learnings/{date}-{slug}.md`
+2. **Carry forward**: Learnings files are re-injected into future sessions so the agent doesn't repeat mistakes
+3. **Integrate**: The user runs `/learnings`, which incorporates worthwhile insights into code, docs, scripts, or tooling
+4. **Clean up**: Learnings files are deleted once their value has been absorbed into the repo
+
 ## Dot Silencing
 
 Test progress dots (`.....F..`) are suppressed in pytest output via the `pytest_report_teststatus` hook in [`tests/conftest.py`](https://github.com/cadamsdotcom/CodeLeash/blob/main/tests/conftest.py):

@@ -1,4 +1,4 @@
-Review the changes on the current branch compared to main. Do not use subagents. Run `git diff main...HEAD` to see all changes.
+Enter plan mode. Review the changes on the current branch compared to main. Do not use subagents. Run `git diff main...HEAD` to see all changes.
 
 Check for these classes of issues:
 

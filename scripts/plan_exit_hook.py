@@ -55,8 +55,10 @@ For test efficiency:
 - Does the plan say "no test needed" or rationalize skipping tests for any changed file?
   If so, flag it - if it's worth implementing, it's worth testing.
 - If the plan modifies UI rendering (new elements, conditional display, disabled states,
-  event handlers), does it require component-level tests? Hook tests and backend tests
+  event handlers, CSS class/property changes like overflow, flex, position, layout),
+  does it require component-level tests? Hook tests and backend tests
   do NOT substitute for component tests that verify rendering and interaction.
+  CSS/layout changes are behavioral - assert expected classes/properties in component tests.
 
 Provide brief, actionable feedback. Be critical. Keep response under 200 words.
 
@@ -134,8 +136,10 @@ Claude: Before the user approves this plan, verify it addresses:
    - Are role-based access checks present?
    - If the plan adds or updates queries or handles user data, are the updatable fields restricted to only those needed?
 11. If the plan modifies UI rendering (new elements, conditional display, disabled states,
-    event handlers), component tests are required - not optional. Hook tests verify data flow,
+    event handlers, CSS class/property changes like overflow, flex, position, layout),
+    component tests are required - not optional. Hook tests verify data flow,
     backend tests verify the API, but neither verifies that elements render or wire events correctly.
+    CSS/layout changes are behavioral - assert expected classes/properties in component tests.
 12. Reject any plan section that says "no test needed" - if it's worth implementing, it's worth testing.
 13. Add a CLEANUP step at the end of your plan that addresses:
    - Remove "absence tests" used during TDD to verify removal of features/routes/UI

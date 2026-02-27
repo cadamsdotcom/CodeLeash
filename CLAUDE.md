@@ -232,6 +232,8 @@ uv run python -m scripts.tdd_log --log tdd-abc.log green --skip-red --reason=add
 
 The `--reason=refactoring` flag means "tests continue to pass without modification." If existing tests would FAIL after your change, you need the full Red-Green cycle -- not `--skip-red`. This applies even when the change feels minor (updating constants, changing timeouts, adjusting limits). If a test documents the current behavior and your change alters that behavior, update the test first, watch it fail, then implement the change.
 
+**CSS/layout changes are behavioral changes.** Changing CSS classes or properties (overflow, flex, position, min-height, z-index, etc.) alters how the page renders and is NOT refactoring. Write component tests asserting the expected CSS classes or inline styles are present, watch them fail, then implement the change. Even though jsdom cannot validate visual behavior (sticky, scroll, overflow), asserting the correct classes/properties are rendered catches regressions and enforces the Red-Green cycle.
+
 **Discovering the TDD Log File Name:**
 
 The TDD log file name and full usage examples are provided automatically at session start via the `SessionStart` hook. Look for the message at the top of your session that says `Your TDD log file is: tdd-<id>.log` followed by copy-pasteable Red, Green, and skip-red commands with the correct `--log` value already filled in. Use those examples as templates for all `tdd_log` commands.

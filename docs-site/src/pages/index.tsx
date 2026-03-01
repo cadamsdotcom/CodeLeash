@@ -96,7 +96,7 @@ function LeashComparison(): ReactNode {
           </div>
         </div>
         <p className={styles.leashDesc}>
-          I'm{' '}
+          I&apos;m{' '}
           <a
             href="https://linkedin.com/in/cadamsdotcom"
             target="_blank"
@@ -104,7 +104,7 @@ function LeashComparison(): ReactNode {
           >
             Chris
           </a>
-          . I've been a software engineer for over 20 years.
+          . I&apos;ve been a software engineer for over 20 years.
         </p>
         <p className={styles.leashDesc}>
           Claude Code writes all code for my product,{' '}
@@ -124,30 +124,42 @@ function LeashComparison(): ReactNode {
         <p className={styles.leashDesc}>
           Agents go off the rails. They get distracted. Asking nicely with
           AGENTS.md and system prompts and interrupting their work to remind
-          them of stuff... yeah, it works... sort of... most of the time. That's
-          a problem, because, "most of the time" doesn't cut it for building
-          serious software.
+          them of stuff... yeah, it works... sort of... most of the time.
+          That&apos;s a problem, because, &quot;most of the time&quot;
+          doesn&apos;t cut it for building serious software.
         </p>
         <p className={styles.leashDesc}>
           CodeLeash puts guardrails <em>outside</em> the agent, so it{' '}
           <em>can&apos;t</em> go off the rails, forget them or ignore them.
           While everyone and their dog is building the tallest tower of agent
-          orchestration they can, I've been tightly controlling outcomes in
+          orchestration they can, I&apos;ve been tightly controlling outcomes in
           ApprovIQ&apos;s codebase, by sharply defining what quality code looks
-          like, rubbing Claude Code's nose in it with automation, and forcing it
-          to fix its mistakes - all while I am off doing something else.
-          CodeLeash enforces quality with code based hooks, scripts, tools, and
-          loops, in a way the agent can&apos;t ignore or bypass.
+          like, rubbing Claude Code&apos;s nose in it with automation, and
+          forcing it to fix its mistakes - all while I am off doing something
+          else. CodeLeash enforces quality with code based hooks, scripts,
+          tools, and loops, in a way the agent can&apos;t ignore or bypass.
         </p>
         <p className={styles.leashDesc}>
-          Look at the images. Notice: "Can&apos;t walk on the road" is NOT in a
-          speech bubble! A leash means never barking orders.
+          Look at the images. Notice: &quot;Can&apos;t walk on the road&quot; is
+          NOT in a speech bubble! A leash means never barking orders.
         </p>
         <p className={styles.leashDesc}>
           Agents today cannot do everything you ask while also doing their task.
-          Create guardrails that automatically show how they failed to live up
-          to your standards while guiding them to correct their mistakes. Hence
-          the analogy of a leash.
+          Guardrails automatically tell your agent how it failed to live up to
+          your standards while guiding it to correct mistakes. Like a leash, it
+          balances freedom and constraint.
+        </p>
+        <p className={styles.leashDesc}>
+          CodeLeash is both a complete framework, and a demonstration of ideas
+          you can adapt to your own work. Read on, or give the{' '}
+          <a
+            href="https://github.com/cadamsdotcom/CodeLeash"
+            target="_blank"
+            rel="noreferrer"
+          >
+            code
+          </a>{' '}
+          to your coding agent and ask it some questions.
         </p>
       </div>
     </section>
@@ -160,7 +172,7 @@ function Features(): ReactNode {
       <div className={styles.container}>
         <div className={styles.sectionHeader}>
           <span className={styles.sectionNumber}>01</span>
-          <span className={styles.sectionTitle}>What's Inside</span>
+          <span className={styles.sectionTitle}>What&apos;s Inside</span>
         </div>
         {/* Cards cycle: Red, Earth(reversed), Green, Earth(reversed), Red...
             When adding/removing cards, shift colors to maintain the pattern. */}
@@ -209,9 +221,9 @@ function Features(): ReactNode {
                   <Link to="/docs/tdd-guard">Test Driven Development</Link> is a
                   universal way to build software. Write failing tests, watch
                   them fail, write code to make them pass, watch them pass.
-                  You're gradually building a repository of every decision you
-                  ever made. Even better, if a decision is <i>un-made</i>, tests
-                  fail. Alarms go off.
+                  You&apos;re gradually building a repository of every decision
+                  you ever made. Even better, if a decision is <i>un-made</i>,
+                  tests fail. Alarms go off.
                 </p>
                 <p className={styles.featureCardDesc}>
                   Forcing the agent through TDD created a repository of all my
@@ -223,10 +235,11 @@ function Features(): ReactNode {
                 </p>
                 <p className={styles.featureCardDesc}>
                   But babysitting a TDD process is almost as tedious as doing
-                  TDD! I was constantly stopping the agent - don't do that, you
-                  didn't see the tests pass, roll that back, it's not time to
-                  write code yet. The agent was frequently befuddled by this. So
-                  I asked: can I get myself out of <i>that</i> loop too?
+                  TDD! I was constantly stopping the agent - don&apos;t do that,
+                  you didn&apos;t see the tests pass, roll that back, it&apos;s
+                  not time to write code yet. The agent was frequently befuddled
+                  by this. So I asked: can I get myself out of <i>that</i> loop
+                  too?
                 </p>
                 <p className={styles.featureCardDesc}>
                   The solution Claude and I hit on is a state machine tracked in
@@ -291,8 +304,8 @@ function Features(): ReactNode {
                   CodeLeash checks code quality using many small scripts,{' '}
                   <i>not</i> AI. No AI means zero tokens burned. No false
                   positives and no inconsistency. They&apos;re deterministic so
-                  they're impossible to fool. And fast so you can run them every
-                  time you change code.
+                  they&apos;re impossible to fool. And fast so you can run them
+                  every time you change code.
                 </p>
                 <p className={styles.featureCardDesc}>
                   Check scripts exit 0 on success or non-zero on failure.
@@ -308,8 +321,8 @@ function Features(): ReactNode {
                   CodeLeash is full of examples for your coding agent to crib
                   from. Some traverse the codebase with ASTs; others with
                   regexes. A surprising amount of the code review feedback
-                  you've ever given in your software engineering career can be
-                  automated - ask your agent for ideas! With a big enough
+                  you&apos;ve ever given in your software engineering career can
+                  be automated - ask your agent for ideas! With a big enough
                   library of checks - built by you - once your agent stops
                   working, all the basic issues were removed in response to the
                   checks failing, without you watching. You no longer need to

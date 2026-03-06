@@ -129,6 +129,12 @@ repos:
         language: system
         pass_filenames: false
         always_run: true
+      - id: check-frontend-code-quality
+        name: Check frontend code quality (dialog nesting)
+        entry: uv run python scripts/check_frontend_code_quality.py
+        language: system
+        files: \.tsx$
+        pass_filenames: true
 
   - repo: https://github.com/jendrikseipp/vulture
     rev: v2.13
